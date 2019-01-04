@@ -5,7 +5,6 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const config = require('./config/config.json');
 const mongoose = require('mongoose');
-const handelbars = require('handlebars');
 
 const app = express();
 
@@ -39,16 +38,39 @@ if(config.environment === "development"){
         credentials: true,
         origin: ["http://localhost:3000", "http://localhost:3000/", "localhost:3000/", "http://localhost:3001"]
 	}));
-	app.get("/", (req, res) =>{
-		res.render("index")
-	})
 }
+
 if(config.environment === "production") {	
     app.use(express.static(path.join(__dirname, 'client')));
     app.get('/', function(req, res) {
         res.sendFile(path.join(__dirname, '/client', 'index.html'));
     })   
 }
+
+
+app.get("/", (req, res) =>{
+    res.render("index")
+})
+
+const User = require('./models/User')
+
+app.post("/register", (req, res) =>{
+    const {name, email, password } = req.body;
+    console.log(name, email, password)
+    const newUser = new User({
+        name:name,
+        email: email,
+        password: User.methods.setPassword(password)
+    })
+
+    newUser.create({ size: 'small' }, function (err, user) {
+        if (err) return handleError(err);
+        // saved!
+        console.log(user)
+      });
+})
+
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
