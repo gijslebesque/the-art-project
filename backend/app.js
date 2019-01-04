@@ -5,8 +5,13 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const config = require('./config/config.json');
 const mongoose = require('mongoose');
+const handelbars = require('handlebars');
 
 const app = express();
+
+app.set('view engine', 'hbs')
+app.set('views', __dirname + '/views')
+
 
 const LocalStrategy = require('passport-local').Strategy;
 const session    = require('express-session');
@@ -35,7 +40,7 @@ if(config.environment === "development"){
         origin: ["http://localhost:3000", "http://localhost:3000/", "localhost:3000/", "http://localhost:3001"]
 	}));
 	app.get("/", (req, res) =>{
-		res.send("pong")
+		res.render("index")
 	})
 }
 if(config.environment === "production") {	
