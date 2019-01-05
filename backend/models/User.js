@@ -5,26 +5,17 @@ const bcrypt = require('bcryptjs');
 const { Schema } = mongoose;
 
 const UsersSchema = new Schema({
-    name:String,
+    username:String,
     email: String,
     password: String,
-    hash: String
+    }, 
+    {
+    timestamps: { 
+        createdAt: "created_at", 
+        updatedAt: "updated_at" 
+    }
 });
 
-
-UsersSchema.methods.validatePassword = password => {
-    this.hash = bcrypt.compare(password, this.password, (err, res) => {
-        if(err) throw err;
-        return res;
-    });
-};
-
-UsersSchema.methods.setPassword = password => {
-   this.password = bcrypt.hash(password, 8, (err, hash) => {
-        if(err) throw err;
-        return hash;
-    });
-};
 
 var User = mongoose.model('user', UsersSchema);
 
