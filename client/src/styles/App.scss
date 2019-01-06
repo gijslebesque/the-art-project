@@ -1,11 +1,21 @@
 body {
 	font-family: 'Titillium Web', sans-serif;
 	padding:20px;
+	margin-top:80px;
 }
 
 //general 
 *:focus {
     outline: none;
+}
+h1{
+	letter-spacing: 20px;
+	font-weight: 100;
+}
+h2{
+	letter-spacing: 20px;
+	font-weight: 100;
+	text-decoration: underline;
 }
 
 h3 {

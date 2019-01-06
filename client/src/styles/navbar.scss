@@ -1,11 +1,17 @@
-.hamburger {
-	position: absolute;
-	left:20px;
-	top:20px;
-}
+
 
 .nav{
-	padding:20px;
+    display: flex;  
+    padding:20px;
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    height:50px;
+    align-items: center;
+    input{
+        padding:0px;
+    }
 }
 
 .hamburger span{

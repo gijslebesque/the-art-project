@@ -37,7 +37,8 @@
         margin-top:80px;
         display: flex;
         flex-direction: column;
-        a{
+        a,p{
+            margin-top:0;
             color:black;
             text-decoration: none;
             margin-bottom:40px;

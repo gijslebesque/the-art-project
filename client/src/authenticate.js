@@ -4,7 +4,7 @@ class AuthService {
   constructor() {
     
     const service = axios.create({
-      baseURL: 'http://localhost:5000/api',
+      baseURL: 'http://localhost:3001/api',
       withCredentials: true
     });
     this.service = service;
@@ -17,8 +17,8 @@ class AuthService {
     return this.service.post('/logout')
     .then(response => response.data)
   }
-  signup = (username, password) => {
-    return this.service.post('/register', {username, password})
+  register = (username, email, password) => {
+    return this.service.post('/register', {username, email, password})
     .then(response => response.data)
   }
   loggedin = () => {
