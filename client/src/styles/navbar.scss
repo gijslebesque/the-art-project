@@ -1,0 +1,17 @@
+.hamburger {
+	position: absolute;
+	left:20px;
+	top:20px;
+}
+
+.nav{
+	padding:20px;
+}
+
+.hamburger span{
+	display: block;
+	margin:5px 0px;
+	width: 48px;
+	background-color:black;
+	height:1px;
+}

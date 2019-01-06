@@ -1,0 +1,20 @@
+
+form{
+    width:80%;
+    margin:20px auto;
+    input{
+        margin:0 auto;
+        border:none;
+        display: block;
+        padding:20px 20px 10px 0px;
+        border-bottom:1px solid #778899;
+       
+    }
+}
+
+@media(min-width:700px){
+    
+   form{
+        width:50%;
+    }
+}

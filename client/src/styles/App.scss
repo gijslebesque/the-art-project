@@ -1,0 +1,29 @@
+body {
+	font-family: 'Titillium Web', sans-serif;
+	padding:20px;
+}
+
+//general 
+*:focus {
+    outline: none;
+}
+
+h3 {
+	margin-top:0;
+}
+
+hr {
+	margin:40px;
+}
+
+.btn-primary{
+	margin:20px;
+	background-color:white;
+	color:black;
+	border: 2px solid powderblue;
+	padding:10px 40px;
+}
+.btn-primary:hover{
+	background-color:powderblue;
+	color:white;
+}
