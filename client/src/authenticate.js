@@ -1,30 +1,58 @@
 import axios from 'axios';
+require('dotenv').config();
 
 class AuthService {
-  constructor() {
-    
-    const service = axios.create({
-      baseURL: 'http://localhost:3001/api',
-      withCredentials: true
-    });
-    this.service = service;
-  }
-  login = (username, password) => {
-    return this.service.post('/login', {username, password})
-    .then(response => response.data)
-  }
-  logout = () => {
-    return this.service.post('/logout')
-    .then(response => response.data)
-  }
-  register = (username, email, password) => {
-    return this.service.post('/register', {username, email, password})
-    .then(response => response.data)
-  }
-  loggedin = () => {
-    return this.service.get('/loggedin')
-    .then(response => response.data)
-  }
+	constructor() {
+		this.service = axios.create({
+			baseURL: process.env.ENV === 'production' ? '/api' : 'http://localhost:3001/api', withCredentials: true
+		});
+		
+	}
+	errHandler = err => {
+		// console.error(err);
+		if (err.response && err.response.data) {
+		  // console.error("API response", err.response.data);
+		  throw err.response.data.message
+		}
+		throw err;
+	}
+
+	login = (username, password) => {
+		return this.service.post('/login', {username, password})
+		.then(res => res.data)
+		.catch(this.errHandler);
+	}
+
+	logout = () => {
+		return this.service.post('/logout')
+		.then(res => res.data)
+		.catch(this.errHandler);
+	}
+
+	register = (username, email, password) => {
+		return this.service.post('/register', {username, email, password})
+		.then(res => res.data)
+		.catch(this.errHandler);
+	}
+
+	loggedin = () => {
+		return this.service.get('/loggedin')
+		.then(res => res.data)
+		.catch(this.errHandler);
+	}
+
+	addPicture = file => {
+		const formData = new FormData();
+		formData.append("picture", file)
+		return this.service
+		  .post('/photo-upload', formData, {
+			headers: {
+			  'Content-Type': 'multipart/form-data',
+			},
+		  })
+		  .then(res => res.data)
+		  .catch(this.errHandler);
+	  }
 }
 
 
