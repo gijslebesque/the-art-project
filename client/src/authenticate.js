@@ -9,9 +9,7 @@ class AuthService {
 		
 	}
 	errHandler = err => {
-		// console.error(err);
 		if (err.response && err.response.data) {
-		  // console.error("API response", err.response.data);
 		  throw err.response.data.message
 		}
 		throw err;
@@ -41,9 +39,15 @@ class AuthService {
 		.catch(this.errHandler);
 	}
 
-	addPicture = file => {
+	upload = (file, fileDescription) => {
+	
 		const formData = new FormData();
-		formData.append("picture", file)
+		formData.append("picture", file);
+		for ( var key in fileDescription ) {
+			console.log(key, fileDescription[key])
+			formData.append(key, fileDescription[key]);
+		}
+
 		return this.service
 		  .post('/photo-upload', formData, {
 			headers: {

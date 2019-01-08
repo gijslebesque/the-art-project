@@ -3,9 +3,10 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const ArtworkSchema = new Schema({
-    name:String,
+    artworkName:String,
     author: {type: Schema.Types.ObjectId, ref: 'User'} ,
-    description: String,
+    artworkURL: String,
+    artworkDescription: String,
     bidAmount: Number,
     bidder: {type: Schema.Types.ObjectId, ref: 'User'} 
 });

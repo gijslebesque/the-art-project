@@ -7,12 +7,12 @@ import SideNav from './components/SideNav.jsx';
 import LoginModal from './components/LoginModal.js';
 import AuthService from './authenticate.js';
 import Profile from './components/Profile.js';
+import FileUpload from './components/FileUpload.js';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faIgloo, faTimes, faGavel } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faIgloo, faTimes, faGavel);
-
 
 class App extends Component {
 	constructor(props){
@@ -21,7 +21,8 @@ class App extends Component {
 			loading: false,
 			isLoggedIn: false,
 			sideNaveOpen: false,
-			loginModalOpen: false,
+			loginModalOpen: false
+			
 		}
 		this.service = new AuthService()
 	}
@@ -77,7 +78,8 @@ class App extends Component {
 
 			}).catch( err => console.log(err));
 	}
-	
+
+
 
 
 	render() {
@@ -102,6 +104,8 @@ class App extends Component {
         			<Route exact path='/' component={Home}/>
 					<Route exact path='/profile' component={Profile}/>
       			</Switch>
+				<FileUpload />
+
       		</div>
     	);
   	}

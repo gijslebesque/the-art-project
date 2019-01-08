@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-
 const { Schema } = mongoose;
 
 const UsersSchema = new Schema({
     username:String,
     email: String,
     password: String,
+    artworks:[{type: Schema.Types.ObjectId, ref: 'Artwork'}]
     }, 
     {
     timestamps: { 
