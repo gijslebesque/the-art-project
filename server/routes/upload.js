@@ -13,7 +13,7 @@ router.post('/photo-upload', parser.single('picture'), (req, res, next) => {
 	
 
 	if(!req.session.passport.user){
-		res.status(403).json("You must be logged in to upload a photo")
+		res.status(403).json("You must be logged in to upload a photo");
 		return;
 	}
 	const {artworkName, artworkDescription, artworkPrice} = req.body;
@@ -26,23 +26,17 @@ router.post('/photo-upload', parser.single('picture'), (req, res, next) => {
  		bidAmount: artworkPrice,
 	});
 	
-	console.log(req.file.url)
-
-	Artwork.create(newArtwork, (savedArtwork) => {
-		return savedArtwork;
-		}).then((savedArtwork)=>{
-		User.findOneAndUpdate({_id: req.session.passport.user}, { $push:{artworks: savedArtwork._id} }, () =>{
+	Artwork.create(newArtwork, (err, savedArtwork) => {
+		if(err) res.status(500).json("You must be logged in to upload a photo");
+		User.findOneAndUpdate({_id: req.session.passport.user}, { $push:{artworks: savedArtwork._id} }, (err, updatedUser) =>{
+			if(err) res.status(500).json("You must be logged in to upload a photo");
 			debugger;
-			res.json({
+			res.status(200).json({
 				success: true,
 				pictureUrl: req.file.url
-			  })
-		})
-	})
-	.catch(err => {
-		debugger;
-		res.status(500).json("Something went wrong");
-	})
+			  });
+		});
+	});
 })
 
 module.exports = router;
