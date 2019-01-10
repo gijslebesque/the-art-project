@@ -66,6 +66,9 @@ app.use('/api', authroutes);
 const uploadroutes = require('./routes/upload')
 app.use('/api', uploadroutes);
 
+const searchRoutes = require('./routes/search')
+app.use('/api', searchRoutes);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     next(createError(404));

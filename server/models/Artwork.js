@@ -9,11 +9,10 @@ const ArtworkSchema = new Schema({
     artworkDescription: String,
     bidAmount: Number,
     bidder: {type: Schema.Types.ObjectId, ref: 'User'},
-    favouritised:Number,
-    timestamps: { 
-        createdAt: "created_at", 
-        updatedAt: "updated_at" 
-    } 
+    favouritised:Number
+    },
+    {
+        timestamps: true
 });
 
 const Artwork = mongoose.model('artwork', ArtworkSchema);

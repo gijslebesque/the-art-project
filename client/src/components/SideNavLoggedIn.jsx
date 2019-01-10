@@ -11,22 +11,7 @@ const sideNav = props => {
         cssClass = "open";
     }
 
-
-    let linkToProfile;
-    if(props.userLoggedIn){
-        linkToProfile = <Link to="/">Your profile</Link>
-    }
-    else {
-        linkToProfile = <p onClick={e =>{
-            props.toggleSideNav(false)
-            props.toggleLoginModal(true)}
-        }>Your profile</p>
-    }
-
-
-    return (
-
-       
+    return (       
         <div>
             <div className={`side-nav ${cssClass}`}>
                 <FontAwesomeIcon 
@@ -37,8 +22,9 @@ const sideNav = props => {
                 />
                 <div className="navigation">
                     <Link to="/">Home</Link>
-                    {linkToProfile}
-                    <Link to="/">Add art</Link>
+                    <Link to="/">Your profile</Link>
+                    <p onClick={e =>{props.toggleUploadModal(true)}}>Add art</p>
+                    <Link to="/">Favourite</Link>
                 </div>
             </div>
             <div 

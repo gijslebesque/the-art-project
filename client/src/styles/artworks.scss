@@ -1,0 +1,16 @@
+.artworks{
+
+    display: grid;
+    grid-template-columns: 45% 45%;
+    justify-content: space-around;
+    .artwork{
+        position: relative;
+        img{
+          border:5px solid powderblue;
+            width:100%;
+        }
+        
+
+    }
+
+}

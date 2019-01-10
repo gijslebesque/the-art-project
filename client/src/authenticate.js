@@ -58,7 +58,7 @@ class AuthService {
 		
 		findRecentArtWorks = () => {
 			return this.service.get('/findRecentArtworks')
-				.then(res => res.data)
+				.then(res => res)
 				.catch(this.errHandler);	
 		}
 }
