@@ -23,7 +23,7 @@ router.post('/photo-upload', parser.single('picture'), (req, res, next) => {
   		author: req.session.user,
 		artworkURL: req.file.url,
 		artworkDescription: artworkDescription,
- 		bidAmount: artworkPrice,
+ 		bidAmount: artworkPrice
 	});
 	
 	Artwork.create(newArtwork, (err, savedArtwork) => {

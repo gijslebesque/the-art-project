@@ -10,53 +10,57 @@ class AuthService {
 	}
 	errHandler = err => {
 		if (err.response && err.response.data) {
-		  throw err.response.data.message
+			throw err.response.data.message
 		}
 		throw err;
 	}
 
 	login = (username, password) => {
 		return this.service.post('/login', {username, password})
-		.then(res => res.data)
-		.catch(this.errHandler);
+			.then(res => res.data)
+			.catch(this.errHandler);
 	}
 
 	logout = () => {
 		return this.service.post('/logout')
-		.then(res => res.data)
-		.catch(this.errHandler);
+			.then(res => res.data)
+			.catch(this.errHandler);
 	}
 
 	register = (username, email, password) => {
 		return this.service.post('/register', {username, email, password})
-		.then(res => res.data)
-		.catch(this.errHandler);
+			.then(res => res.data)
+			.catch(this.errHandler);
 	}
 
 	loggedin = () => {
 		return this.service.get('/loggedin')
-		.then(res => res.data)
-		.catch(this.errHandler);
+			.then(res => res.data)
+			.catch(this.errHandler);
 	}
 
 	upload = (file, fileDescription) => {
-	
 		const formData = new FormData();
 		formData.append("picture", file);
 		for ( var key in fileDescription ) {
-			console.log(key, fileDescription[key])
 			formData.append(key, fileDescription[key]);
 		}
 
 		return this.service
-		  .post('/photo-upload', formData, {
-			headers: {
-			  'Content-Type': 'multipart/form-data',
-			},
-		  })
-		  .then(res => res.data)
-		  .catch(this.errHandler);
-	  }
+			.post('/photo-upload', formData, {
+				headers: {
+					'Content-Type': 'multipart/form-data',
+				},
+		  	})
+			.then(res => res.data)
+			.catch(this.errHandler);
+		}
+		
+		findRecentArtWorks = () => {
+			return this.service.get('/findRecentArtworks')
+				.then(res => res.data)
+				.catch(this.errHandler);	
+		}
 }
 
 

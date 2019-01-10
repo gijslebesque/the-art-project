@@ -24,8 +24,10 @@ class App extends Component {
 			loginModalOpen: false
 			
 		}
-		this.service = new AuthService()
+		this.service = new AuthService();
 	}
+
+
 
 	toggleSideNav = (toggle) =>{
 		this.setState({sideNaveOpen:toggle})
