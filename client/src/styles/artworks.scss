@@ -5,8 +5,9 @@
         justify-content: space-between;
      
       
-     .card {
-        flex: 0 1 calc(25% - 1em);
+     .ui.card {
+        flex: 0 1 calc(100% - 1em);
+        margin:20px auto;
      }
     // display: grid;
     // grid-template-columns: 45% 45%;

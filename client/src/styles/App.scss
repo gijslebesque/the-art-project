@@ -1,7 +1,10 @@
 body {
 	font-family: 'Titillium Web', sans-serif;
-	padding:20px;
+
 	margin-top:80px;
+}
+main {
+	padding:20px;
 }
 
 //general 
@@ -16,10 +19,11 @@ h2{
 	letter-spacing: 20px;
 	font-weight: 100;
 	text-decoration: underline;
+	margin-bottom:40px;
 }
 
 h3 {
-	letter-spacing: 10px;
+
 	font-weight: 100;
 	margin-top:0;
 }
@@ -29,14 +33,15 @@ hr {
 	background-color:#778899;
 }
 
-.btn-primary{
-	margin:20px 20px 0px 20px;
+.btnPrimary{
+	margin:20px auto 0px auto;
 	background-color:white;
 	color:black;
 	border: 2px solid powderblue;
 	padding:10px 40px;
+	display: block;
 }
-.btn-primary:hover{
+.btnPrimary:hover{
 	background-color:powderblue;
 	color:white;
 }

@@ -4,9 +4,6 @@ import '../styles/form.scss';
 import Button from './Button.jsx';
 import Modal from 'react-responsive-modal';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
-
 class LoginModal extends Component {
     constructor(props){
         super(props)
@@ -44,10 +41,7 @@ class LoginModal extends Component {
 	}
 
 	render() {
-        let cssClass = "";
-        if(this.props.isOpen){
-            cssClass = "open";
-        }
+       
     	return (
             <Modal open={this.props.isOpen} onClose={ e =>{this.props.toggleLoginModal(false)}}>
              <h3>Login</h3>

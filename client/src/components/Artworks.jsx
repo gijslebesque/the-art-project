@@ -31,7 +31,6 @@ const artworks = props => {
 
     return(
         <div>
-            <h2>Recent artworks</h2>
             <div className="artworks">
                 {artworks}
             </div>

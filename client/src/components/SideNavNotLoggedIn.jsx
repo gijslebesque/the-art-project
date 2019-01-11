@@ -26,7 +26,11 @@ const sideNav = props => {
                         props.toggleSideNav(false)
                         props.toggleLoginModal(true)}
                         }>Your profile</button>
-                    <Link to="/">Add art</Link>
+                          <button className={styles.linkBtn} onClick={e =>{
+                        props.toggleSideNav(false)
+                        props.toggleUploadModal(true)}
+                        }>Your profile</button>
+                    
                 </div>
             </div>
             <div 

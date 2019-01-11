@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './styles/App.scss';
 import { Switch, Route } from 'react-router-dom';
 import Navbar from './components/Navbar.jsx';
 import Home from './components/Home.js';
@@ -10,7 +9,8 @@ import AuthService from './authenticate.js';
 import Profile from './components/Profile.js';
 import FileUpload from './components/FileUpload.js';
 import FindArtwork from './components/FindArtwork';
-import Modal from 'react-responsive-modal';
+import Footer from './components/Footer.jsx'
+
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faIgloo, faTimes, faGavel } from '@fortawesome/free-solid-svg-icons';
@@ -98,6 +98,7 @@ class App extends Component {
 		console.log(this.state)
     	return (
     		<div className="App">
+		
     			<Navbar toggleSideNav={this.toggleSideNav}/>
 				{!this.state.isLoggedIn && 
 				<SideNavNotLoggedIn 
@@ -105,6 +106,7 @@ class App extends Component {
 					isOpen={this.state.sideNaveOpen}
 					userLoggedIn={this.state.isLoggedIn}
 					toggleLoginModal={this.toggleLoginModal}
+					toggleUploadModal={this.toggleUploadModal}
 				/>}
 				{this.state.isLoggedIn && 
 				<SideNavLoggedIn 
@@ -114,7 +116,7 @@ class App extends Component {
 					toggleLoginModal={this.toggleLoginModal}
 					toggleUploadModal={this.toggleUploadModal}
 				/>}
-				
+					<main>
 
 				<LoginModal 
 					toggleLoginModal={this.toggleLoginModal} 
@@ -122,7 +124,11 @@ class App extends Component {
 					handleLoginSubmit={this.handleLoginSubmit}
 					handleRegisterSubmit={this.handleRegisterSubmit}
 				/>
-				{this.state.uploadModalOpen && <FileUpload />}
+				{this.state.uploadModalOpen && <FileUpload 
+					toggleUploadModal={this.toggleUploadModal} 
+					isOpen={this.state.uploadModalOpen} 
+				
+				/>}
 
 				<Switch>
         			<Route exact path='/' component={Home}/>
@@ -130,6 +136,9 @@ class App extends Component {
       			</Switch>
 			
 			<FindArtwork method="findRecentArtworks"/>
+			</main>
+			<Footer />
+
       		</div>
     	);
   	}
