@@ -9,9 +9,7 @@ const parser = require('../config/cloudinary');
 
 
 router.post('/photo-upload', parser.single('picture'), (req, res, next) => {
-	debugger;
 	
-
 	if(!req.session.passport.user){
 		res.status(403).json("You must be logged in to upload a photo");
 		return;
@@ -20,7 +18,7 @@ router.post('/photo-upload', parser.single('picture'), (req, res, next) => {
 	
 	const newArtwork = new Artwork({
 		artworkName:artworkName,
-  		author: req.session.user,
+  		author: req.session.passport.user,
 		artworkURL: req.file.url,
 		artworkDescription: artworkDescription,
  		bidAmount: artworkPrice
