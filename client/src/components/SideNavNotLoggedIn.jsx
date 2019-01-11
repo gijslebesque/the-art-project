@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/sideNav.scss';
+import styles from '../styles/sideNav.module.scss';
 import { Link } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -8,29 +8,29 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 const sideNav = props => {
     let cssClass = "";
     if(props.isOpen){
-        cssClass = "open";
+        cssClass = styles.open;
     }
     return (
 
         <div>
-            <div className={`side-nav ${cssClass}`}>
+            <div className={`${styles.sideNav} ${cssClass}`}>
                 <FontAwesomeIcon 
                     icon="times" 
                     size="2x" 
                     style={{float:"right"}} 
                     onClick={e => {props.toggleSideNav(false)}}
                 />
-                <div className="navigation">
+                <div className={styles.navigation}>
                     <Link to="/">Home</Link>
-                    <p onClick={e =>{
-            props.toggleSideNav(false)
-            props.toggleLoginModal(true)}
-        }>Your profile</p>
+                    <button className={styles.linkBtn} onClick={e =>{
+                        props.toggleSideNav(false)
+                        props.toggleLoginModal(true)}
+                        }>Your profile</button>
                     <Link to="/">Add art</Link>
                 </div>
             </div>
             <div 
-                className={`full-screen-nav ${cssClass}`}
+                className={`${styles.fullScreenNav} ${cssClass}`}
                 onClick={e => {props.toggleSideNav(false)}}
             />       
         </div>

@@ -10,6 +10,7 @@ import AuthService from './authenticate.js';
 import Profile from './components/Profile.js';
 import FileUpload from './components/FileUpload.js';
 import FindArtwork from './components/FindArtwork';
+import Modal from 'react-responsive-modal';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faIgloo, faTimes, faGavel } from '@fortawesome/free-solid-svg-icons';
@@ -114,6 +115,7 @@ class App extends Component {
 					toggleUploadModal={this.toggleUploadModal}
 				/>}
 				
+
 				<LoginModal 
 					toggleLoginModal={this.toggleLoginModal} 
 					isOpen={this.state.loginModalOpen} 

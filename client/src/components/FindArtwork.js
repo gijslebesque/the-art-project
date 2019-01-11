@@ -48,6 +48,7 @@ class FindArtwork extends Component {
                 }
 
                 {this.state.artworks && <Arworks artworks={this.state.artworks}/>}
+              
             </div>
         )
     }

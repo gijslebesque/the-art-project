@@ -6,6 +6,8 @@ import * as serviceWorker from './serviceWorker';
 import { Router } from 'react-router-dom';
 import WebFont from 'webfontloader';
 import history from './history';
+import 'semantic-ui/dist/semantic.min.css';
+    
 
 
 WebFont.load({

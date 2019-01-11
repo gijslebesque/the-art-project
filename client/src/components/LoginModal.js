@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import '../styles/modal.scss';
 import '../styles/form.scss';
 import Button from './Button.jsx';
+import Modal from 'react-responsive-modal';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 class LoginModal extends Component {
@@ -48,36 +49,58 @@ class LoginModal extends Component {
             cssClass = "open";
         }
     	return (
-    		<div className={`modal ${cssClass}`}>
-        		<div className={`modal-body ${cssClass}`}>
-                <FontAwesomeIcon 
-                    icon="times" 
-                    size="2x" 
-                    style={{position:"absolute", right:"20px",
-                    top:"20px"}} 
-                    onClick={e => {this.props.toggleLoginModal(false)}}
-                />
-                    <h3>Login</h3>
-                    <form onSubmit={e => {this.props.handleLoginSubmit(e, this.state.login)}}>
-                        <input type="text" placeholder="Username" name="username" onChange={this.handleChangeLogin} value={this.state.login.username}/>
-                        <input type="Password" placeholder="Password" name="password" onChange={this.handleChangeLogin} value={this.state.login.password}/>
-                        <Button type="submit" text="Login"/>
+            <Modal open={this.props.isOpen} onClose={ e =>{this.props.toggleLoginModal(false)}}>
+             <h3>Login</h3>
+                     <form onSubmit={e => {this.props.handleLoginSubmit(e, this.state.login)}}>
+                         <input type="text" placeholder="Username" name="username" onChange={this.handleChangeLogin} value={this.state.login.username}/>
+                         <input type="Password" placeholder="Password" name="password" onChange={this.handleChangeLogin} value={this.state.login.password}/>
+                         <Button type="submit" text="Login"/>
                       
                     </form>
+
                     <hr/>
                     <h3>Or register</h3>
                     <form onSubmit={e => {this.props.handleRegisterSubmit(e, this.state.register)}}>
                         <input type="text" placeholder="Username" name="username" onChange={this.handleChangeRegister} value={this.state.register.username}/>
-                        <input type="email" placeholder="Email" name="email" onChange={this.handleChangeRegister} value={this.state.register.email}/>
-                        <input type="Password" placeholder="Password" name="password" onChange={this.handleChangeRegister} value={this.state.register.password}/>
-                        <Button type="submit" text="Register"/>
+                         <input type="email" placeholder="Email" name="email" onChange={this.handleChangeRegister} value={this.state.register.email}/>
+                         <input type="Password" placeholder="Password" name="password" onChange={this.handleChangeRegister} value={this.state.register.password}/>
+                         <Button type="submit" text="Register"/>
                     
-                    </form>
-    			</div>  
-                <div className={`full-screen-modal ${cssClass}`}
-                onClick={e=> {this.props.toggleLoginModal(false)}}
-                />
-    		</div>
+                     </form>
+            
+            </Modal>
+            // <Modal open={this.props.isOpen} onClose={this.onCloseModal}>    		<div className={`modal ${cssClass}`}>
+        	// 	<div className={`modal-body ${cssClass}`}>
+            //     <FontAwesomeIcon 
+            //         icon="times" 
+            //         size="2x" 
+            //         style={{position:"absolute", right:"20px",
+            //         top:"20px"}} 
+            //         onClick={e => {this.props.toggleLoginModal(false)}}
+            //     />
+            //         <h3>Login</h3>
+            //         <form onSubmit={e => {this.props.handleLoginSubmit(e, this.state.login)}}>
+            //             <input type="text" placeholder="Username" name="username" onChange={this.handleChangeLogin} value={this.state.login.username}/>
+            //             <input type="Password" placeholder="Password" name="password" onChange={this.handleChangeLogin} value={this.state.login.password}/>
+            //             <Button type="submit" text="Login"/>
+                      
+            //         </form>
+            //         <hr/>
+            //         <h3>Or register</h3>
+            //         <form onSubmit={e => {this.props.handleRegisterSubmit(e, this.state.register)}}>
+            //             <input type="text" placeholder="Username" name="username" onChange={this.handleChangeRegister} value={this.state.register.username}/>
+            //             <input type="email" placeholder="Email" name="email" onChange={this.handleChangeRegister} value={this.state.register.email}/>
+            //             <input type="Password" placeholder="Password" name="password" onChange={this.handleChangeRegister} value={this.state.register.password}/>
+            //             <Button type="submit" text="Register"/>
+                    
+            //         </form>
+    		// 	</div>  
+            //     <div className={`full-screen-modal ${cssClass}`}
+            //     onClick={e=> {this.props.toggleLoginModal(false)}}
+            //     />
+    		// </div>
+          //  </Modal>
+
       	);
     }
 }

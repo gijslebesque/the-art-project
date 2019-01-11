@@ -44,7 +44,7 @@ if(process.env.ENV === "development"){
 	app.use(express.static(path.join(__dirname, 'public')));
 	app.use(require("cors")({
         credentials: true,
-        origin: ["http://localhost:3000", "http://localhost:3000/", "localhost:3000/", "http://localhost:3001"]
+        origin: ["http://localhost:3000", "http://localhost:3000/", "http://192.168.2.87:3000","http://192.168.2.87:3000/","192.168.2.87:3000","192.168.2.87:3000/", "localhost:3000/", "http://localhost:3001"]
     }));
     
     app.get("/", (req, res) =>{

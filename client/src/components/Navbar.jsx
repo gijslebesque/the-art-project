@@ -1,13 +1,13 @@
 import React from 'react';
-import '../styles/navbar.scss';
+import styles from '../styles/navbar.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Navbar = props => {
 		
 	return (
 
-		<nav className="nav">
-			<div className="hamburger" onClick={() => props.toggleSideNav(true)}>
+		<nav className={styles.nav}>
+			<div className={styles.hamburger} onClick={() => props.toggleSideNav(true)}>
 				<span></span>
 				<span></span>
 				<span></span>
