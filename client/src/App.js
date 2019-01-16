@@ -38,6 +38,7 @@ class App extends Component {
 	toggleLoginModal = (toggle) =>{
 		this.setState({loginModalOpen:toggle})
 	}
+	
 	toggleUploadModal = (toggle) =>{
 		this.setState({uploadModalOpen:toggle})
 	}
@@ -90,7 +91,6 @@ class App extends Component {
 
 			}).catch( err => console.log(err));
 	}
-
 
 
 

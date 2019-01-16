@@ -3,7 +3,7 @@ import Button from './Button';
 import AuthService from '..//authenticate.js';
 import Modal from 'react-responsive-modal';
 import Loader from 'react-loader-spinner';
-import {spinnerCenter} from '../styles/spinner.module.scss';
+import {spinnerCenterOverlay} from '../styles/spinner.module.scss';
 
 
 class FileUpload extends Component {
@@ -11,7 +11,7 @@ class FileUpload extends Component {
         super(props)
         this.state = {
 			file: null,
-			loading:false,
+			loading:true,
 			modalHeader:"Upload your art",
 			fileDescription: {
 				artworkName: "",
@@ -55,18 +55,17 @@ class FileUpload extends Component {
         return (
 			<Modal open={this.props.isOpen} onClose={ e =>{this.props.toggleUploadModal(false)}}>
 			<h3>{this.state.modalHeader}</h3>
-			{!this.state.loading && <form onSubmit={(e)=>this.handleSubmit(e)}>
+			<form onSubmit={(e)=>this.handleSubmit(e)}>
 					<input type="text" name="artworkName" placeholder="Name of your work" onChange={(e)=>this.handleChange(e)} value={this.state.fileDescription.name}/>
 					<input type="text" name="artworkDescription" placeholder="Description of your work" onChange={(e)=>this.handleChange(e)} value={this.state.fileDescription.description}/>
 					<input type="number" name="artworkPrice" placeholder="Price of your work" onChange={(e)=>this.handleChange(e)} value={this.state.fileDescription.price}/>
 			<input type="file" onChange={(e)=>this.handleFile(e)} /> <br/>
 			<Button type="submit" text="Upload artwork" />
 			
-			</form>}
-			{this.state.loading &&  <div className={spinnerCenter}>    
+			</form>
+			{this.state.loading &&  <div className={spinnerCenterOverlay}>    
                     <Loader 
-                     
-                        type="Triangle"
+                    	type="Triangle"
                         color="#b0e0e6"
                         height="50"	
                         width="50"
