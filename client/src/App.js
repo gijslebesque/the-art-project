@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, Redirect } from 'react-router-dom';
 import Navbar from './components/Navbar.jsx';
 import Home from './components/Home.js';
 import SideNavNotLoggedIn from './components/SideNavNotLoggedIn.jsx';
@@ -20,9 +20,9 @@ class App extends Component {
 	constructor(props){
 		super(props)
 		this.state = {
+			authed:false,
 			username:null,
 			loading: false,
-			isLoggedIn: false,
 			sideNaveOpen: false,
 			loginModalOpen: false,
 			uploadModalOpen:false,
@@ -51,7 +51,7 @@ class App extends Component {
 			.then( res => {
 				this.setState({
 					username:res.username,
-					isLoggedIn:true,
+					authed:true,
 					loginModalOpen:false
 				});
 				
@@ -101,19 +101,19 @@ class App extends Component {
     		<div className="App">
 		
     			<Navbar toggleSideNav={this.toggleSideNav}/>
-				{!this.state.isLoggedIn && 
+				{!this.state.authed && 
 				<SideNavNotLoggedIn 
 					toggleSideNav={this.toggleSideNav} 
 					isOpen={this.state.sideNaveOpen}
-					userLoggedIn={this.state.isLoggedIn}
+					userLoggedIn={this.state.authed}
 					toggleLoginModal={this.toggleLoginModal}
 					toggleUploadModal={this.toggleUploadModal}
 				/>}
-				{this.state.isLoggedIn && 
+				{this.state.authed && 
 				<SideNavLoggedIn 
 					toggleSideNav={this.toggleSideNav} 
 					isOpen={this.state.sideNaveOpen}
-					userLoggedIn={this.state.isLoggedIn}
+					userLoggedIn={this.state.authed}
 					toggleLoginModal={this.toggleLoginModal}
 					toggleUploadModal={this.toggleUploadModal}
 				/>}
@@ -133,8 +133,9 @@ class App extends Component {
 
 				<Switch>
         			<Route exact path='/' component={Home}/>
-					<Route exact path='/profile' render={(props) => <Profile {...props} username={this.state.username} />}
-					/>
+				
+					<PrivateRoute authed={this.state.authed} exact path='/profile' component={Profile} />
+
       			</Switch>
 			
 		
@@ -145,5 +146,16 @@ class App extends Component {
     	);
   	}
 }
+
+function PrivateRoute ({component: Component, authed, ...rest}) {
+	return (
+	  <Route
+		{...rest}
+		render={(props) => authed === true
+		  ? <Component {...props} />
+		  : <Redirect to={{pathname: '/', state: {from: props.location}}} />}
+	  />
+	)
+  }
 
 export default App;

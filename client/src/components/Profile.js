@@ -10,14 +10,7 @@ class Profile extends Component  {
             }
         }
     }
-    isAuthorised = () => {
-        if(this.state.username){
-            return true;
-        }
-        else {
-            this.props.history.push("/");
-        }
-    } 
+  
     componentDidMount(){
         console.log("rendered")
     }
@@ -25,7 +18,6 @@ class Profile extends Component  {
     render() {
         return(
             <div className="profile">
-                {this.isAuthorised()}
                 <h1>Hello <br/>{this.state.user.username}</h1>
                 <h2>Your art</h2>
                 <h2>Pending bids</h2>
