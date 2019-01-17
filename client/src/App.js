@@ -8,7 +8,6 @@ import LoginModal from './components/LoginModal.js';
 import AuthService from './authenticate.js';
 import Profile from './components/Profile.js';
 import FileUpload from './components/FileUpload.js';
-import FindArtwork from './components/FindArtwork';
 import Footer from './components/Footer.jsx'
 
 
@@ -21,6 +20,7 @@ class App extends Component {
 	constructor(props){
 		super(props)
 		this.state = {
+			username:null,
 			loading: false,
 			isLoggedIn: false,
 			sideNaveOpen: false,
@@ -50,6 +50,7 @@ class App extends Component {
       	this.service.login(username, password)
 			.then( res => {
 				this.setState({
+					username:res.username,
 					isLoggedIn:true,
 					loginModalOpen:false
 				});
@@ -132,10 +133,11 @@ class App extends Component {
 
 				<Switch>
         			<Route exact path='/' component={Home}/>
-					<Route exact path='/profile' component={Profile}/>
+					<Route exact path='/profile' render={(props) => <Profile {...props} username={this.state.username} />}
+					/>
       			</Switch>
 			
-			<FindArtwork method="findRecentArtworks"/>
+		
 			</main>
 			<Footer />
 

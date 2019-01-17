@@ -3,11 +3,14 @@ import '../styles/modal.scss';
 import '../styles/form.scss';
 import Button from './Button.jsx';
 import Modal from 'react-responsive-modal';
+import Loader from 'react-loader-spinner';
+import {spinnerCenterOverlay} from '../styles/spinner.module.scss';
 
 class LoginModal extends Component {
     constructor(props){
         super(props)
         this.state = {
+            loading:false,
             login: {
 				username: "",
 				password: ""
@@ -38,29 +41,42 @@ class LoginModal extends Component {
             	[name]: value
         	}
     	}));
-	}
+    }
+    
 
 	render() {
        
     	return (
             <Modal open={this.props.isOpen} onClose={ e =>{this.props.toggleLoginModal(false)}}>
              <h3>Login</h3>
-                     <form onSubmit={e => {this.props.handleLoginSubmit(e, this.state.login)}}>
+                     <form onSubmit={e => {
+                             this.setState({loading:true})
+                         this.props.handleLoginSubmit(e, this.state.login)}}>
                          <input type="text" placeholder="Username" name="username" onChange={this.handleChangeLogin} value={this.state.login.username}/>
                          <input type="Password" placeholder="Password" name="password" onChange={this.handleChangeLogin} value={this.state.login.password}/>
                          <Button type="submit" text="Login"/>
                       
                     </form>
 
-                    <hr/>
                     <h3>Or register</h3>
-                    <form onSubmit={e => {this.props.handleRegisterSubmit(e, this.state.register)}}>
+                    <form onSubmit={e => {
+                        this.setState({loading:true})
+                        this.props.handleRegisterSubmit(e, this.state.register)}}>
                         <input type="text" placeholder="Username" name="username" onChange={this.handleChangeRegister} value={this.state.register.username}/>
                          <input type="email" placeholder="Email" name="email" onChange={this.handleChangeRegister} value={this.state.register.email}/>
                          <input type="Password" placeholder="Password" name="password" onChange={this.handleChangeRegister} value={this.state.register.password}/>
                          <Button type="submit" text="Register"/>
                     
                      </form>
+                     {this.state.loading && <div className={spinnerCenterOverlay}>    
+                    <Loader 
+                    	type="Triangle"
+                        color="#b0e0e6"
+                        height="50"	
+                        width="50"
+                    /> 
+					<p>One moment...</p>
+                    </div>}
             
             </Modal>
             // <Modal open={this.props.isOpen} onClose={this.onCloseModal}>    		<div className={`modal ${cssClass}`}>

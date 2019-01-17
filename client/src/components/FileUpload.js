@@ -11,7 +11,7 @@ class FileUpload extends Component {
         super(props)
         this.state = {
 			file: null,
-			loading:true,
+			loading:false,
 			modalHeader:"Upload your art",
 			fileDescription: {
 				artworkName: "",
@@ -70,6 +70,7 @@ class FileUpload extends Component {
                         height="50"	
                         width="50"
                     /> 
+					<p>Uploading...</p>
                     </div>}
 
 		</Modal>

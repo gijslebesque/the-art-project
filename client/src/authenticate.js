@@ -4,7 +4,7 @@ require('dotenv').config();
 class AuthService {
 	constructor() {
 		this.service = axios.create({
-			baseURL: process.env.ENV === 'production' ? '/api' : 'http://localhost:3001/api', withCredentials: true
+			baseURL: process.env.ENV === 'production' ? '/api' : 'http://10.85.5.196:3001/api', withCredentials: true
 		});
 		
 	}

@@ -9,9 +9,9 @@ const mongoose = require('mongoose');
 
 const app = express();
 
-const LocalStrategy = require('passport-local').Strategy;
-const session    = require('express-session');
-const passport     = require('passport');
+const LocalStrategy  = require('passport-local').Strategy;
+const session        = require('express-session');
+const passport       = require('passport');
 
 require('./config/passport.js');
 
@@ -26,7 +26,6 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
-    
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -44,7 +43,7 @@ if(process.env.ENV === "development"){
 	app.use(express.static(path.join(__dirname, 'public')));
 	app.use(require("cors")({
         credentials: true,
-        origin: ["http://localhost:3000", "http://localhost:3000/", "http://192.168.2.87:3000","http://192.168.2.87:3000/","192.168.2.87:3000","192.168.2.87:3000/", "localhost:3000/", "http://localhost:3001"]
+        origin: ["http://localhost:3000", "http://localhost:3000/", "http://192.168.2.87:3000","http://192.168.2.87:3000/","192.168.2.87:3000","192.168.2.87:3000/", "localhost:3000/", "http://localhost:3001", "http://10.85.5.196:3000/", "10.85.5.196:3000/", "http://10.85.5.196:3000",]
     }));
     
     app.get("/", (req, res) =>{
@@ -63,11 +62,11 @@ if(process.env.ENV === "production") {
 const authroutes = require('./routes/authroutes')
 app.use('/api', authroutes);
 
-const uploadroutes = require('./routes/upload')
-app.use('/api', uploadroutes);
-
 const searchRoutes = require('./routes/search')
 app.use('/api', searchRoutes);
+
+const uploadroutes = require('./routes/upload')
+app.use('/api', uploadroutes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

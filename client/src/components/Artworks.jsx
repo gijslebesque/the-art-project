@@ -14,15 +14,18 @@ const artworks = props => {
     <Card.Content>
       <Card.Header>{artwork.artworkName}</Card.Header>
       <Card.Meta>
-        <span className='date'>Created at {artwork.createdAt}}</span>
+        <span className='author'>By {artwork.author.username}</span>
+        <br/>
+        <span className='date'>At {artwork.createdAt}</span>
+        
       </Card.Meta>
       <Card.Description>{artwork.artworkDescription}</Card.Description>
     </Card.Content>
     <Card.Content extra>
-      <a>
+      
         <Icon name='user' />
-        22 Friends
-      </a>
+        {artwork.author.favourite.length} liked
+      
     </Card.Content>
   </Card>
           

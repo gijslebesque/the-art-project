@@ -3,7 +3,8 @@
 /**
  * Module dependencies.
  */
-
+const os = require('os');
+const ipAddress = os.networkInterfaces().en0[0].address;
 const app = require('../app');
 const debug = require('debug')('backend:server');
 const http = require('http');
@@ -84,8 +85,9 @@ function onError(error) {
 function onListening() {
   console.log(`listening on ${process.env.PORT}`)
   const addr = server.address();
+  console.log("adderss", ipAddress)
   const bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+  debug('Listening on ' + ipAddress + bind);
 }

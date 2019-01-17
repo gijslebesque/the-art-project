@@ -8,8 +8,8 @@ const UsersSchema = new Schema(
         username:String,
         email: String,
         password: String,
-        artworks:[{type: Schema.Types.ObjectId, ref: 'Artwork'}],
-        favourite:[{type: Schema.Types.ObjectId, ref: 'Artwork'}],
+        artworks:[{type: Schema.Types.ObjectId, ref: 'artwork'}],
+        favourite:[{type: Schema.Types.ObjectId, ref: 'artwork'}],
     }, 
     {
         timestamps: { 

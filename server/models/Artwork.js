@@ -4,11 +4,11 @@ const { Schema } = mongoose;
 
 const ArtworkSchema = new Schema({
     artworkName:String,
-    author: {type: Schema.Types.ObjectId, ref: 'User'} ,
+    author: {type: Schema.Types.ObjectId, ref: 'user'} ,
     artworkURL: String,
     artworkDescription: String,
     bidAmount: Number,
-    bidder: {type: Schema.Types.ObjectId, ref: 'User'},
+    bidder: {type: Schema.Types.ObjectId, ref: 'user'},
     favouritised:Number
     },
     {

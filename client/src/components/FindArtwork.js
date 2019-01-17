@@ -35,7 +35,7 @@ class FindArtwork extends Component {
           }
     }
     render(){
-        console.log(this.state.artworks)
+        
         return(
             <div>
                 <h2>Recent artworks</h2>
