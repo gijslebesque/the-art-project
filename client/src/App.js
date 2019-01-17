@@ -134,7 +134,7 @@ class App extends Component {
 				<Switch>
         			<Route exact path='/' component={Home}/>
 				
-					<PrivateRoute authed={this.state.authed} exact path='/profile' component={Profile} />
+					<PrivateRoute authed={this.state.authed} username={this.state.username} exact path='/profile' component={Profile} />
 
       			</Switch>
 			
@@ -152,7 +152,7 @@ function PrivateRoute ({component: Component, authed, ...rest}) {
 	  <Route
 		{...rest}
 		render={(props) => authed === true
-		  ? <Component {...props} />
+		  ? <Component {...props} username={props.username} />
 		  : <Redirect to={{pathname: '/', state: {from: props.location}}} />}
 	  />
 	)
