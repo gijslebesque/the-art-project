@@ -1,5 +1,6 @@
 const express    = require('express');
 const authRoutes = express.Router();
+const jwt = require('jsonwebtoken');
 
 const passport   = require('passport');
 const bcrypt     = require('bcryptjs');
@@ -56,23 +57,27 @@ authRoutes.post('/register', (req, res, next) => {
 authRoutes.post('/login', (req, res, next) => {
     passport.authenticate('local', (err, theUser, failureDetails) => {
         if (err) {
-        res.json({ message: 'Something went wrong authenticating user' });
-        return;
-        }
-    
-        if (!theUser) {
-        res.json({message: "sorry, we coun't find that account"});
-        return;
-        }
-    
-        req.login(theUser, (err) => {
-        if (err) {
-            res.json({ message: 'Something went wrong logging in' });
+            res.json({ message: 'Something went wrong authenticating user' });
             return;
         }
     
-        // We are now logged in (notice req.user)
-        res.status(200).json(req.user);
+        if (!theUser) {
+            res.status(500).json({message: "sorry, we coun't find that account"});
+            return;
+        }
+    
+        req.login(theUser, (err) => {
+            if (err) {
+                res.status(500).json({ message: 'Something went wrong logging in' });
+                return;
+            }
+
+            // working on jwt.
+            var token = jwt.sign({ id: req.user._id }, process.env.SECRET, {
+                expiresIn: 86400 // expires in 24 hours
+              });
+           // res.cookie('_userID', req.user._id, {signed: true})
+            res.status(200).json({user: req.user, token:token});
         });
     })(req, res, next);
 });

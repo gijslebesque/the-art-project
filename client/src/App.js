@@ -10,7 +10,6 @@ import Profile from './components/Profile.js';
 import FileUpload from './components/FileUpload.js';
 import Footer from './components/Footer.jsx'
 
-
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faIgloo, faTimes, faGavel } from '@fortawesome/free-solid-svg-icons';
 
@@ -96,7 +95,7 @@ class App extends Component {
 
 
 	render() {
-		console.log(this.state)
+		
     	return (
     		<div className="App">
 		
@@ -147,12 +146,12 @@ class App extends Component {
   	}
 }
 
-function PrivateRoute ({component: Component, authed, ...rest}) {
+function PrivateRoute ({component: Component, authed, username, ...rest}) {
 	return (
 	  <Route
 		{...rest}
 		render={(props) => authed === true
-		  ? <Component {...props} username={props.username} />
+		  ? <Component {...props} username={username} />
 		  : <Redirect to={{pathname: '/', state: {from: props.location}}} />}
 	  />
 	)

@@ -7,49 +7,36 @@
       
      .ui.card {
         flex: 0 1 calc(100% - 1em);
+      
+        img {
+            width: 100%;
+        }
+     }
+
+     .ui.card:first-child, .ui.card {
         margin:20px auto;
      }
-    // display: grid;
-    // grid-template-columns: 45% 45%;
-    // justify-content: space-around;
-    // .artwork{
-    //     position: relative;
-    //     // img{
-    //     //   border:5px solid powderblue;
-    //     //     width:100%;
-    //     // }
-        
-
-    // }
-
+    
 }
 
 @media screen and (min-width: 40em) {
-    .cards {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-    }
- 
-    .card {
-        flex: 0 1 calc(25% - 1em);
-    }
+    .artworks{
+        align-items: flex-start;
+        .ui.card {
+            flex: 0 1 calc(50% - 1em);
+          
+        }
+        .ui.card:first-child, .ui.card {
+            margin:40px auto;
+         }
+    }   
 }
+
 
 @media screen and (min-width: 60em) {
-    .card {
-        flex: 0 1 calc(25% - 1em);
-    }
-}
-
-@media screen and (min-width: 40em) {
-    .cards {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-    }
- 
-    .card {
-        flex: 0 1 calc(50% - 1em);
+    .artworks{
+        .ui.card {
+            flex: 0 1 calc(25% - 1em);
+        }
     }
 }

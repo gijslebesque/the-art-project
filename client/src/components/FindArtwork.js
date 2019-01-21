@@ -17,7 +17,6 @@ class FindArtwork extends Component {
     componentDidMount() {
         switch(this.props.method) {
             case "findRecentArtworks":
-            console.log("hi")
                 this.service.findRecentArtWorks().then(res =>{
                     if(res.status === 200) {
                         this.setState({
@@ -27,6 +26,17 @@ class FindArtwork extends Component {
                     } 
                 });
             break;
+            case "findPersonalArtworks":
+            console.log("hi")
+            this.service.findPersonalArtWorks().then(res =>{
+                if(res.status === 200) {
+                    this.setState({
+                        artworks: res.data,
+                        // loading:tr
+                    });
+                } 
+            });
+        break;
             default:
                 const err = "no method specified";
                 console.log(err)
@@ -42,7 +52,6 @@ class FindArtwork extends Component {
                 {this.state.loading && 
                 <div className={spinnerCenter}>    
                     <Loader 
-                     
                         type="Triangle"
                         color="#b0e0e6"
                         height="50"	

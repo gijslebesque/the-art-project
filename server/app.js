@@ -15,17 +15,17 @@ const passport       = require('passport');
 
 require('./config/passport.js');
 
-mongoose.connect('mongodb://localhost:27017/art-db', (err) => {
+mongoose.connect('mongodb://localhost:27017/art-db', { useNewUrlParser: true }, (err) => {
     if(err) console.log(err)
     else console.log("Connected")
 });
 
-
 app.use(session({
-    secret: 'much secret much cat',
+    secret: process.env.SECRET,
     resave: true,
     saveUninitialized: true
 }));
+
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -36,7 +36,7 @@ app.set('views', __dirname + '/views');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser('big old long secret'));
 
 if(process.env.ENV === "development"){
 	app.set('views', path.join(__dirname, 'views'));

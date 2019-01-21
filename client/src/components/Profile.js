@@ -1,4 +1,6 @@
 import React, {Component} from 'react';
+import AuthService from '../authenticate.js';
+import FindArtwork from './FindArtwork';
 
 
 class Profile extends Component  {
@@ -9,9 +11,12 @@ class Profile extends Component  {
                 username:props.username
             }
         }
+        this.service = new AuthService();
     }
   
     componentDidMount(){
+    //    this.service()
+
         console.log("rendered")
     }
 
@@ -20,6 +25,7 @@ class Profile extends Component  {
             <div className="profile">
                 <h1>Hello <br/>{this.state.user.username}</h1>
                 <h2>Your art</h2>
+                <FindArtwork method="findPersonalArtworks"/> 
                 <h2>Pending bids</h2>
             </div>    
         )

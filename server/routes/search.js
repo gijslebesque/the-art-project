@@ -14,4 +14,16 @@ router.get('/findRecentArtworks', function(req, res, next) {
 	});
 });
 
+router.get('/findPersonalArtworks', function(req, res, next) {
+
+	console.log(req.session.passport.user)
+	Artwork.find({_id: req.session.passport.user}, null, {skip:0, limit:10, sort: {date: -1}})
+	.populate('author', 'username favourite', )
+	.exec((err, result) => {
+		if(err) throw err;
+		console.log(result);
+		res.status(200).json(result)
+	});
+});
+
 module.exports = router;

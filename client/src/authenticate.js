@@ -1,10 +1,14 @@
 import axios from 'axios';
 require('dotenv').config();
 
+//const localIpHome = 'http://192.168.2.96:3001/api';
+//const localIpWork = 'http://10.85.5.196:3001/api';
+const localHost = 'http://localhost:3001/api';
+
 class AuthService {
 	constructor() {
 		this.service = axios.create({
-			baseURL: process.env.ENV === 'production' ? '/api' : 'http://10.85.5.196:3001/api', withCredentials: true
+			baseURL: process.env.ENV === 'production' ? '/api' : localHost, withCredentials: true
 		});
 		
 	}
@@ -58,6 +62,12 @@ class AuthService {
 		
 		findRecentArtWorks = () => {
 			return this.service.get('/findRecentArtworks')
+				.then(res => res)
+				.catch(this.errHandler);	
+		}
+
+		findPersonalArtWorks = () => {
+			return this.service.get('/findPersonalArtworks')
 				.then(res => res)
 				.catch(this.errHandler);	
 		}
