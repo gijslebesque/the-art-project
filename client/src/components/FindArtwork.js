@@ -10,7 +10,8 @@ class FindArtwork extends Component {
         super(props)
         this.state = {
             artworks:null,
-            loading:true
+            loading:true,
+            copy: "Recent artworks"
         }
         this.service = new AuthService();
     }
@@ -22,18 +23,20 @@ class FindArtwork extends Component {
                     if(res.status === 200) {
                         this.setState({
                             artworks: res.data,
-                            loading:false
+                            loading:false,
+                            copy: "Recent artworks"
                         });
                     } 
                 });
             break;
             case "findPersonalArtworks":
-            console.log("hi")
-            this.service.findPersonalArtWorks().then(res =>{
+            let token = JSON.parse(localStorage.getItem('jwtToken'));
+            this.service.findPersonalArtWorks(token).then(res =>{
                 if(res.status === 200) {
                     this.setState({
                         artworks: res.data,
-                        // loading:tr
+                         loading:false,
+                         copy: "Your art"
                     });
                 } 
             });
@@ -49,7 +52,7 @@ class FindArtwork extends Component {
         
         return(
             <div>
-                <h2>Recent artworks</h2>
+                <h2>{this.state.copy}</h2>
                 {this.state.loading && 
                 <div className={spinnerCenter}>    
                     <Loader 

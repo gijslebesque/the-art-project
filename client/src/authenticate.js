@@ -66,13 +66,12 @@ class AuthService {
 				.catch(this.errHandler);	
 		}
 
-		findPersonalArtWorks = () => {
-			return this.service.get('/findPersonalArtworks')
+		findPersonalArtWorks = token => {
+			return this.service.get('/findPersonalArtworks', { headers: {"Authorization" : `Bearer ${token}`}})
 				.then(res => res)
 				.catch(this.errHandler);	
 		}
-		getUserInfo = (token) => {
-			console.log(token)
+		getUserInfo = token => {
 			return this.service.get('/getUserInfo', { headers: {"Authorization" : `Bearer ${token}`}})
 				.then(res => res)
 				.catch(this.errHandler);	

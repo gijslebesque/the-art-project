@@ -31,7 +31,7 @@ class App extends Component {
 	}
 	componentWillMount(){
 		let user = JSON.parse(localStorage.getItem('user'));
-		console.log(user)
+	
 		if(user){
 			this.setState({
 				authed:true,
@@ -40,15 +40,15 @@ class App extends Component {
 		}		
 	}
 
-	toggleSideNav = (toggle) =>{
+	toggleSideNav = toggle =>{
 		this.setState({sideNaveOpen:toggle})
 	}
 	
-	toggleLoginModal = (toggle) =>{
+	toggleLoginModal = toggle =>{
 		this.setState({loginModalOpen:toggle})
 	}
 	
-	toggleUploadModal = (toggle) =>{
+	toggleUploadModal = toggle =>{
 		this.setState({uploadModalOpen:toggle})
 	}
 
