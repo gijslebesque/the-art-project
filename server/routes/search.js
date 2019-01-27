@@ -9,8 +9,7 @@ router.get('/findRecentArtworks', function(req, res, next) {
 	.populate('author', 'username favourite', )
 	.exec((err, result) => {
 		if(err) throw err;
-		console.log(result);
-		res.status(200).json(result)
+		res.status(200).json(result);
 	});
 });
 

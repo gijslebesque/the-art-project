@@ -29,6 +29,16 @@ class App extends Component {
 		}
 		this.service = new AuthService();
 	}
+	componentDidMount() {
+		let user = JSON.parse(localStorage.getItem('user'));
+		console.log(user)
+		if(user){
+			this.setState({
+				authed:true,
+				username:user.username
+			});
+		}
+	}
 
 	toggleSideNav = (toggle) =>{
 		this.setState({sideNaveOpen:toggle})
@@ -48,6 +58,12 @@ class App extends Component {
 		console.log(username)
       	this.service.login(username, password)
 			.then( res => {
+				console.log(res);
+				localStorage.setItem('jwtToken', JSON.stringify(res.token));
+
+				localStorage.setItem('user', JSON.stringify(res.user))
+
+
 				this.setState({
 					username:res.username,
 					authed:true,
@@ -92,7 +108,14 @@ class App extends Component {
 			}).catch( err => console.log(err));
 	}
 
-
+	getUserInfo = e => {
+		e.preventDefault();
+		let token = JSON.parse(localStorage.getItem('jwtToken'));
+		console.log(token)
+		this.service.getUserInfo(token).then(res =>{
+			console.log(res)
+		})
+	}
 
 	render() {
 		
@@ -137,7 +160,7 @@ class App extends Component {
 
       			</Switch>
 			
-		
+		<button onClick={e => {this.getUserInfo(e)}}>Click meee</button>
 			</main>
 			<Footer />
 

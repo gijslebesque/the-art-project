@@ -33,7 +33,7 @@ class AuthService {
 
 	register = (username, email, password) => {
 		return this.service.post('/register', {username, email, password})
-			.then(res => res.data)
+			.then(res => res)
 			.catch(this.errHandler);
 	}
 
@@ -71,8 +71,12 @@ class AuthService {
 				.then(res => res)
 				.catch(this.errHandler);	
 		}
+		getUserInfo = (token) => {
+			console.log(token)
+			return this.service.get('/getUserInfo', { headers: {"Authorization" : `Bearer ${token}`}})
+				.then(res => res)
+				.catch(this.errHandler);	
+		}
 }
-
-
 
 export default AuthService;

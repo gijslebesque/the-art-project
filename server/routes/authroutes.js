@@ -1,7 +1,6 @@
 const express    = require('express');
 const authRoutes = express.Router();
-const jwt = require('jsonwebtoken');
-
+const jwt        = require('../config/jwt');
 const passport   = require('passport');
 const bcrypt     = require('bcryptjs');
 
@@ -66,17 +65,14 @@ authRoutes.post('/login', (req, res, next) => {
             return;
         }
     
-        req.login(theUser, (err) => {
+        req.login(theUser, {session: false}, (err) => {
             if (err) {
                 res.status(500).json({ message: 'Something went wrong logging in' });
                 return;
             }
-
-            // working on jwt.
-            var token = jwt.sign({ id: req.user._id }, process.env.SECRET, {
-                expiresIn: 86400 // expires in 24 hours
-              });
-           // res.cookie('_userID', req.user._id, {signed: true})
+        
+            let token = jwt.generateToken(req.user);
+         
             res.status(200).json({user: req.user, token:token});
         });
     })(req, res, next);

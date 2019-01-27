@@ -18,6 +18,7 @@ class FindArtwork extends Component {
         switch(this.props.method) {
             case "findRecentArtworks":
                 this.service.findRecentArtWorks().then(res =>{
+               
                     if(res.status === 200) {
                         this.setState({
                             artworks: res.data,
