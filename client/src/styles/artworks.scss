@@ -1,9 +1,9 @@
+
 .artworks{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
     
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-between;
-     
       
      .ui.card {
         flex: 0 1 calc(100% - 1em);

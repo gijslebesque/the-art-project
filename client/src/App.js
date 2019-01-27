@@ -19,7 +19,7 @@ class App extends Component {
 	constructor(props){
 		super(props)
 		this.state = {
-			authed:false,
+			authed: false,
 			username:null,
 			loading: false,
 			sideNaveOpen: false,
@@ -29,7 +29,7 @@ class App extends Component {
 		}
 		this.service = new AuthService();
 	}
-	componentDidMount() {
+	componentWillMount(){
 		let user = JSON.parse(localStorage.getItem('user'));
 		console.log(user)
 		if(user){
@@ -37,7 +37,7 @@ class App extends Component {
 				authed:true,
 				username:user.username
 			});
-		}
+		}		
 	}
 
 	toggleSideNav = (toggle) =>{
