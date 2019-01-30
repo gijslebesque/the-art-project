@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import AuthService from '../authenticate.js';
 import Loader from 'react-loader-spinner';
-import Arworks from './Artworks.jsx';
 import {spinnerCenter} from '../styles/spinner.module.scss';
+import CardConstructor from './CardConstructor';
+
 
 
 class FindArtwork extends Component {
@@ -46,9 +47,29 @@ class FindArtwork extends Component {
                 break;
         }
     }
+
+    Artworks = () => {
+
+        let artworks = <p>There's nothing to show yet</p>
+        if(this.state.artworks) {
+            artworks = this.state.artworks.map((artwork, i) => {
+                return(
+                    <CardConstructor key={i} artwork={artwork}/>
+                )
+            })
+        }
+        return(
+            <div>
+                <div className="artworks">
+                    {artworks}
+                </div>
+            </div>
+            
+        );
+    }
     
     render(){
-        
+        let artworks = this.Artworks();
         return(
             <div>
                 {this.state.loading && 
@@ -62,7 +83,7 @@ class FindArtwork extends Component {
                     </div>
                 }
 
-                {this.state.artworks && <Arworks artworks={this.state.artworks}/>}
+                {artworks}
               
             </div>
         )
