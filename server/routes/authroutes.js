@@ -4,7 +4,6 @@ const jwt        = require('../config/jwt');
 const passport   = require('passport');
 const bcrypt     = require('bcryptjs');
 
-// the user model
 const User       = require('../models/User');
 
 authRoutes.post('/register', (req, res, next) => {
@@ -21,34 +20,34 @@ authRoutes.post('/register', (req, res, next) => {
     }
   
     User.findOne({ $or:[{username: username}, {email:email}] }, '_id', (err, foundUser) => {
-      if (foundUser) {
-        res.json({ message: 'There is already an account with this email address or username' });
-        return;
-      }
-  
-      const salt     = bcrypt.genSaltSync(10);
-      const hashPass = bcrypt.hashSync(password, salt);
-  
-      const theUser = new User({
-        username:username,
-        email:email,
-        password: hashPass
-      });
-  
-      theUser.save((err) => {   
-        if (err) {
-          res.json({ message: 'Something went wrong saving user to Database' });
-          return;
+        if (foundUser) {
+            res.json({ message: 'There is already an account with this email address or username' });
+            return;
         }
   
-        req.login(theUser, (err) => {
-          if (err) {
-            res.json({ message: 'Something went wrong with automatic login after signup' });
-            return;
-          }
-  
-          res.status(200).json(req.user);
+        const salt     = bcrypt.genSaltSync(10);
+        const hashPass = bcrypt.hashSync(password, salt);
+    
+        const theUser = new User({
+            username:username,
+            email:email,
+            password: hashPass
         });
+    
+        theUser.save((err) => {   
+            if (err) {
+            res.json({ message: 'Something went wrong saving user to Database' });
+            return;
+            }
+    
+            req.login(theUser, (err) => {
+                if (err) {
+                    res.json({ message: 'Something went wrong with automatic login after signup' });
+                    return;
+                }
+                let token = jwt.generateToken(req.user);
+                res.status(200).json({user: req.user, token:token});
+            });
         });
     });
 });
@@ -72,7 +71,6 @@ authRoutes.post('/login', (req, res, next) => {
             }
         
             let token = jwt.generateToken(req.user);
-         
             res.status(200).json({user: req.user, token:token});
         });
     })(req, res, next);
@@ -89,6 +87,11 @@ authRoutes.get('/loggedin', (req, res, next) => {
         return;
     }
     res.status(403).json({ message: 'Unauthorized' });
+});
+
+
+authRoutes.get('/getUserInfo', passport.authenticate('jwt', {session: false}), (req, res, next) => {
+    res.json(req.user);
 });
 
 

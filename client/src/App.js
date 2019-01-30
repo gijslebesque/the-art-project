@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Switch, Route, Redirect } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import Navbar from './components/Navbar.jsx';
 import Home from './components/Home.js';
 import SideNavNotLoggedIn from './components/SideNavNotLoggedIn.jsx';
@@ -8,7 +8,10 @@ import LoginModal from './components/LoginModal.js';
 import AuthService from './authenticate.js';
 import Profile from './components/Profile.js';
 import FileUpload from './components/FileUpload.js';
-import Footer from './components/Footer.jsx'
+import Footer from './components/Footer.jsx';
+import PrivateRoute from './components/PrivateRoute';
+import history from './history';
+
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faIgloo, faTimes, faGavel } from '@fortawesome/free-solid-svg-icons';
@@ -55,14 +58,11 @@ class App extends Component {
 	handleLoginSubmit = (e, input) => {
 		e.preventDefault();
 		const {username, password } = input;
-		console.log(username)
       	this.service.login(username, password)
 			.then( res => {
-				console.log(res);
 				localStorage.setItem('jwtToken', JSON.stringify(res.token));
 
 				localStorage.setItem('user', JSON.stringify(res.user))
-
 
 				this.setState({
 					username:res.username,
@@ -70,19 +70,8 @@ class App extends Component {
 					loginModalOpen:false
 				});
 				
-				console.log(res);
-				// if(!res.message){
-				// 	history.push("/tasks")
-				// }            
-				// else{
-				// 	this.setState(prevState => ({
-				// 		register: {
-				// 			...prevState.register,
-				// 			errorMessage: res.message
-				// 		}
-				// 	}))
-				// }
-
+				history.push('/profile')
+			
 			}).catch( err => console.log(err));
 	}
 
@@ -160,7 +149,6 @@ class App extends Component {
 
       			</Switch>
 			
-		<button onClick={e => {this.getUserInfo(e)}}>Click meee</button>
 			</main>
 			<Footer />
 
@@ -169,15 +157,5 @@ class App extends Component {
   	}
 }
 
-function PrivateRoute ({component: Component, authed, username, ...rest}) {
-	return (
-	  <Route
-		{...rest}
-		render={(props) => authed === true
-		  ? <Component {...props} username={username} />
-		  : <Redirect to={{pathname: '/', state: {from: props.location}}} />}
-	  />
-	)
-  }
 
 export default App;

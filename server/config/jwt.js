@@ -4,13 +4,14 @@ const jwtToken = {
     generateToken: user => {
         let u = {
             username: user.username,
-            email: user.email,
+            artworks: user.artworks,
+            favourite: user.favourite,
             _id: user._id.toString(),
         };
         return jwt.sign(u, process.env.SECRET, {
-            expiresIn: 60 * 60 * 24 // expires in 24 hours
-        });
-       
+            // expires in 24 hours
+            expiresIn: 60 * 60 * 24 
+        });  
     }
 }
 

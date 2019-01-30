@@ -43,7 +43,7 @@ class AuthService {
 			.catch(this.errHandler);
 	}
 
-	upload = (file, fileDescription) => {
+	upload = (file, fileDescription, token) => {
 		const formData = new FormData();
 		formData.append("picture", file);
 		for ( var key in fileDescription ) {
@@ -54,6 +54,7 @@ class AuthService {
 			.post('/photo-upload', formData, {
 				headers: {
 					'Content-Type': 'multipart/form-data',
+					"Authorization" : `Bearer ${token}`
 				},
 		  	})
 			.then(res => res.data)

@@ -8,8 +8,10 @@ class Profile extends Component  {
         super(props)
         this.state = {
             user: {
-                username:props.username
-            }
+                username:props.username,
+            },
+            showArtworks:false,
+            btnText: "Show my work"
         }
         this.service = new AuthService();
     }
@@ -19,13 +21,22 @@ class Profile extends Component  {
 
         console.log("rendered")
     }
-
+    showPersonalArtworks = e => {
+       this.setState({
+        showArtworks: !this.state.showArtworks,
+        btnText: "Hide my work"
+       });
+    }
     render() {
         return(
             <div className="profile">
                 <h1>Hello <br/>{this.state.user.username}</h1>
-                <FindArtwork method="findPersonalArtworks"/> 
                 <h2>Pending bids</h2>
+                <h2>Your works</h2>
+                <button className="btnPrimary" onClick={e => {this.showPersonalArtworks(e)}}>{this.state.btnText}</button>
+                {this.state.showArtworks && <FindArtwork method="findPersonalArtworks"/> }
+        
+            
             </div>    
         )
     }

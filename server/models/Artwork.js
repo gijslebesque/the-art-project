@@ -7,9 +7,14 @@ const ArtworkSchema = new Schema({
     author: {type: Schema.Types.ObjectId, ref: 'user'} ,
     artworkURL: String,
     artworkDescription: String,
-    bidAmount: Number,
-    bidder: {type: Schema.Types.ObjectId, ref: 'user'},
-    favouritised:Number
+    favouritised:Number,
+    auction: {
+        bidder: {type: Schema.Types.ObjectId, ref: 'user'},
+        originalPrice: Number,
+        endDate: Date,
+        bid: Number,
+    },
+  
     },
     {
         timestamps: true

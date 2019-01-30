@@ -10,6 +10,7 @@ class Home extends Component {
         		<div className="hero">
         			<h1>The <br/>Art <br/> Project</h1>
     			</div> 
+				<h2>Recent artworks</h2>
 				<FindArtwork method="findRecentArtworks"/> 
     		</div>
       	);

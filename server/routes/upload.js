@@ -1,40 +1,64 @@
-const express = require('express');
-const router = express.Router();
-const Artwork = require('../models/Artwork');
-const User = require('../models/User');
-
-const parser = require('../config/cloudinary');
-
-// This route finds the first user, takes the file from the request with the key 'picture' and save the 'pictureUrl'
+const express 	= require('express');
+const router	= express.Router();
+const passport 	= require('passport');
+const User 		= require('../models/User');
+const Artwork 	= require('../models/Artwork');
+const parser 	= require('../config/cloudinary');
 
 
-router.post('/photo-upload', parser.single('picture'), (req, res, next) => {
+router.post('/photo-upload', passport.authenticate('jwt', {session: false}), parser.single('picture'), (req, res, next) => {
 	
-	if(!req.session.passport.user){
-		res.status(403).json("You must be logged in to upload a photo");
-		return;
-	}
 	const {artworkName, artworkDescription, artworkPrice} = req.body;
+
+	let endDate = new Date(req.body.endDate);
 	
 	const newArtwork = new Artwork({
 		artworkName:artworkName,
-  		author: req.session.passport.user,
+  		author: req.user._id,
 		artworkURL: req.file.url,
 		artworkDescription: artworkDescription,
- 		bidAmount: artworkPrice
+		auction: {
+			originalPrice: artworkPrice,
+			endDate: endDate,
+		},
 	});
 	
 	Artwork.create(newArtwork, (err, savedArtwork) => {
-		if(err) res.status(500).json("You must be logged in to upload a photo");
-		User.findOneAndUpdate({_id: req.session.passport.user}, { $push:{artworks: savedArtwork._id} }, (err, updatedUser) =>{
-			if(err) res.status(500).json("You must be logged in to upload a photo");
+		if(err) throw err;
+		User.findOneAndUpdate({_id: req.user._id}, { $push:{artworks: savedArtwork._id} }, (err, updatedUser) =>{
+			if(err) throw err;
 			debugger;
 			res.status(200).json({
 				success: true,
-				pictureUrl: req.file.url
-			  });
+				savedArtwork: savedArtwork
+			});
 		});
 	});
 })
 
 module.exports = router;
+
+
+
+/*
+
+function greatestProduct(arr){
+  let allProducts = [];
+
+  for(let j = 0; j<arr.length; j++){
+    for(let i = 0; i<arr[j].length-3; i++){
+      allProducts.push(arr[j][i] * arr[j][i+1] * arr[j][i+2] * arr[j][i+3])
+    }
+  } 
+
+  for(let h = 0; h<arr.length; h++){
+    for(let i = 0; i<arr[h].length-3; i++){
+      allProducts.push(arr[i][h] * arr[i+1][h] * arr[i+2][h] * arr[i+3][h])
+    }
+  }
+
+return( Math.max(...allProducts) )
+}
+
+
+*/

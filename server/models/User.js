@@ -1,6 +1,4 @@
 const mongoose = require('mongoose');
-const bcrypt = require('bcryptjs');
-
 const { Schema } = mongoose;
 
 const UsersSchema = new Schema(
@@ -18,7 +16,6 @@ const UsersSchema = new Schema(
     }
 });
 
-
-var User = mongoose.model('user', UsersSchema);
+const User = mongoose.model('user', UsersSchema);
 
 module.exports = User;

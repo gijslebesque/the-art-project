@@ -68,10 +68,6 @@ app.use('/api', searchRoutes);
 const uploadroutes = require('./routes/upload')
 app.use('/api', uploadroutes);
 
-app.use('/api/getUserInfo', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-    res.json(req.user);
-});
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
     next(createError(404));

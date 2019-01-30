@@ -10,11 +10,11 @@ class FindArtwork extends Component {
         super(props)
         this.state = {
             artworks:null,
-            loading:true,
-            copy: "Recent artworks"
+            loading:true
         }
         this.service = new AuthService();
     }
+
     componentDidMount() {
         switch(this.props.method) {
             case "findRecentArtworks":
@@ -23,36 +23,34 @@ class FindArtwork extends Component {
                     if(res.status === 200) {
                         this.setState({
                             artworks: res.data,
-                            loading:false,
-                            copy: "Recent artworks"
+                            loading:false
                         });
                     } 
                 });
             break;
             case "findPersonalArtworks":
-            let token = JSON.parse(localStorage.getItem('jwtToken'));
-            this.service.findPersonalArtWorks(token).then(res =>{
-                if(res.status === 200) {
-                    this.setState({
-                        artworks: res.data,
-                         loading:false,
-                         copy: "Your art"
-                    });
-                } 
-            });
-        break;
+                let token = JSON.parse(localStorage.getItem('jwtToken'));
+                this.service.findPersonalArtWorks(token).then(res =>{
+                    if(res.status === 200) {
+                        this.setState({
+                            artworks: res.data,
+                            loading:false
+                        });
+                    } 
+                });
+            break;
             default:
                 const err = "no method specified";
                 console.log(err)
                 //throw err
                 break;
-          }
+        }
     }
+    
     render(){
         
         return(
             <div>
-                <h2>{this.state.copy}</h2>
                 {this.state.loading && 
                 <div className={spinnerCenter}>    
                     <Loader 

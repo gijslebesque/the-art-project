@@ -13,11 +13,11 @@ const Navbar = props => {
 				<span></span>
 			</div>
 			
-
 			<form action="">
 				<input type="text" placeholder="Search ..."/>
 			</form>
-			<FontAwesomeIcon 
+			<FontAwesomeIcon
+				className={styles.logo} 
 				icon="gavel" 
 				size="1x" 
 				style={{ transform: "scaleX(-1)"}}
