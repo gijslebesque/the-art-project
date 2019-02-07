@@ -10,7 +10,8 @@ class LoginModal extends Component {
     constructor(props){
         super(props)
         this.state = {
-            loading:false,
+            loading: props.loading,
+            errorMessage:null,
             login: {
 				username: "",
 				password: ""
@@ -42,19 +43,28 @@ class LoginModal extends Component {
         	}
     	}));
     }
-    
-
+    hasErrored = () =>{
+        console.log("rr",this.props.errorMessage)
+        if(this.props.errorMessage){
+            this.setState({
+                loading:false,
+                errorMessage: <p>this.props.errorMessage</p>
+            })
+        }
+    }
+ 
 	render() {
        
     	return (
             <Modal open={this.props.isOpen} onClose={ e =>{this.props.toggleLoginModal(false)}}>
              <h3>Login</h3>
-                     <form onSubmit={e => {
-                             this.setState({loading:true})
-                         this.props.handleLoginSubmit(e, this.state.login)}}>
-                         <input type="text" placeholder="Username" name="username" onChange={this.handleChangeLogin} value={this.state.login.username}/>
-                         <input type="Password" placeholder="Password" name="password" onChange={this.handleChangeLogin} value={this.state.login.password}/>
-                         <Button type="submit" text="Login"/>
+             {this.state.errorMessage}
+                    <form onSubmit={e => {
+                        this.setState({loading:true})
+                        this.props.handleLoginSubmit(e, this.state.login)}}>
+                        <input type="text" placeholder="Username" name="username" onChange={this.handleChangeLogin} value={this.state.login.username}/>
+                        <input type="Password" placeholder="Password" name="password" onChange={this.handleChangeLogin} value={this.state.login.password}/>
+                        <Button type="submit" text="Login"/>
                       
                     </form>
 

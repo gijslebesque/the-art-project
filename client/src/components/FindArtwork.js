@@ -20,7 +20,7 @@ class FindArtwork extends Component {
         switch(this.props.method) {
             case "findRecentArtworks":
                 this.service.findRecentArtWorks().then(res =>{
-               
+                 
                     if(res.status === 200) {
                         this.setState({
                             artworks: res.data,
@@ -51,6 +51,7 @@ class FindArtwork extends Component {
     Artworks = () => {
 
         let artworks = <p>There's nothing to show yet</p>
+        console.log(this.state.artworks)
         if(this.state.artworks) {
             artworks = this.state.artworks.map((artwork, i) => {
                 return(

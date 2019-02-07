@@ -28,6 +28,7 @@ class App extends Component {
 			sideNaveOpen: false,
 			loginModalOpen: false,
 			uploadModalOpen:false,
+			errorMessage:null
 			
 		}
 		this.service = new AuthService();
@@ -72,7 +73,13 @@ class App extends Component {
 				
 				history.push('/profile')
 			
-			}).catch( err => console.log(err));
+			}).catch( err => {
+				console.log("ERROR") 
+				this.setState({
+					loading:true,
+					errorMessage:err
+					})
+				});
 	}
 
 	handleRegisterSubmit = (e, input) => {
@@ -131,6 +138,7 @@ class App extends Component {
 					<main>
 
 				<LoginModal 
+					errorMessage={this.state.errorMessage}
 					toggleLoginModal={this.toggleLoginModal} 
 					isOpen={this.state.loginModalOpen} 
 					handleLoginSubmit={this.handleLoginSubmit}
