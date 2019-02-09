@@ -3,6 +3,7 @@ import AuthService from '../authenticate.js';
 //import Loader from 'react-loader-spinner';
 import styles from '../styles/spinner.module.scss';
 import CardConstructor from './CardConstructor';
+import  helpers from '../helpers';
 
 interface IState {
     artworks:any
@@ -38,6 +39,11 @@ class FindArtwork extends Component <any, IState> {
             break;
             case "findPersonalArtworks":
                 let token = JSON.parse(localStorage.getItem('jwtToken') || '{}');
+                //Not authorised            
+                if(helpers.isEmpty(token)){
+                    return false;
+                }
+                
                 this.service.findPersonalArtWorks(token).then((res:any) =>{
                     if(res.status === 200) {
                         this.setState({

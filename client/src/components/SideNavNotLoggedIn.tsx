@@ -14,7 +14,7 @@ const sideNav = (props:any) => {
 
         <div>
             <div className={`${styles.sideNav} ${cssClass}`}>
-            <div  style={{float:"right"}}  onClick={e => {props.toggleSideNav(false)}}>
+            <div  style={{float:"right"}}  onClick={ () => {props.toggleSideNav(false)}}>
                 <FontAwesomeIcon 
                     icon="times" 
                     size="2x" 

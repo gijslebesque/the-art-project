@@ -12,6 +12,7 @@ import Footer from './components/Footer';
 import PrivateRoute from './components/PrivateRoute';
 import history from './history';
 
+import  helpers from './helpers';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faIgloo, faTimes, faGavel } from '@fortawesome/free-solid-svg-icons';
@@ -48,19 +49,11 @@ class App extends Component <any, IState> {
 		this.service = new AuthService();
 	}
 
-
-	isEmpty = (obj:object) =>{
-		for(var key in obj) {
-			if(obj.hasOwnProperty(key))
-				return false;
-		}
-		return true;
-	}
 	componentWillMount(){
 		let user = JSON.parse(localStorage.getItem('user') || "{}" );
 		
 		console.log(user)
-		if(!this.isEmpty(user)){
+		if(!helpers.isEmpty(user)){
 			console.log("hoi")
 			this.setState({
 				authed:true,
