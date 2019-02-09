@@ -3,7 +3,7 @@ import '../styles/hero.scss';
 import FindArtwork from './FindArtwork';
 
 
-class Home extends Component {
+export default class Home extends Component {
 	render() {
     	return (
     		<div className="Home">
@@ -16,6 +16,4 @@ class Home extends Component {
       	);
     }
 }
-  
-export default Home;
   

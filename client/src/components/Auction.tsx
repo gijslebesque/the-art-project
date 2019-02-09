@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 
-class Auction extends Component {
+export default class Auction extends Component<any, any> {
     
-    constructor(props){
+    constructor(props:any){
         super(props)
         this.state = {
             loading:true,
@@ -25,5 +25,3 @@ class Auction extends Component {
         );
     }
 }
-
-export default Auction;

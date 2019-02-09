@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
-const sideNav = props => {
+const sideNav = (props:any) => {
     let cssClass = "";
     if(props.isOpen){
         cssClass = styles.open;
@@ -14,12 +14,12 @@ const sideNav = props => {
 
         <div>
             <div className={`${styles.sideNav} ${cssClass}`}>
+            <div  style={{float:"right"}}  onClick={ () => {props.toggleSideNav(false)}}>
                 <FontAwesomeIcon 
                     icon="times" 
                     size="2x" 
-                    style={{float:"right"}} 
-                    onClick={e => {props.toggleSideNav(false)}}
                 />
+                </div>
                 <div className={styles.navigation}>
                     <Link to="/">Home</Link>
                     <button className={styles.linkBtn} onClick={e =>{

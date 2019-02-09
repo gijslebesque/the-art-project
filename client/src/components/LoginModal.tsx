@@ -1,15 +1,42 @@
 import React, {Component} from 'react';
 import '../styles/modal.scss';
 import '../styles/form.scss';
-import Button from './Button.jsx';
+import Button from './Button';
 import Modal from 'react-responsive-modal';
-import Loader from 'react-loader-spinner';
-import {spinnerCenterOverlay} from '../styles/spinner.module.scss';
+// import Loader from 'react-loader-spinner';
+import styles from '../styles/spinner.module.scss';
 
-class LoginModal extends Component {
-    constructor(props){
+interface IProps {
+    errorMessage:any;
+    isOpen:any;
+    toggleLoginModal:any;
+    handleRegisterSubmit:any;
+    handleLoginSubmit:any;
+}
+
+
+interface IState {
+    styles:any
+    loading: boolean;
+    errorMessage:any;
+    login: {
+        username: string,
+        password: string
+    },
+    register: {
+        username: string
+        email: string
+        password: string
+    }
+}
+
+
+
+class LoginModal extends Component <IProps, IState> {
+    constructor(props:any){
         super(props)
         this.state = {
+            styles:styles,
             loading: props.loading,
             errorMessage:null,
             login: {
@@ -24,7 +51,7 @@ class LoginModal extends Component {
         }
     }
 
-    handleChangeLogin = e => {
+    handleChangeLogin = (e:any) => {
         const {name, value} = e.target;
         this.setState(prevState => ({
         	login: {
@@ -34,7 +61,7 @@ class LoginModal extends Component {
       	}));
     }
   
-    handleChangeRegister = e => {
+    handleChangeRegister = (e:any) => {
     	const {name, value} = e.target;
     		this.setState(prevState => ({
         	register: {
@@ -56,7 +83,7 @@ class LoginModal extends Component {
 	render() {
        
     	return (
-            <Modal open={this.props.isOpen} onClose={ e =>{this.props.toggleLoginModal(false)}}>
+            <Modal open={this.props.isOpen} onClose={ () =>{this.props.toggleLoginModal(false)}}>
              <h3>Login</h3>
              {this.state.errorMessage}
                     <form onSubmit={e => {
@@ -78,13 +105,13 @@ class LoginModal extends Component {
                          <Button type="submit" text="Register"/>
                     
                      </form>
-                     {this.state.loading && <div className={spinnerCenterOverlay}>    
-                    <Loader 
+                     {this.state.loading && <div className={styles.spinnerCenterOverlay}>    
+                    {/* <Loader 
                     	type="Triangle"
                         color="#b0e0e6"
                         height="50"	
                         width="50"
-                    /> 
+                    />  */}
 					<p>One moment...</p>
                     </div>}
             

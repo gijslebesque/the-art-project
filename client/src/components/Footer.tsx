@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/footer.scss';
 
-const footer = props => {
+const footer = (props:any) => {
     return(
         <footer>
             <h2>Contact</h2>
