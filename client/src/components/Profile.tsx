@@ -3,8 +3,9 @@ import AuthService from '../authenticate.js';
 import FindArtwork from './FindArtwork';
 
 
-class Profile extends Component  {
-    constructor(props){
+class Profile extends Component<any, any>  {
+    service:any;
+    constructor(props:any){
         super(props)
         this.state = {
             user: {
@@ -21,7 +22,7 @@ class Profile extends Component  {
 
         console.log("rendered")
     }
-    showPersonalArtworks = e => {
+    showPersonalArtworks = (e:any) => {
        this.setState({
         showArtworks: !this.state.showArtworks,
         btnText: "Hide my work"

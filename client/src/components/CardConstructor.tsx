@@ -2,16 +2,25 @@ import React, {Component} from 'react';
 import '../styles/artworks.scss';
 import { Card, Icon, Image } from 'semantic-ui-react';
 
+interface IState {
+    timer: number
+}
 
-class CardConstructor extends Component {
-    constructor(props) {
+
+interface IProps {
+    artwork:any
+}
+
+
+export default class CardConstructor extends Component <IProps, IState>{
+    constructor(props:any) {
         super(props);
         this.state = {
             timer: 0
         }
     }
-
-    auctionTimer(endDate){
+    //check if actually string
+    auctionTimer(endDate:string){
         let sliced = endDate.slice(0, endDate.indexOf("T"))
         
         let deadline = new Date(sliced).getTime();
@@ -45,6 +54,4 @@ class CardConstructor extends Component {
             </Card>
         )
     }
-}
-
-export default CardConstructor;
+} 

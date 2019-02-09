@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Navbar from './components/Navbar.jsx';
-import Home from './components/Home.js';
-import SideNavNotLoggedIn from './components/SideNavNotLoggedIn.jsx';
-import SideNavLoggedIn from './components/SideNavLoggedIn.jsx';
-import LoginModal from './components/LoginModal.js';
+import Navbar from './components/Navbar';
+import Home from './components/Home';
+import SideNavNotLoggedIn from './components/SideNavNotLoggedIn';
+import SideNavLoggedIn from './components/SideNavLoggedIn';
+import LoginModal from './components/LoginModal';
 import AuthService from './authenticate.js';
-import Profile from './components/Profile.js';
-import FileUpload from './components/FileUpload.js';
-import Footer from './components/Footer.jsx';
+import Profile from './components/Profile';
+import FileUpload from './components/FileUpload';
+import Footer from './components/Footer';
 import PrivateRoute from './components/PrivateRoute';
 import history from './history';
 
@@ -19,34 +19,24 @@ import { faIgloo, faTimes, faGavel } from '@fortawesome/free-solid-svg-icons';
 library.add(faIgloo, faTimes, faGavel);
 
 
-
-// interface IProps{
-// 	props:any
+interface IState{
+	authed: boolean;
+	username:string;
+	loading: boolean;
+	sideNaveOpen: boolean;
+	loginModalOpen: boolean;
+	uploadModalOpen:boolean;
+	errorMessage: any;
 	
-// }
+}
 
-
-// interface IState{
-// 	service:any,
-// 	authed: boolean,
-// 	username:null,
-// 	loading: boolean,
-// 	sideNaveOpen: boolean,
-// 	loginModalOpen: boolean,
-// 	uploadModalOpen:boolean,
-// 	errorMessage: null
-	
-// }
-
-
-
-class App extends Component <any, any> {
+class App extends Component <any, IState> {
 	service:any;
 	public constructor(props:any){
 		super(props)
 		this.state = {
 			authed: false,
-			username:null,
+			username:"",
 			loading: false,
 			sideNaveOpen: false,
 			loginModalOpen: false,
@@ -57,11 +47,21 @@ class App extends Component <any, any> {
 
 		this.service = new AuthService();
 	}
+
+
+	isEmpty = (obj:object) =>{
+		for(var key in obj) {
+			if(obj.hasOwnProperty(key))
+				return false;
+		}
+		return true;
+	}
 	componentWillMount(){
 		let user = JSON.parse(localStorage.getItem('user') || "{}" );
 		
-	
-		if(user){
+		console.log(user)
+		if(!this.isEmpty(user)){
+			console.log("hoi")
 			this.setState({
 				authed:true,
 				username:user.username

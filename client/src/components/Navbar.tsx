@@ -2,7 +2,7 @@ import React from 'react';
 import styles from '../styles/navbar.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const Navbar = props => {
+const Navbar = (props:any) => {
 		
 	return (
 

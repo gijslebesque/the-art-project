@@ -1,17 +1,24 @@
 import React, {Component} from 'react';
 import AuthService from '../authenticate.js';
-import Loader from 'react-loader-spinner';
-import {spinnerCenter} from '../styles/spinner.module.scss';
+//import Loader from 'react-loader-spinner';
+import styles from '../styles/spinner.module.scss';
 import CardConstructor from './CardConstructor';
 
+interface IState {
+    artworks:any
+    loading:boolean,
+    styles:any
+} 
 
-
-class FindArtwork extends Component {
-    constructor(props){
+class FindArtwork extends Component <any, IState> {
+    service:any;
+   
+    constructor(props:any){
         super(props)
         this.state = {
             artworks:null,
-            loading:true
+            loading:true,
+            styles:styles
         }
         this.service = new AuthService();
     }
@@ -19,7 +26,7 @@ class FindArtwork extends Component {
     componentDidMount() {
         switch(this.props.method) {
             case "findRecentArtworks":
-                this.service.findRecentArtWorks().then(res =>{
+                this.service.findRecentArtWorks().then((res:any) =>{
                  
                     if(res.status === 200) {
                         this.setState({
@@ -30,8 +37,8 @@ class FindArtwork extends Component {
                 });
             break;
             case "findPersonalArtworks":
-                let token = JSON.parse(localStorage.getItem('jwtToken'));
-                this.service.findPersonalArtWorks(token).then(res =>{
+                let token = JSON.parse(localStorage.getItem('jwtToken') || '{}');
+                this.service.findPersonalArtWorks(token).then((res:any) =>{
                     if(res.status === 200) {
                         this.setState({
                             artworks: res.data,
@@ -41,9 +48,10 @@ class FindArtwork extends Component {
                 });
             break;
             default:
-                const err = "no method specified";
-                console.log(err)
-                //throw err
+                
+                const err = "no method specified" ;
+                console.log(err);
+            
                 break;
         }
     }
@@ -53,7 +61,7 @@ class FindArtwork extends Component {
         let artworks = <p>There's nothing to show yet</p>
         console.log(this.state.artworks)
         if(this.state.artworks) {
-            artworks = this.state.artworks.map((artwork, i) => {
+            artworks = this.state.artworks.map((artwork:any, i:number) => {
                 return(
                     <CardConstructor key={i} artwork={artwork}/>
                 )
@@ -74,13 +82,15 @@ class FindArtwork extends Component {
         return(
             <div>
                 {this.state.loading && 
-                <div className={spinnerCenter}>    
-                    <Loader 
+
+                <div className={styles.spinnerCenter}>    
+               
+                    {/* <Loader 
                         type="Triangle"
                         color="#b0e0e6"
                         height="50"	
                         width="50"
-                    /> 
+                    />  */}
                     </div>
                 }
 
