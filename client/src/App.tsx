@@ -18,8 +18,31 @@ import { faIgloo, faTimes, faGavel } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faIgloo, faTimes, faGavel);
 
-class App extends Component {
-	constructor(props){
+
+
+// interface IProps{
+// 	props:any
+	
+// }
+
+
+// interface IState{
+// 	service:any,
+// 	authed: boolean,
+// 	username:null,
+// 	loading: boolean,
+// 	sideNaveOpen: boolean,
+// 	loginModalOpen: boolean,
+// 	uploadModalOpen:boolean,
+// 	errorMessage: null
+	
+// }
+
+
+
+class App extends Component <any, any> {
+	service:any;
+	public constructor(props:any){
 		super(props)
 		this.state = {
 			authed: false,
@@ -31,10 +54,12 @@ class App extends Component {
 			errorMessage:null
 			
 		}
+
 		this.service = new AuthService();
 	}
 	componentWillMount(){
-		let user = JSON.parse(localStorage.getItem('user'));
+		let user = JSON.parse(localStorage.getItem('user') || "{}" );
+		
 	
 		if(user){
 			this.setState({
@@ -44,23 +69,23 @@ class App extends Component {
 		}		
 	}
 
-	toggleSideNav = toggle =>{
+	toggleSideNav = (toggle:boolean) =>{
 		this.setState({sideNaveOpen:toggle})
 	}
 	
-	toggleLoginModal = toggle =>{
+	toggleLoginModal = (toggle:boolean) =>{
 		this.setState({loginModalOpen:toggle})
 	}
 	
-	toggleUploadModal = toggle =>{
+	toggleUploadModal = (toggle:boolean) =>{
 		this.setState({uploadModalOpen:toggle})
 	}
 
-	handleLoginSubmit = (e, input) => {
+	handleLoginSubmit = (e:any, input:any) => {
 		e.preventDefault();
 		const {username, password } = input;
       	this.service.login(username, password)
-			.then( res => {
+			.then( (res:any) => {
 				localStorage.setItem('jwtToken', JSON.stringify(res.token));
 
 				localStorage.setItem('user', JSON.stringify(res.user))
@@ -73,7 +98,7 @@ class App extends Component {
 				
 				history.push('/profile')
 			
-			}).catch( err => {
+			}).catch( (err:any) => {
 				console.log("ERROR") 
 				this.setState({
 					loading:true,
@@ -82,12 +107,12 @@ class App extends Component {
 				});
 	}
 
-	handleRegisterSubmit = (e, input) => {
+	handleRegisterSubmit = (e:any, input:any) => {
 		e.preventDefault();
 		const {username, email, password } = input;
 		console.log(username)
       	this.service.register(username, email, password)
-			.then( res => {
+			.then( (res:any) => {
 				console.log(res);
 				// if(!res.message){
 				// 	history.push("/tasks")
@@ -101,14 +126,14 @@ class App extends Component {
 				// 	}))
 				// }
 
-			}).catch( err => console.log(err));
+			}).catch( (err:any) => console.log(err));
 	}
 
-	getUserInfo = e => {
+	getUserInfo = (e:any) => {
 		e.preventDefault();
-		let token = JSON.parse(localStorage.getItem('jwtToken'));
+		let token = JSON.parse(localStorage.getItem('jwtToken') || "{}")
 		console.log(token)
-		this.service.getUserInfo(token).then(res =>{
+		this.service.getUserInfo(token).then((res:any) =>{
 			console.log(res)
 		})
 	}
