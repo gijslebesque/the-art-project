@@ -2,14 +2,12 @@ import React, {Component} from 'react';
 import Button from './Button';
 import AuthService from '../authenticate.js';
 import Modal from 'react-responsive-modal';
-// import Loader from 'react-loader-spinner';
+import Loader from 'react-loader-spinner';
 import styles from '../styles/spinner.module.scss';
 
 interface IProps {
 	isOpen:boolean;
 	toggleUploadModal:any;
-
-
 }
 
 interface IState {
@@ -115,12 +113,12 @@ class FileUpload extends Component <IProps, IState> {
 				</form>
 			{this.state.loading &&  
 				<div className={styles.spinnerCenterOverlay}>    
-                    {/* <Loader 
+                    <Loader 
                     	type="Triangle"
                         color="#b0e0e6"
                         height="50"	
                         width="50"
-                    />  */}
+                    />
 					<p>Uploading...</p>
 				</div>}
 

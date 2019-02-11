@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import AuthService from '../authenticate.js';
-//import Loader from 'react-loader-spinner';
+import Loader from 'react-loader-spinner';
 import styles from '../styles/spinner.module.scss';
 import CardConstructor from './CardConstructor';
 import  helpers from '../helpers';
@@ -91,12 +91,12 @@ class FindArtwork extends Component <any, IState> {
 
                 <div className={styles.spinnerCenter}>    
                
-                    {/* <Loader 
+                     <Loader 
                         type="Triangle"
                         color="#b0e0e6"
                         height="50"	
                         width="50"
-                    />  */}
+                    />
                     </div>
                 }
 
