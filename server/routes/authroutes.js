@@ -10,12 +10,12 @@ authRoutes.post('/register', (req, res, next) => {
     const {username, email, password } = req.body;
 
     if (!username || !password || !email) {
-      res.json({ message: 'Provide username and password' });
+      res.status(411).json({ message: 'Provide username and password' });
       return;
     }
 
     if(password.length < 7){
-        res.json({ message: 'Please make your password at least 7 characters long for secutiry purposes.' });
+        res.status(411).json({ message: 'Please make your password at least 7 characters long for secutiry purposes.' });
         return;
     }
   

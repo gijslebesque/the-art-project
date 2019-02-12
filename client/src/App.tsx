@@ -19,6 +19,9 @@ import { faIgloo, faTimes, faGavel } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faIgloo, faTimes, faGavel);
 
+// interface IProps {
+// 	prevProps:any
+// }
 
 interface IState{
 	authed: boolean;
@@ -27,11 +30,12 @@ interface IState{
 	sideNaveOpen: boolean;
 	loginModalOpen: boolean;
 	uploadModalOpen:boolean;
-	errorMessage: any;
+	errorMessageLogin: any;
+	errorMessageRegister:any;
 	
 }
 
-class App extends Component <any, IState> {
+class App extends Component <{}, IState> {
 	service:any;
 	public constructor(props:any){
 		super(props)
@@ -42,7 +46,8 @@ class App extends Component <any, IState> {
 			sideNaveOpen: false,
 			loginModalOpen: false,
 			uploadModalOpen:false,
-			errorMessage:null
+			errorMessageLogin:null,
+			errorMessageRegister:null
 			
 		}
 
@@ -50,8 +55,9 @@ class App extends Component <any, IState> {
 	}
 
 	componentWillMount(){
+		debugger
 		let user = JSON.parse(localStorage.getItem('user') || "{}" );
-		
+		debugger;
 		console.log(user)
 		if(!helpers.isEmpty(user)){
 			console.log("hoi")
@@ -94,8 +100,8 @@ class App extends Component <any, IState> {
 			}).catch( (err:any) => {
 				console.log("ERROR") 
 				this.setState({
-					loading:true,
-					errorMessage:err
+					loading:false,
+					errorMessageLogin:err
 					})
 				});
 	}
@@ -104,22 +110,29 @@ class App extends Component <any, IState> {
 		e.preventDefault();
 		const {username, email, password } = input;
 		console.log(username)
+		this.setState({loading:true})
       	this.service.register(username, email, password)
 			.then( (res:any) => {
-				console.log(res);
-				// if(!res.message){
-				// 	history.push("/tasks")
-				// }            
-				// else{
-				// 	this.setState(prevState => ({
-				// 		register: {
-				// 			...prevState.register,
-				// 			errorMessage: res.message
-				// 		}
-				// 	}))
-				// }
 
-			}).catch( (err:any) => console.log(err));
+				//Not SURE YET
+				localStorage.setItem('jwtToken', JSON.stringify(res.token));
+
+				localStorage.setItem('user', JSON.stringify(res.user))
+
+				this.setState({
+					username:res.username,
+					authed:true,
+					loginModalOpen:false
+				});
+
+
+			}).catch( (err:any) => {
+			
+				this.setState({
+					loading:false,
+					errorMessageRegister:err
+					})
+			});
 	}
 
 	getUserInfo = (e:any) => {
@@ -153,27 +166,29 @@ class App extends Component <any, IState> {
 					toggleLoginModal={this.toggleLoginModal}
 					toggleUploadModal={this.toggleUploadModal}
 				/>}
-					<main>
+				<main>
 
-				<LoginModal 
-					errorMessage={this.state.errorMessage}
-					toggleLoginModal={this.toggleLoginModal} 
-					isOpen={this.state.loginModalOpen} 
-					handleLoginSubmit={this.handleLoginSubmit}
-					handleRegisterSubmit={this.handleRegisterSubmit}
-				/>
-				{this.state.uploadModalOpen && <FileUpload 
-					toggleUploadModal={this.toggleUploadModal} 
-					isOpen={this.state.uploadModalOpen} 
-				
-				/>}
+					<LoginModal 
+						loading={this.state.loading}
+						errorMessageLogin={this.state.errorMessageLogin}
+						errorMessageRegister={this.state.errorMessageRegister}
+						toggleLoginModal={this.toggleLoginModal} 
+						isOpen={this.state.loginModalOpen} 
+						handleLoginSubmit={this.handleLoginSubmit}
+						handleRegisterSubmit={this.handleRegisterSubmit}
+					/>
+					{this.state.uploadModalOpen && <FileUpload 
+						toggleUploadModal={this.toggleUploadModal} 
+						isOpen={this.state.uploadModalOpen} 
+					
+					/>}
 
-				<Switch>
-        			<Route exact path='/' component={Home}/>
-				
-					<PrivateRoute authed={this.state.authed} username={this.state.username} exact path='/profile' component={Profile} />
+					<Switch>
+						<Route exact path='/' component={Home}/>
+					
+						<PrivateRoute authed={this.state.authed} username={this.state.username} exact path='/profile' component={Profile} />
 
-      			</Switch>
+					</Switch>
 			
 			</main>
 			<Footer />

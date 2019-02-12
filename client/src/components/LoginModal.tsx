@@ -3,20 +3,22 @@ import '../styles/modal.scss';
 import '../styles/form.scss';
 import Button from './Button';
 import Modal from 'react-responsive-modal';
-// import Loader from 'react-loader-spinner';
+import Loader from 'react-loader-spinner';
 import styles from '../styles/spinner.module.scss';
+import modalBody from '../styles/modal.module.scss';
 
 interface IProps {
-    errorMessage:any;
+    errorMessageLogin:any;
+    errorMessageRegister:any;
+    loading:boolean;
     isOpen:any;
     toggleLoginModal:any;
     handleRegisterSubmit:any;
     handleLoginSubmit:any;
 }
 
-
 interface IState {
-    styles:any
+    styles:any;
     loading: boolean;
     errorMessage:any;
     login: {
@@ -30,15 +32,15 @@ interface IState {
     }
 }
 
-
-
 class LoginModal extends Component <IProps, IState> {
+    modalBody:any;
+
     constructor(props:any){
         super(props)
         this.state = {
             styles:styles,
             loading: props.loading,
-            errorMessage:null,
+            errorMessage: props.errorMessage,
             login: {
 				username: "",
 				password: ""
@@ -50,6 +52,11 @@ class LoginModal extends Component <IProps, IState> {
 			}
         }
     }
+
+    // componentDidUpdate(prevProps:any, prevState:any, snapshot:any){
+	// 	console.log("Howdy", prevProps, prevState, snapshot);
+	// //	debugger;
+	// }
 
     handleChangeLogin = (e:any) => {
         const {name, value} = e.target;
@@ -70,22 +77,16 @@ class LoginModal extends Component <IProps, IState> {
         	}
     	}));
     }
-    hasErrored = () =>{
-        console.log("rr",this.props.errorMessage)
-        if(this.props.errorMessage){
-            this.setState({
-                loading:false,
-                errorMessage: <p>this.props.errorMessage</p>
-            })
-        }
-    }
+
  
 	render() {
-       
+      
+
     	return (
             <Modal open={this.props.isOpen} onClose={ () =>{this.props.toggleLoginModal(false)}}>
+            <div className={modalBody.modalBody}></div>
              <h3>Login</h3>
-             {this.state.errorMessage}
+             {this.props.errorMessageLogin}
                     <form onSubmit={e => {
                         this.setState({loading:true})
                         this.props.handleLoginSubmit(e, this.state.login)}}>
@@ -96,6 +97,7 @@ class LoginModal extends Component <IProps, IState> {
                     </form>
 
                     <h3>Or register</h3>
+                    {this.props.errorMessageRegister}
                     <form onSubmit={e => {
                         this.setState({loading:true})
                         this.props.handleRegisterSubmit(e, this.state.register)}}>
@@ -105,49 +107,18 @@ class LoginModal extends Component <IProps, IState> {
                          <Button type="submit" text="Register"/>
                     
                      </form>
-                     {this.state.loading && <div className={styles.spinnerCenterOverlay}>    
-                    {/* <Loader 
+                     {this.props.loading && <div className={styles.spinnerCenterOverlay}>    
+                    <Loader 
                     	type="Triangle"
                         color="#b0e0e6"
                         height="50"	
                         width="50"
-                    />  */}
+                    /> 
 					<p>One moment...</p>
                     </div>}
             
             </Modal>
-            // <Modal open={this.props.isOpen} onClose={this.onCloseModal}>    		<div className={`modal ${cssClass}`}>
-        	// 	<div className={`modal-body ${cssClass}`}>
-            //     <FontAwesomeIcon 
-            //         icon="times" 
-            //         size="2x" 
-            //         style={{position:"absolute", right:"20px",
-            //         top:"20px"}} 
-            //         onClick={e => {this.props.toggleLoginModal(false)}}
-            //     />
-            //         <h3>Login</h3>
-            //         <form onSubmit={e => {this.props.handleLoginSubmit(e, this.state.login)}}>
-            //             <input type="text" placeholder="Username" name="username" onChange={this.handleChangeLogin} value={this.state.login.username}/>
-            //             <input type="Password" placeholder="Password" name="password" onChange={this.handleChangeLogin} value={this.state.login.password}/>
-            //             <Button type="submit" text="Login"/>
-                      
-            //         </form>
-            //         <hr/>
-            //         <h3>Or register</h3>
-            //         <form onSubmit={e => {this.props.handleRegisterSubmit(e, this.state.register)}}>
-            //             <input type="text" placeholder="Username" name="username" onChange={this.handleChangeRegister} value={this.state.register.username}/>
-            //             <input type="email" placeholder="Email" name="email" onChange={this.handleChangeRegister} value={this.state.register.email}/>
-            //             <input type="Password" placeholder="Password" name="password" onChange={this.handleChangeRegister} value={this.state.register.password}/>
-            //             <Button type="submit" text="Register"/>
-                    
-            //         </form>
-    		// 	</div>  
-            //     <div className={`full-screen-modal ${cssClass}`}
-            //     onClick={e=> {this.props.toggleLoginModal(false)}}
-            //     />
-    		// </div>
-          //  </Modal>
-
+          
       	);
     }
 }

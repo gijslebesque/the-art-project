@@ -7,7 +7,7 @@ import styles from '../styles/spinner.module.scss';
 
 interface IProps {
 	isOpen:boolean;
-	toggleUploadModal:any;
+	toggleUploadModal:any;	
 }
 
 interface IState {
