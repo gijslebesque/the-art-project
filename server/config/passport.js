@@ -11,7 +11,9 @@ passport.serializeUser((loggedInUser, cb) => {
 });
 
 passport.deserializeUser((userIdFromSession, cb) => {
+	
 	User.findById(userIdFromSession, (err, userDocument) => {
+		debugger;
 		if (err) {
 			cb(err);
 			return;
@@ -20,8 +22,12 @@ passport.deserializeUser((userIdFromSession, cb) => {
 	});
 });
 
+
+
 passport.use(new LocalStrategy((username, password, next) => {
+	
 	User.findOne({ username }, (err, foundUser) => {
+		debugger;
 		if (err) {
 			next(err);
 			return;
@@ -36,7 +42,7 @@ passport.use(new LocalStrategy((username, password, next) => {
 			next(null, false, { message: 'Incorrect password' });
 			return;
 		}
-
+		
 		next(null, foundUser);
 	});
 }));

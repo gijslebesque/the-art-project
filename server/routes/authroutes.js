@@ -7,6 +7,8 @@ const bcrypt     = require('bcryptjs');
 const User       = require('../models/User');
 
 authRoutes.post('/register', (req, res, next) => {
+    debugger;
+
     const {username, email, password } = req.body;
 
     if (!username || !password || !email) {
@@ -21,7 +23,7 @@ authRoutes.post('/register', (req, res, next) => {
   
     User.findOne({ $or:[{username: username}, {email:email}] }, '_id', (err, foundUser) => {
         if (foundUser) {
-            res.json({ message: 'There is already an account with this email address or username' });
+            res.status(409).json({ message: 'There is already an account with this email address or username' });
             return;
         }
   
@@ -36,13 +38,19 @@ authRoutes.post('/register', (req, res, next) => {
     
         theUser.save((err) => {   
             if (err) {
-            res.json({ message: 'Something went wrong saving user to Database' });
+                res.status(503).json({ message: 'Something went wrong saving user to database' });
             return;
             }
+            const userProject = {
+                _id:theUser._id,
+                username:theUser.username,
+                artworks:theUser.artworks,
+                favourite:theUser.artworks
+            }
     
-            req.login(theUser, (err) => {
+            req.login(userProject, (err) => {
                 if (err) {
-                    res.json({ message: 'Something went wrong with automatic login after signup' });
+                    res.status(503).json({ message: 'Something went wrong with automatic login after signup' });
                     return;
                 }
                 let token = jwt.generateToken(req.user);
@@ -53,7 +61,11 @@ authRoutes.post('/register', (req, res, next) => {
 });
 
 authRoutes.post('/login', (req, res, next) => {
+        
+    debugger;
     passport.authenticate('local', (err, theUser, failureDetails) => {
+    
+        debugger;
         if (err) {
             res.status(500).json({ message: 'Something went wrong authenticating user' });
             return;
@@ -69,9 +81,16 @@ authRoutes.post('/login', (req, res, next) => {
                 res.status(500).json({ message: 'Something went wrong logging in' });
                 return;
             }
+            const userProject = {
+                _id:theUser._id,
+                username:theUser.username,
+                artworks:theUser.artworks,
+                favourite:theUser.artworks
+            }
+    
         
             let token = jwt.generateToken(req.user);
-            res.status(200).json({user: req.user, token:token});
+            res.status(200).json({user: userProject, token:token});
         });
     })(req, res, next);
 });
@@ -91,7 +110,7 @@ authRoutes.get('/loggedin', (req, res, next) => {
 
 
 authRoutes.get('/getUserInfo', passport.authenticate('jwt', {session: false}), (req, res, next) => {
-    res.json(req.user);
+    res.status(200).json(req.user);
 });
 
 

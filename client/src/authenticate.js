@@ -33,7 +33,7 @@ class AuthService {
 
 	register = (username, email, password) => {
 		return this.service.post('/register', {username, email, password})
-			.then(res => res)
+			.then(res => res.data)
 			.catch(this.errHandler);
 	}
 

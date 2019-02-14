@@ -55,9 +55,9 @@ class App extends Component <{}, IState> {
 	}
 
 	componentWillMount(){
-		debugger
+		
 		let user = JSON.parse(localStorage.getItem('user') || "{}" );
-		debugger;
+		
 		console.log(user)
 		if(!helpers.isEmpty(user)){
 			console.log("hoi")
@@ -83,10 +83,11 @@ class App extends Component <{}, IState> {
 	handleLoginSubmit = (e:any, input:any) => {
 		e.preventDefault();
 		const {username, password } = input;
-      	this.service.login(username, password)
+		
+		  this.service.login(username, password)
 			.then( (res:any) => {
+				
 				localStorage.setItem('jwtToken', JSON.stringify(res.token));
-
 				localStorage.setItem('user', JSON.stringify(res.user))
 
 				this.setState({
@@ -98,6 +99,7 @@ class App extends Component <{}, IState> {
 				history.push('/profile')
 			
 			}).catch( (err:any) => {
+				debugger
 				console.log("ERROR") 
 				this.setState({
 					loading:false,
@@ -118,7 +120,7 @@ class App extends Component <{}, IState> {
 				localStorage.setItem('jwtToken', JSON.stringify(res.token));
 
 				localStorage.setItem('user', JSON.stringify(res.user))
-
+				debugger;
 				this.setState({
 					username:res.username,
 					authed:true,
