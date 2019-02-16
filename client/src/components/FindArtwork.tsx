@@ -3,7 +3,7 @@ import AuthService from '../authenticate.js';
 import Loader from 'react-loader-spinner';
 import styles from '../styles/spinner.module.scss';
 import CardConstructor from './CardConstructor';
-import  helpers from '../helpers';
+import helpers from '../helpers';
 
 interface IState {
     artworks:any;
