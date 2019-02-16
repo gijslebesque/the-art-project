@@ -50,19 +50,27 @@ class App extends Component <{}, IState> {
 		this.service = new AuthService();
 	}
 
-	componentWillMount(){
+	componentDidMount() {
+
+		let token = JSON.parse(localStorage.getItem('jwtToken') || "{}")
 		
-		let user = JSON.parse(localStorage.getItem('user') || "{}" );
+	//	let user = JSON.parse(localStorage.getItem('user') || "{}" );
 		
-		console.log(user)
-		if(!helpers.isEmpty(user)){
-			this.setState({
-				authed:true,
-				username:user.username
+		if(!helpers.isEmpty(token)){
+			this.service.getUserInfo(token).then((res:any) =>{
+				this.setState({
+					authed:true,
+					username:res.username
+				});
+			}).catch( (err:any) => {
+				//If err JWT is expired
+				//Tell user to login again
+				console.log(err); 
 			});
 		}		
 	}
 
+	
 	toggleSideNav = (toggle:boolean) =>{
 		this.setState({sideNaveOpen:toggle})
 	}
@@ -131,15 +139,7 @@ class App extends Component <{}, IState> {
 	
 	}
 
-	//Necessary?
-	getUserInfo = (e:any) => {
-		e.preventDefault();
-		let token = JSON.parse(localStorage.getItem('jwtToken') || "{}")
-		this.service.getUserInfo(token).then((res:any) =>{
-			console.log(res)
-		})
-	}
-
+	
 	logout = () =>{
 		//Think of logout message
 		localStorage.removeItem('jwtToken');

@@ -6,9 +6,9 @@ import CardConstructor from './CardConstructor';
 import  helpers from '../helpers';
 
 interface IState {
-    artworks:any
-    loading:boolean,
-    styles:any
+    artworks:any;
+    styles:any;
+    loading:boolean;
 } 
 
 class FindArtwork extends Component <any, IState> {
@@ -18,8 +18,8 @@ class FindArtwork extends Component <any, IState> {
         super(props)
         this.state = {
             artworks:null,
-            loading:true,
-            styles:styles
+            styles:styles,
+            loading:true
         }
         this.service = new AuthService();
     }
@@ -48,7 +48,6 @@ class FindArtwork extends Component <any, IState> {
                     if(res) {
                         this.setState({
                             artworks: res,
-                            loading:false
                         });
                     } 
                 });

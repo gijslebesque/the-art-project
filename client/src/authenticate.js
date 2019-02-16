@@ -74,7 +74,7 @@ class AuthService {
 		}
 		getUserInfo = token => {
 			return this.service.get('/getUserInfo', { headers: {"Authorization" : `Bearer ${token}`}})
-				.then(res => res)
+				.then(res => res.data)
 				.catch(this.errHandler);	
 		}
 }
