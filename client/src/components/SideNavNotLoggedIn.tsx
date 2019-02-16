@@ -5,16 +5,27 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
-const sideNav = (props:any) => {
+//READ https://levelup.gitconnected.com/ultimate-react-component-patterns-with-typescript-2-8-82990c516935
+
+
+interface ISideNav {
+    
+    toggleSideNav:any;
+    isOpen:boolean;
+    toggleLoginModal:any;
+}
+
+
+const sideNav:React.SFC <ISideNav> = ({toggleSideNav, isOpen, toggleLoginModal}) => {
     let cssClass = "";
-    if(props.isOpen){
+    if(isOpen){
         cssClass = styles.open;
     }
     return (
 
         <div>
             <div className={`${styles.sideNav} ${cssClass}`}>
-            <div  style={{float:"right"}}  onClick={ () => {props.toggleSideNav(false)}}>
+            <div style={{float:"right"}}  onClick={ () => {toggleSideNav(false)}}>
                 <FontAwesomeIcon 
                     icon="times" 
                     size="2x" 
@@ -23,19 +34,16 @@ const sideNav = (props:any) => {
                 <div className={styles.navigation}>
                     <Link to="/">Home</Link>
                     <button className={styles.linkBtn} onClick={e =>{
-                        props.toggleSideNav(false)
-                        props.toggleLoginModal(true)}
-                        }>Your profile</button>
-                          <button className={styles.linkBtn} onClick={e =>{
-                        props.toggleSideNav(false)
-                        props.toggleUploadModal(true)}
-                        }>Add art</button>
+                        toggleSideNav(false)
+                        toggleLoginModal(true)}
+                        }>Loging/register</button>
+                       
                     
                 </div>
             </div>
             <div 
                 className={`${styles.fullScreenNav} ${cssClass}`}
-                onClick={e => {props.toggleSideNav(false)}}
+                onClick={e => {toggleSideNav(false)}}
             />       
         </div>
     );

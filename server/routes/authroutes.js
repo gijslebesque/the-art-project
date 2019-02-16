@@ -41,13 +41,14 @@ authRoutes.post('/register', (req, res, next) => {
                 res.status(503).json({ message: 'Something went wrong saving user to database' });
             return;
             }
+            //To avoid sending senstive data. 
             const userProject = {
                 _id:theUser._id,
                 username:theUser.username,
                 artworks:theUser.artworks,
                 favourite:theUser.artworks
             }
-    
+            //Still need error handeling front-end (consider different error message to catch)
             req.login(userProject, (err) => {
                 if (err) {
                     res.status(503).json({ message: 'Something went wrong with automatic login after signup' });
@@ -61,11 +62,7 @@ authRoutes.post('/register', (req, res, next) => {
 });
 
 authRoutes.post('/login', (req, res, next) => {
-        
-    debugger;
     passport.authenticate('local', (err, theUser, failureDetails) => {
-    
-        debugger;
         if (err) {
             res.status(500).json({ message: 'Something went wrong authenticating user' });
             return;
@@ -88,7 +85,6 @@ authRoutes.post('/login', (req, res, next) => {
                 favourite:theUser.artworks
             }
     
-        
             let token = jwt.generateToken(req.user);
             res.status(200).json({user: userProject, token:token});
         });

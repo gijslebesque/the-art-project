@@ -5,16 +5,24 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
-const sideNav = (props:any) => {
+interface ISideNav {
+    toggleUploadModal:any;
+    toggleSideNav:any;
+    logout:any;
+    isOpen:boolean;
+    
+}
+
+const sideNav:React.SFC<ISideNav> = ({toggleUploadModal, toggleSideNav, logout, isOpen}) => {
     let cssClass:string = "";
-    if(props.isOpen){
+    if(isOpen){
         cssClass = styles.open;
     }
     return (
 
         <div>
             <div className={`${styles.sideNav} ${cssClass}`}>
-            <div  style={{float:"right"}}  onClick={() => {props.toggleSideNav(false)}}>
+            <div  style={{float:"right"}}  onClick={() => {toggleSideNav(false)}}>
                 <FontAwesomeIcon 
                     icon="times" 
                     size="2x" 
@@ -24,14 +32,14 @@ const sideNav = (props:any) => {
                 <div className={styles.navigation}>
                     <Link to="/">Home</Link>
                     <Link to="/profile">Profile</Link>
-                    <button className={styles.linkBtn} onClick={e => {props.toggleUploadModal(true)}}>Add art</button>
+                    <button className={styles.linkBtn} onClick={e => {toggleUploadModal(true)}}>Add art</button>
                     <button className={styles.linkBtn}>Favourites</button>
-                    <button className={styles.linkBtn}>Logout</button>
+                    <button onClick={e => {logout()}} className={styles.linkBtn}>Logout</button>
                 </div>
             </div>
             <div 
                 className={`${styles.fullScreenNav} ${cssClass}`}
-                onClick={e => {props.toggleSideNav(false)}}
+                onClick={e => {toggleSideNav(false)}}
             />       
         </div>
     );

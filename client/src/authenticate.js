@@ -63,13 +63,13 @@ class AuthService {
 		
 		findRecentArtWorks = () => {
 			return this.service.get('/findRecentArtworks')
-				.then(res => res)
+				.then(res => res.data)
 				.catch(this.errHandler);	
 		}
 
 		findPersonalArtWorks = token => {
 			return this.service.get('/findPersonalArtworks', { headers: {"Authorization" : `Bearer ${token}`}})
-				.then(res => res)
+				.then(res => res.data)
 				.catch(this.errHandler);	
 		}
 		getUserInfo = token => {

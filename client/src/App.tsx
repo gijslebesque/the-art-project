@@ -19,10 +19,6 @@ import { faIgloo, faTimes, faGavel } from '@fortawesome/free-solid-svg-icons';
 
 library.add(faIgloo, faTimes, faGavel);
 
-// interface IProps {
-// 	prevProps:any
-// }
-
 interface IState{
 	authed: boolean;
 	username:string;
@@ -60,7 +56,6 @@ class App extends Component <{}, IState> {
 		
 		console.log(user)
 		if(!helpers.isEmpty(user)){
-			console.log("hoi")
 			this.setState({
 				authed:true,
 				username:user.username
@@ -86,17 +81,16 @@ class App extends Component <{}, IState> {
 		
 		  this.service.login(username, password)
 			.then( (res:any) => {
-				
 				localStorage.setItem('jwtToken', JSON.stringify(res.token));
-				localStorage.setItem('user', JSON.stringify(res.user))
+				localStorage.setItem('user', JSON.stringify(res.user));
 
 				this.setState({
-					username:res.username,
+					username:res.user.username,
 					authed:true,
 					loginModalOpen:false
+				}, () => {
+					history.push('/profile');
 				});
-				
-				history.push('/profile')
 			
 			}).catch( (err:any) => {
 				debugger
@@ -104,7 +98,7 @@ class App extends Component <{}, IState> {
 				this.setState({
 					loading:false,
 					errorMessageLogin:err
-					})
+					});
 				});
 	}
 
@@ -115,35 +109,46 @@ class App extends Component <{}, IState> {
 		this.setState({loading:true})
       	this.service.register(username, email, password)
 			.then( (res:any) => {
-
-				//Not SURE YET
 				localStorage.setItem('jwtToken', JSON.stringify(res.token));
+				localStorage.setItem('user', JSON.stringify(res.user));
 
-				localStorage.setItem('user', JSON.stringify(res.user))
-				debugger;
 				this.setState({
-					username:res.username,
+					username:res.user.username,
 					authed:true,
-					loginModalOpen:false
+					loginModalOpen:false,
+					loading:false
+				} , () => {
+					history.push('/profile');
 				});
-
 
 			}).catch( (err:any) => {
 			
 				this.setState({
 					loading:false,
 					errorMessageRegister:err
-					})
+					});
 			});
+	
 	}
 
+	//Necessary?
 	getUserInfo = (e:any) => {
 		e.preventDefault();
 		let token = JSON.parse(localStorage.getItem('jwtToken') || "{}")
-		console.log(token)
 		this.service.getUserInfo(token).then((res:any) =>{
 			console.log(res)
 		})
+	}
+
+	logout = () =>{
+		//Think of logout message
+		localStorage.removeItem('jwtToken');
+		localStorage.removeItem('user');
+		this.setState({
+			authed:false,
+			username:"",
+			sideNaveOpen:false
+		});
 	}
 
 	render() {
@@ -152,22 +157,22 @@ class App extends Component <{}, IState> {
     		<div className="App">
 		
     			<Navbar toggleSideNav={this.toggleSideNav}/>
-				{!this.state.authed && 
-				<SideNavNotLoggedIn 
-					toggleSideNav={this.toggleSideNav} 
-					isOpen={this.state.sideNaveOpen}
-					userLoggedIn={this.state.authed}
-					toggleLoginModal={this.toggleLoginModal}
-					toggleUploadModal={this.toggleUploadModal}
-				/>}
-				{this.state.authed && 
-				<SideNavLoggedIn 
-					toggleSideNav={this.toggleSideNav} 
-					isOpen={this.state.sideNaveOpen}
-					userLoggedIn={this.state.authed}
-					toggleLoginModal={this.toggleLoginModal}
-					toggleUploadModal={this.toggleUploadModal}
-				/>}
+				{
+					!this.state.authed ? 
+						<SideNavNotLoggedIn 
+							toggleSideNav={this.toggleSideNav} 
+							isOpen={this.state.sideNaveOpen}
+							toggleLoginModal={this.toggleLoginModal}
+						
+						/> 
+					:
+						<SideNavLoggedIn 
+							toggleSideNav={this.toggleSideNav} 
+							isOpen={this.state.sideNaveOpen}
+							toggleUploadModal={this.toggleUploadModal}
+							logout={this.logout}
+						/>
+				}
 				<main>
 
 					<LoginModal 

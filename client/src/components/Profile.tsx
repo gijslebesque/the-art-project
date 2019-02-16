@@ -16,11 +16,12 @@ export default class Profile extends Component<any, any>  {
         }
         this.service = new AuthService();
     }
+
   
     componentDidMount(){
     //    this.service()
 
-        console.log(this.state)
+        console.log("proppass", this.props)
     }
     showPersonalArtworks = () => {
        this.setState({
@@ -28,6 +29,7 @@ export default class Profile extends Component<any, any>  {
         btnText: "Hide my work"
        });
     }
+
     render() {
         return(
             <div className="profile">

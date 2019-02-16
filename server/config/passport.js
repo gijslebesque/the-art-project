@@ -25,7 +25,7 @@ passport.deserializeUser((userIdFromSession, cb) => {
 
 
 passport.use(new LocalStrategy((username, password, next) => {
-	
+	//Update to find by email
 	User.findOne({ username }, (err, foundUser) => {
 		debugger;
 		if (err) {
@@ -52,18 +52,7 @@ passport.use(new JWTStrategy({
 	secretOrKey   : process.env.SECRET
 	},
 	(jwtPayload, cb) => {
-
-		debugger;
-
-	//This functionality may be omitted if all user info is stored in JWT payload.
 		cb(null, jwtPayload);
 
-	// return User.findOneById(jwtPayload.id)
-	// 	.then(user => {
-	// 		return cb(null, user);
-	// 	})
-	// 	.catch(err => {
-	// 		return cb(err);
-	// 	});
-}
+	}
 ));

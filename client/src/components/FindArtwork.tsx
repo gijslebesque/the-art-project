@@ -29,9 +29,9 @@ class FindArtwork extends Component <any, IState> {
             case "findRecentArtworks":
                 this.service.findRecentArtWorks().then((res:any) =>{
                  
-                    if(res.status === 200) {
+                    if(res) {
                         this.setState({
-                            artworks: res.data,
+                            artworks: res,
                             loading:false
                         });
                     } 
@@ -45,9 +45,9 @@ class FindArtwork extends Component <any, IState> {
                 }
                 
                 this.service.findPersonalArtWorks(token).then((res:any) =>{
-                    if(res.status === 200) {
+                    if(res) {
                         this.setState({
-                            artworks: res.data,
+                            artworks: res,
                             loading:false
                         });
                     } 
