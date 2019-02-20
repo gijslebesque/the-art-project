@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import AuthService from '../authenticate.js';
 import Loader from 'react-loader-spinner';
-import styles from '../styles/spinner.module.scss';
+import loaderStyles from '../styles/spinner.module.scss';
+import artworkStyles from '../styles/artworks.module.scss';
 import CardConstructor from './CardConstructor';
 import helpers from '../helpers';
 
 interface IState {
     artworks:any;
-    styles:any;
     loading:boolean;
 } 
 
@@ -18,7 +18,6 @@ class FindArtwork extends Component <any, IState> {
         super(props)
         this.state = {
             artworks:null,
-            styles:styles,
             loading:true
         }
         this.service = new AuthService();
@@ -29,14 +28,16 @@ class FindArtwork extends Component <any, IState> {
             case "findRecentArtworks":
                 this.service.findRecentArtWorks().then((res:any) =>{
                  
-                    if(res) {
-                        this.setState({
-                            artworks: res,
-                            loading:false
-                        });
-                    } 
+                    this.setState({
+                        artworks: res,
+                        loading:false
+                    }); 
+                }).catch((err:any) => {
+                    this.setState({loading:false});
+                    console.log("ERR", err)
                 });
-            break;
+
+                break;
             case "findPersonalArtworks":
                 let token = JSON.parse(localStorage.getItem('jwtToken') || '{}');
                 //Not authorised            
@@ -45,23 +46,26 @@ class FindArtwork extends Component <any, IState> {
                 }
                 
                 this.service.findPersonalArtWorks(token).then((res:any) =>{
-                    if(res) {
-                        this.setState({
-                            artworks: res,
-                        });
-                    } 
-                });
-            break;
-            default:
                 
-                const err = "no method specified" ;
+                    this.setState({
+                        artworks: res,
+                        loading:false
+                    });
+                    
+                }).catch( (err:any) =>{
+                    this.setState({loading:false});
+                    console.log("err", err);
+                });
+                break;
+            default:
+                const err = "no method specified";
                 console.log(err);
             
                 break;
         }
     }
 
-    Artworks = () => {
+    artworks = () => {
 
         let artworks = <p>There's nothing to show yet</p>
         console.log(this.state.artworks)
@@ -69,28 +73,27 @@ class FindArtwork extends Component <any, IState> {
             artworks = this.state.artworks.map((artwork:any, i:number) => {
                 return(
                     <CardConstructor key={i} artwork={artwork}/>
-                )
+                );
             })
         }
         return(
             <div>
-                <div className="artworks">
+                <div className={artworkStyles.artworks}>
                     {artworks}
                 </div>
             </div>
-            
         );
     }
     
     render(){
-        let artworks = this.Artworks();
+        let artworks = this.artworks();
         return(
             <div>
                 {this.state.loading && 
 
-                <div className={styles.spinnerCenter}>    
+                <div className={loaderStyles.spinnerCenter}>    
                
-                     <Loader 
+                    <Loader 
                         type="Triangle"
                         color="#b0e0e6"
                         height="50"	
@@ -102,9 +105,8 @@ class FindArtwork extends Component <any, IState> {
                 {artworks}
               
             </div>
-        )
+        );
     }
-
 }
 
 

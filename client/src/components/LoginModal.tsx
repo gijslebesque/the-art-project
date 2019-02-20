@@ -80,8 +80,7 @@ class LoginModal extends Component <IProps, IState> {
 
  
 	render() {
-      
-
+  
     	return (
             <Modal open={this.props.isOpen} onClose={ () =>{this.props.toggleLoginModal(false)}}>
             <div className={modalBody.modalBody}></div>

@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import styles from '../styles/artworks.module.scss';
 import { Card, Icon, Image } from 'semantic-ui-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
 
 interface IState {
     days: number;
@@ -63,79 +65,68 @@ export default class CardConstructor extends Component <IProps, IState>{
         this.setState({intervalId:intervalID});
     }
    
-    onClick = (e:any, artwork:any) => {
+    onClick = (artwork:any) => {
         //show pop up and make bid
-        e.preventDefault();
         console.log(artwork)
+    }
+    follow = () => {
+        //follow artist
     }
     
     render(){
         let artwork = this.props.artwork;
+        let startDate = artwork.createdAt.slice(0, artwork.createdAt.indexOf("T"));
+        let startDateFormat = new Date(startDate).toLocaleDateString();
+    
         return(
-            <div className="card">
-                <div className="header">
-                    <h2>{artwork.artworkName}</h2>
+            <div className={styles.card}>  
+                <div className={styles.column}>
+                    <h3>{artwork.artworkName}</h3>
+                    <img src={artwork.artworkURL} />
+
+                    <div className={styles.shareRow}>
+                        <button>Favouritise</button>
+                        <button>Share</button>
+                    </div>
                 </div>
-
-                <img src={artwork.artworkURL} />
-                <div className="share">
-                    <button>Favouritise</button>
-                    <button>Share</button>
-                </div>
-
-                <div className="body">
-                    <p>{artwork.author.username}</p>
-                    <p>{artwork.artworkName}</p>
-
-                    <p>{artwork.description}</p>
-
-                    <p>materials</p>
+                <div className={styles.column}>
+                    <h3>{artwork.author.username}</h3>
+                    <span className={styles.followBtn} onClick={ () =>{ this.follow()}}><FontAwesomeIcon icon="plus-circle" /> Follow</span>
+                
+                    <div className={styles.body}>
+                 
+                        <p>{artwork.artworkName}</p>
+                        <p>{artwork.description}</p>
+                        <p>materials</p>
                   
+                    </div>
+
+                    <hr/>
+
+                    <div className={styles.bidRow}>
+                        <h3>Starting bid</h3>
+                        <h3>$ {artwork.auction.originalPrice}</h3>
+                    </div>
+                
+                    <hr/>
+
+                    <p>Place bid</p>
+
+                    <select name="bidding">
+                        <option value="1">$ {artwork.auction.originalPrice + 10}</option>
+                        <option value="2">$ {artwork.auction.originalPrice + 20}</option>
+                        <option value="3">$ {artwork.auction.originalPrice + 30}</option>
+                        <option value="4">$ {artwork.auction.originalPrice + 40}</option>
+                    </select>
+
+                    <button className={styles.ctaBtn} onClick={() =>{ {this.onClick(artwork)}}}>Bid</button>
+                    <div className={styles.timeLeft}>
+                        <h3>{this.state.days}d {this.state.hours}h {this.state.minutes}m {this.state.seconds}s</h3>
+                        <h3>Live {startDateFormat}</h3>
+                    </div>
+                    <hr/>
                 </div>
-
-                <hr/>
-
-                <h3>Starting bid</h3>
-                <h3>$ {artwork.auction.originalPrice}</h3>
-                <hr/>
-
-                <p>Place bid</p>
-                <h3>Starting bid</h3>
-                <select name="bidding">
-                    <option value="1">{artwork.auction.originalPrice + 10}</option>
-                    <option value="2">{artwork.auction.originalPrice + 20}</option>
-                    <option value="3">{artwork.auction.originalPrice + 30}</option>
-                    <option value="3">{artwork.auction.originalPrice + 40}</option>
-                </select>
-
             </div>
-
-
-            // <Card>
-            // <Image src={artwork.artworkURL} />
-            // <Card.Content>
-            //     <Card.Header>{artwork.artworkName}</Card.Header>
-            //     <Card.Meta>
-            //         <span className='author'>By {artwork.author.username}</span>
-            //         <br/>
-            //         <span className='date'>At {artwork.createdAt}</span>
-            //     </Card.Meta>
-            //     <Card.Description>
-            //     {artwork.artworkDescription}
-            //    <p>Time Remaining {this.state.days} days, {this.state.hours}hours  {this.state.minutes} minutes {this.state.seconds}</p>
-            //     <p>Price: {artwork.auction.originalPrice}</p>
-
-            //   <button onClick={(e:any) =>{ {this.onClick(e, artwork)}}}>Bid</button>
-
-            //     </Card.Description>
-            
-            //     </Card.Content>
-            //     <Card.Content extra>
-             
-            //     <Icon name='user' />
-            //     {this.props.artwork.author.favourite.length} liked
-            // </Card.Content>
-            // </Card>
-        )
+        );
     }
 } 

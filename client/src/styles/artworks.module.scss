@@ -5,38 +5,93 @@
     justify-content: space-between;
     
       
-     .ui.card {
+    .card {
         flex: 0 1 calc(100% - 1em);
       
         img {
             width: 100%;
         }
-     }
+    }
 
-     .ui.card:first-child, .ui.card {
+
+    .shareRow{
+        display:flex;
+        justify-content: space-around;
+        margin:40px 0px;
+    }
+
+    .bidRow{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    hr {
+        margin: 40px 0px;
+    }
+
+    h3{
+        margin-bottom: 0;
+    }
+
+    .followBtn:hover {
+        cursor: pointer;
+    }
+
+    .timeLeft{
+        text-align: center;
+    }
+
+
+
+    .ctaBtn{
+        width:100%;
+        padding:20px 0px;
+        background: powderblue;
+        border:none;
+        color:white;
+        margin:20px 0px;
+    }
+    select {
+        width:100%;
+        background-color: white;
+        height:40px;
+        border-radius: 0px !important;
+       
+    }
+
+    .body{
+        margin: 40px 0px;
+    }
+
+    .card:first-child, .card {
         margin:20px auto;
-     }
-    
+    }
+   
 }
 
-@media screen and (min-width: 40em) {
-    .artworks{
-        align-items: flex-start;
-        .ui.card {
-            flex: 0 1 calc(50% - 1em);
+// @media screen and (min-width: 40em) {
+//     .artworks{
+//         align-items: flex-start;
+//         .card {
+//             flex: 0 1 calc(50% - 1em);
           
-        }
-        .ui.card:first-child, .ui.card {
-            margin:40px auto;
-         }
-    }   
-}
+//         }
+//         .card:first-child, .card {
+//             margin:40px auto;
+//          }
+//     }   
+// }
 
 
 @media screen and (min-width: 60em) {
     .artworks{
-        .ui.card {
-            flex: 0 1 calc(25% - 1em);
+        .card {
+            display: flex;
+            justify-content:space-around;
+            .column{
+                // align-self: center;
+                width:40%;
+            }   
         }
     }
 }

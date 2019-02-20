@@ -15,9 +15,9 @@ import history from './history';
 import  helpers from './helpers';
 
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faIgloo, faTimes, faGavel } from '@fortawesome/free-solid-svg-icons';
+import { faTimes, faGavel, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faIgloo, faTimes, faGavel);
+library.add(faTimes, faGavel, faPlusCircle);
 
 interface IState{
 	authed: boolean;
@@ -87,27 +87,27 @@ class App extends Component <{}, IState> {
 		e.preventDefault();
 		const {username, password } = input;
 		
-		  this.service.login(username, password)
-			.then( (res:any) => {
-				localStorage.setItem('jwtToken', JSON.stringify(res.token));
-				localStorage.setItem('user', JSON.stringify(res.user));
+		this.service.login(username, password)
+		.then( (res:any) => {
+			localStorage.setItem('jwtToken', JSON.stringify(res.token));
+			localStorage.setItem('user', JSON.stringify(res.user));
 
-				this.setState({
-					username:res.user.username,
-					authed:true,
-					loginModalOpen:false
-				}, () => {
-					history.push('/profile');
-				});
-			
-			}).catch( (err:any) => {
-				debugger
-				console.log("ERROR") 
-				this.setState({
-					loading:false,
-					errorMessageLogin:err
-					});
-				});
+			this.setState({
+				username:res.user.username,
+				authed:true,
+				loginModalOpen:false
+			}, () => {
+				history.push('/profile');
+			});
+		
+		}).catch( (err:any) => {
+			debugger
+			console.log("ERROR") 
+			this.setState({
+				loading:false,
+				errorMessageLogin:err
+			});
+		});
 	}
 
 	handleRegisterSubmit = (e:any, input:any) => {
