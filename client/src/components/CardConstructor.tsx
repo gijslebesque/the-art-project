@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import styles from '../styles/artworks.module.scss';
+import history from '../history';
 import { Card, Icon, Image } from 'semantic-ui-react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 interface IState {
@@ -18,7 +19,8 @@ interface IProps {
 }
 
 
-export default class CardConstructor extends Component <IProps, IState>{
+export default class BidConstructor extends Component <IProps, IState> {
+
     constructor(props:any) {
         super(props);
         this.state = {
@@ -30,44 +32,16 @@ export default class CardConstructor extends Component <IProps, IState>{
         }
     }
     //check if actually string
-    auctionTimer(endDate:string){
-        //End date is data string from back end;
-        //Slice to get date without time.
-        let sliced = endDate.slice(0, endDate.indexOf("T"))
-        let deadline = new Date(sliced).getTime();
-        let timeNow = new Date().getTime();
-        let timeLeft = deadline - timeNow;     
-        
-
-        let days = Math.floor(timeLeft / (1000 * 3600 * 24)); 
-        let hours:any = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
-        let minutes:any = Math.floor((timeLeft / (1000 * 60)) % 60);
-        let seconds:any = Math.floor((timeLeft / 1000) % 60)
-        
-        hours = (hours < 10) ? "0" + hours : hours;
-        minutes = (minutes < 10) ? "0" + minutes : minutes;
-        seconds = (seconds < 10) ? "0" + seconds : seconds;
-    
-       
-        this.setState({
-            days: days,
-            hours: hours,
-            minutes:minutes,
-            seconds:seconds
-       });
-          
-    }
     
     componentWillMount(){
-        const intervalID = setInterval( () => {
-            this.auctionTimer(this.props.artwork.auction.endDate);   
-        }, 1000 );   
-        this.setState({intervalId:intervalID});
+    
     }
    
-    onClick = (artwork:any) => {
+    showFullArtwork = (artwork:any) => {
         //show pop up and make bid
         console.log(artwork)
+
+        history.push(`/artwork?id=${artwork._id}`);
     }
     follow = () => {
         //follow artist
@@ -79,53 +53,15 @@ export default class CardConstructor extends Component <IProps, IState>{
         let startDateFormat = new Date(startDate).toLocaleDateString();
     
         return(
-            <div className={styles.card}>  
-                <div className={styles.column}>
-                    <h3>{artwork.artworkName}</h3>
+            <div className={styles.singleCard} onClick={() =>{this.showFullArtwork(artwork)} }>  
                     <img src={artwork.artworkURL} />
-
-                    <div className={styles.shareRow}>
-                        <button>Favouritise</button>
-                        <button>Share</button>
-                    </div>
-                </div>
-                <div className={styles.column}>
                     <h3>{artwork.author.username}</h3>
-                    <span className={styles.followBtn} onClick={ () =>{ this.follow()}}><FontAwesomeIcon icon="plus-circle" /> Follow</span>
-                
-                    <div className={styles.body}>
-                 
-                        <p>{artwork.artworkName}</p>
-                        <p>{artwork.description}</p>
-                        <p>materials</p>
                   
-                    </div>
-
-                    <hr/>
-
-                    <div className={styles.bidRow}>
-                        <h3>Starting bid</h3>
-                        <h3>$ {artwork.auction.originalPrice}</h3>
-                    </div>
+                    <p>{artwork.artworkName}</p>
+                    <p>{artwork.description}</p>
+                    <p>{artwork.auction.originalPrice}</p>   
                 
-                    <hr/>
 
-                    <p>Place bid</p>
-
-                    <select name="bidding">
-                        <option value="1">$ {artwork.auction.originalPrice + 10}</option>
-                        <option value="2">$ {artwork.auction.originalPrice + 20}</option>
-                        <option value="3">$ {artwork.auction.originalPrice + 30}</option>
-                        <option value="4">$ {artwork.auction.originalPrice + 40}</option>
-                    </select>
-
-                    <button className={styles.ctaBtn} onClick={() =>{ {this.onClick(artwork)}}}>Bid</button>
-                    <div className={styles.timeLeft}>
-                        <h3>{this.state.days}d {this.state.hours}h {this.state.minutes}m {this.state.seconds}s</h3>
-                        <h3>Live {startDateFormat}</h3>
-                    </div>
-                    <hr/>
-                </div>
             </div>
         );
     }

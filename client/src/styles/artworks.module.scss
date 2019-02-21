@@ -2,14 +2,20 @@
 .artworks{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
-    
-      
+    justify-content: space-around;
     .card {
         flex: 0 1 calc(100% - 1em);
       
         img {
             width: 100%;
+        }
+    }
+
+    .singleCard {
+        flex: 0 1 calc(100% - 1em);
+        cursor:pointer;
+        img {
+            width:100%;
         }
     }
 
@@ -41,8 +47,6 @@
         text-align: center;
     }
 
-
-
     .ctaBtn{
         width:100%;
         padding:20px 0px;
@@ -69,18 +73,17 @@
    
 }
 
-// @media screen and (min-width: 40em) {
-//     .artworks{
-//         align-items: flex-start;
-//         .card {
-//             flex: 0 1 calc(50% - 1em);
+@media screen and (min-width: 40em) {
+    .artworks{
+        .singleCard {
+            flex: 0 1 calc(50% - 1em);
           
-//         }
-//         .card:first-child, .card {
-//             margin:40px auto;
-//          }
-//     }   
-// }
+        }
+        // .card:first-child, .card {
+        //     margin:40px auto;
+        //  }
+    }   
+}
 
 
 @media screen and (min-width: 60em) {
@@ -92,6 +95,10 @@
                 // align-self: center;
                 width:40%;
             }   
+        }
+        .singleCard {
+            flex: 0 1 calc(25% - 1em);
+           
         }
     }
 }

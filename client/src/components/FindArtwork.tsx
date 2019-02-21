@@ -3,8 +3,9 @@ import AuthService from '../authenticate.js';
 import Loader from 'react-loader-spinner';
 import loaderStyles from '../styles/spinner.module.scss';
 import artworkStyles from '../styles/artworks.module.scss';
-import CardConstructor from './CardConstructor';
 import helpers from '../helpers';
+import BidConstructor from './BidConstructor';
+import CardConstructor from './CardConstructor';
 
 interface IState {
     artworks:any;

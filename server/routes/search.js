@@ -24,4 +24,14 @@ router.get('/findPersonalArtworks', passport.authenticate('jwt', {session: false
 	});
 });
 
+router.get('/findSpecificArtwork', (req, res, next) => {
+	Artwork.findById(req.query.id)
+	.populate('author', 'username favourite')
+	.exec((err, result) => {
+		if(err) throw err;
+		console.log("RES", result);
+		res.status(200).json(result)
+	});
+});
+
 module.exports = router;

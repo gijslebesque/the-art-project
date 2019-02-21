@@ -10,6 +10,8 @@ import Profile from './components/Profile';
 import FileUpload from './components/FileUpload';
 import Footer from './components/Footer';
 import PrivateRoute from './components/PrivateRoute';
+import BidConstructor from './components/BidConstructor';
+
 import history from './history';
 
 import  helpers from './helpers';
@@ -192,6 +194,7 @@ class App extends Component <{}, IState> {
 
 					<Switch>
 						<Route exact path='/' component={Home}/>
+						<Route path='/artwork' component={BidConstructor}/>
 					
 						<PrivateRoute authed={this.state.authed} username={this.state.username} exact path='/profile' component={Profile} />
 
