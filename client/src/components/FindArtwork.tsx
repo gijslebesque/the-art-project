@@ -69,7 +69,6 @@ class FindArtwork extends Component <any, IState> {
     artworks = () => {
 
         let artworks = <p>There's nothing to show yet</p>
-        console.log(this.state.artworks)
         if(this.state.artworks) {
             artworks = this.state.artworks.map((artwork:any, i:number) => {
                 return(
