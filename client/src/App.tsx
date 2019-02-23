@@ -45,7 +45,7 @@ class App extends Component <{}, IState> {
 			loginModalOpen: false,
 			uploadModalOpen:false,
 			errorMessageLogin:null,
-			errorMessageRegister:null
+			errorMessageRegister:null,
 			
 		}
 
@@ -70,7 +70,10 @@ class App extends Component <{}, IState> {
 				console.log(err); 
 			});
 		}		
+	
+
 	}
+
 
 	
 	toggleSideNav = (toggle:boolean) =>{
@@ -158,7 +161,9 @@ class App extends Component <{}, IState> {
     	return (
     		<div className="App">
 		
-    			<Navbar toggleSideNav={this.toggleSideNav}/>
+				<Navbar 
+					toggleSideNav={this.toggleSideNav}
+				/>
 				{
 					!this.state.authed ? 
 						<SideNavNotLoggedIn 

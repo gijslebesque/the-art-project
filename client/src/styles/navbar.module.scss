@@ -26,3 +26,26 @@
 .logo {
     margin-left:40px;
 }
+
+.searchResultsContainer{
+    position: fixed;
+    left:50%;
+    transform:translateX(-50%);
+    border:1px solid black;
+    width:50%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    justify-content: center;
+    .btnRow{
+        text-align: center;
+        display: flex;
+        button{
+            background-color: powderblue;
+            width:100%;
+        }
+    }
+    .searchResults{
+        padding:40px;
+    }
+}

@@ -3,8 +3,6 @@ import styles from '../styles/artworks.module.scss';
 import AuthService from '../authenticate.js';
 import Loader from 'react-loader-spinner';
 import loaderStyles from '../styles/spinner.module.scss';
-
-import { Card, Icon, Image } from 'semantic-ui-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
