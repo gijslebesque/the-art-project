@@ -61,7 +61,6 @@ export default class BidConstructor extends Component <IProps, IState>{
             console.log("err", err)
         });
     }
-    //check if actually string
 
     auctionTimer(endDate:string){
         // End date is data string from back end;

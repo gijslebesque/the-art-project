@@ -19,7 +19,7 @@ interface IProps {
 }
 
 
-export default class BidConstructor extends Component <IProps, IState> {
+export default class CardConstructor extends Component <IProps, IState> {
 
     constructor(props:any) {
         super(props);
@@ -31,7 +31,6 @@ export default class BidConstructor extends Component <IProps, IState> {
             intervalId:0
         }
     }
-    //check if actually string
     
     componentWillMount(){
     
@@ -60,8 +59,6 @@ export default class BidConstructor extends Component <IProps, IState> {
                     <p>{artwork.artworkName}</p>
                     <p>{artwork.description}</p>
                     <p>{artwork.auction.originalPrice}</p>   
-                
-
             </div>
         );
     }

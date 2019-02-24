@@ -35,7 +35,6 @@ router.get('/findSpecificArtwork', (req, res, next) => {
 });
 
 router.get('/findArtworkByName', (req, res, next) => {
-	console.log("JISISIDSI")
 	let query = {artworkName: {$regex : `.*${req.query.artworkName}.*`}}
 	Artwork.find(query)
 	.populate('author', 'username favourite')
@@ -45,6 +44,9 @@ router.get('/findArtworkByName', (req, res, next) => {
 		res.status(200).json(result)
 	});
 });
+
+
+//Make search case insentive
 
 router.get('/findArtistByName', (req, res, next) => {
 	let query = {username: {$regex : `.*${req.query.username}.*`}}
@@ -56,5 +58,18 @@ router.get('/findArtistByName', (req, res, next) => {
 		res.status(500).json(err);
 	});
 });
+
+router.get("/findArtist" , (req, res, next) => {
+	User.findById(req.query.id).populate('artworks').exec((err, result) =>{
+		if(err) {
+			res.status(500).json(err);
+			throw err;
+		}
+
+		res.status(200).json(result);
+		
+	})
+});
+
 
 module.exports = router;

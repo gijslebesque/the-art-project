@@ -27,10 +27,9 @@ export default class SearchResults extends Component <IProps, IState>{
 
 
     render() {
-        //Think of better way, two db queries is too much
+        //Think of better way, two db queries too much
         let results
         if( this.props.queryType === "artwork" &&  this.props.searchResults){
-            debugger;
             results = this.props.searchResults.map( (artwork:any, i:number) => {
               
                 return <p key={i} onClick={(e:any) => {

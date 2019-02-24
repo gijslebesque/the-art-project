@@ -28,11 +28,11 @@
 }
 
 .searchResultsContainer{
+    background-color:white;
     position: fixed;
     left:50%;
     transform:translateX(-50%);
-    border:1px solid black;
-    width:50%;
+    width:80%;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -42,7 +42,15 @@
         display: flex;
         button{
             width:100%;
-          
+          padding:20px;
+          background-color: white;
+          border:none;
+          cursor: pointer;
+        }
+
+        button:hover {
+            background-color: powderblue;
+
         }
         .active{
             background-color: powderblue;
@@ -52,3 +60,17 @@
         padding:40px;
     }
 }
+
+
+@media screen and (min-width: 40em) {
+    .searchResultsContainer{
+        width:50%;
+    }   
+}
+
+
+// @media screen and (min-width: 60em) {
+//     .searchResultsContainer{
+//         width:1%;
+//     }    
+// }

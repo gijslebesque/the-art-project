@@ -23,7 +23,7 @@ export default class Navbar extends Component <IProps, IState>{
 	constructor(props:any) {
 		super(props);
 		this.state = {
-			showSearchContainer:true,
+			showSearchContainer:false,
 			searchResults:null,
 			query:"",
 			queryType: "artist"
@@ -31,15 +31,6 @@ export default class Navbar extends Component <IProps, IState>{
 		this.service = new AuthService();
 	}
 
-	componentDidMount() {
-		window.addEventListener('click', (e:any) => {
-			e.preventDefault();
-			if(this.state.showSearchContainer && !this.findParent(e.target)){
-				this.setState({showSearchContainer:false});
-
-			}
-		});
-	}
 
 	findParent = (node:any) => {
 		var nodes = [];
@@ -82,16 +73,25 @@ export default class Navbar extends Component <IProps, IState>{
 		}	
 	}
 
-
-	showSearchResultContainer = (e:any, toggle:boolean) =>{
-		e.stopPropagation();
-		this.setState({showSearchContainer:toggle})
+	eventListener = (e:any) => {
+		e.preventDefault();
+		if(this.state.showSearchContainer && !this.findParent(e.target)){
+			this.setState({showSearchContainer:false});
+		}
+		window.removeEventListener("click", this.eventListener)
 	}
 
-	querySelect = (e:any, queryType:string) =>{
+
+	showSearchResultContainer = (e:any, toggle:boolean) => {
+		e.stopPropagation();
+		this.setState({showSearchContainer:toggle});
+
+		window.addEventListener('click', this.eventListener);
+	}
+
+	querySelect = (e:any, queryType:string) => {
 		this.setState({queryType: queryType, searchResults: ""});
         let buttons = e.target.parentNode.children;
-        console.log(buttons)
         for(let i = 0; i < buttons.length; i++){
             console.log(buttons[i].className)
             if(buttons[i].className === styles.active) {
@@ -103,9 +103,9 @@ export default class Navbar extends Component <IProps, IState>{
        
     }
 
-	render(){
+	render() {
 		return (
-			<div>			
+			<>			
 				<nav className={styles.nav}>
 					<div className={styles.hamburger} onClick={ () => this.props.toggleSideNav(true)}>
 						<span></span>
@@ -131,7 +131,7 @@ export default class Navbar extends Component <IProps, IState>{
 				queryType={this.state.queryType}
 				/>
 				}
-			</div>
+			</>
 
 		);
 	}

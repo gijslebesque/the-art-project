@@ -11,6 +11,7 @@ import FileUpload from './components/FileUpload';
 import Footer from './components/Footer';
 import PrivateRoute from './components/PrivateRoute';
 import BidConstructor from './components/BidConstructor';
+import ArtistProfile from './components/ArtistProfile';
 
 import history from './history';
 
@@ -39,7 +40,7 @@ class App extends Component <{}, IState> {
 		super(props)
 		this.state = {
 			authed: false,
-			username:"",
+			username: "",
 			loading: false,
 			sideNaveOpen: false,
 			loginModalOpen: false,
@@ -70,8 +71,6 @@ class App extends Component <{}, IState> {
 				console.log(err); 
 			});
 		}		
-	
-
 	}
 
 
@@ -90,6 +89,7 @@ class App extends Component <{}, IState> {
 
 	handleLoginSubmit = (e:any, input:any) => {
 		e.preventDefault();
+		console.log("hi")
 		const {username, password } = input;
 		
 		this.service.login(username, password)
@@ -200,7 +200,7 @@ class App extends Component <{}, IState> {
 					<Switch>
 						<Route exact path='/' component={Home}/>
 						<Route path='/artwork' component={BidConstructor}/>
-					
+						<Route path='/artist' component={ArtistProfile} />
 						<PrivateRoute authed={this.state.authed} username={this.state.username} exact path='/profile' component={Profile} />
 
 					</Switch>
