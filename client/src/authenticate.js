@@ -85,6 +85,12 @@ class AuthService {
 			.catch(this.errHandler);	
 		}
 
+		findArtistByName = artistName => {
+			return this.service.get(`/findArtistByName?username=${artistName}`)
+			.then(res => res.data)
+			.catch(this.errHandler);	
+		}
+
 		getUserInfo = token => {
 			return this.service.get('/getUserInfo', { headers: {"Authorization" : `Bearer ${token}`}})
 				.then(res => res.data)

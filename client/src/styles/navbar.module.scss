@@ -41,8 +41,11 @@
         text-align: center;
         display: flex;
         button{
-            background-color: powderblue;
             width:100%;
+          
+        }
+        .active{
+            background-color: powderblue;
         }
     }
     .searchResults{

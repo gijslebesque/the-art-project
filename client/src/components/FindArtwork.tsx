@@ -21,13 +21,15 @@ class FindArtwork extends Component <any, IState> {
             artworks:null,
             loading:true
         }
+
         this.service = new AuthService();
     }
 
     componentDidMount() {
+
         switch(this.props.method) {
             case "findRecentArtworks":
-                this.service.findRecentArtWorks().then((res:any) =>{
+                this.service.findRecentArtWorks().then((res:any) => {
                  
                     this.setState({
                         artworks: res,

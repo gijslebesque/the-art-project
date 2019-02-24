@@ -13,6 +13,7 @@ interface IState {
 	showSearchContainer:boolean;
 	searchResults:any;
 	query:any;
+	queryType:string;
 }
 
 
@@ -24,7 +25,8 @@ export default class Navbar extends Component <IProps, IState>{
 		this.state = {
 			showSearchContainer:true,
 			searchResults:null,
-			query:""
+			query:"",
+			queryType: "artist"
 		}
 		this.service = new AuthService();
 	}
@@ -56,16 +58,28 @@ export default class Navbar extends Component <IProps, IState>{
 	}
 
 	searchArwork = (e:any) => {
-
+		e.preventDefault();
 		const {value} = e.target;
-		this.setState({query: value})
-		this.service.findArtworkByName(e.target.value).then((res:any) => {
-			console.log("rws", res)
-			this.setState({searchResults:res});
-		}).catch((err:any) => {
-			//show err
-
-		})
+		this.setState({query: value});
+		console.log("Hi", this.state.queryType)
+		if(this.state.queryType === "artwork") {
+			this.service.findArtworkByName(e.target.value).then((res:any) => {
+				console.log("rws", res)
+				this.setState({searchResults:res});
+			}).catch((err:any) => {
+				//show err
+	
+			});
+		}
+		else {
+			this.service.findArtistByName(e.target.value).then((res:any) => {
+				console.log("hi  ", res)
+				this.setState({searchResults:res});
+			}).catch((err:any) => {
+				//show err
+	
+			});		
+		}	
 	}
 
 
@@ -73,6 +87,21 @@ export default class Navbar extends Component <IProps, IState>{
 		e.stopPropagation();
 		this.setState({showSearchContainer:toggle})
 	}
+
+	querySelect = (e:any, queryType:string) =>{
+		this.setState({queryType: queryType, searchResults: ""});
+        let buttons = e.target.parentNode.children;
+        console.log(buttons)
+        for(let i = 0; i < buttons.length; i++){
+            console.log(buttons[i].className)
+            if(buttons[i].className === styles.active) {
+                buttons[i].className = ""; 
+            }
+        }
+        e.target.className === styles.active ? e.target.className = "" : e.target.className = styles.active;
+     
+       
+    }
 
 	render(){
 		return (
@@ -85,7 +114,9 @@ export default class Navbar extends Component <IProps, IState>{
 					</div>
 					
 					<form onClick={(e:any) => this.showSearchResultContainer(e, true)} autoComplete="off"> 
-						<input type="text" placeholder="Search ..." name="query" onChange={(e:any) => {this.searchArwork(e)} }/>
+						<input type="text" placeholder="Search ..." name="query" onChange={(e:any) => {this.searchArwork(e)}}
+
+						/>
 					</form>
 					<FontAwesomeIcon
 						className={styles.logo} 
@@ -95,7 +126,11 @@ export default class Navbar extends Component <IProps, IState>{
 					/>
 				</nav>
 				{this.state.showSearchContainer && <SearchResults searchResults={this.state.searchResults}
-				showSearchResultContainer={this.showSearchResultContainer}/>}
+				showSearchResultContainer={this.showSearchResultContainer}
+				querySelect={this.querySelect}
+				queryType={this.state.queryType}
+				/>
+				}
 			</div>
 
 		);

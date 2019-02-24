@@ -35,6 +35,7 @@ router.get('/findSpecificArtwork', (req, res, next) => {
 });
 
 router.get('/findArtworkByName', (req, res, next) => {
+	console.log("JISISIDSI")
 	let query = {artworkName: {$regex : `.*${req.query.artworkName}.*`}}
 	Artwork.find(query)
 	.populate('author', 'username favourite')
@@ -47,12 +48,13 @@ router.get('/findArtworkByName', (req, res, next) => {
 
 router.get('/findArtistByName', (req, res, next) => {
 	let query = {username: {$regex : `.*${req.query.username}.*`}}
+	console.log(query)
 	User.find(query).then(result => {
+		console.log("res", result)
 		res.status(200).json(result)
 	}).catch( err =>{
-		res.status(500).json(err)
-
-	})
+		res.status(500).json(err);
+	});
 });
 
 module.exports = router;

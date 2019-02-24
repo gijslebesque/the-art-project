@@ -7,6 +7,8 @@ import history from '../history';
 interface IProps {
     searchResults:any;
     showSearchResultContainer:any;
+    querySelect:any;
+    queryType:any;
 }
 
 interface IState {
@@ -18,23 +20,37 @@ export default class SearchResults extends Component <IProps, IState>{
     constructor(props:any){
         super(props);
         this.state = {
-            loading:false,
-      
+            loading:false
         }
     }
 
-    render() {
 
-        //Think of better way, two db queries is to much
+
+    render() {
+        //Think of better way, two db queries is too much
         let results
-        if(this.props.searchResults){
+        if( this.props.queryType === "artwork" &&  this.props.searchResults){
+            debugger;
             results = this.props.searchResults.map( (artwork:any, i:number) => {
-            return <p key={i} onClick={(e:any) => {
+              
+                return <p key={i} onClick={(e:any) => {
                 history.push(`artwork?id=${artwork._id}`)
                 this.props.showSearchResultContainer(e, false)
+            
             }
             }>{artwork.artworkName} by {artwork.author.username}</p>
+        
+     
      });
+        }
+        else if(this.props.queryType === "artist" && this.props.searchResults){
+            results = this.props.searchResults.map( (artist:any, i:number) => {
+                return <p key={i} onClick={(e:any) => {
+                    history.push(`artist?id=${artist._id}`)
+                    this.props.showSearchResultContainer(e, false)
+                }
+                }>{artist.username}</p>
+         });
         }
         console.log("gi", results)
         return(
@@ -42,8 +58,8 @@ export default class SearchResults extends Component <IProps, IState>{
                {this.state.loading && <Loader />}
             
                 <div className={styles.btnRow}>
-                    <button className={styles.btn} >Artists</button>
-                    <button>Artwork</button>
+                    <button onClick={e =>{this.props.querySelect(e, "artist")}} className={styles.active} >Artists</button>
+                    <button onClick={e =>{this.props.querySelect(e, "artwork")}}>Artwork</button>
                 </div>
                 <div className={styles.searchResults}>
                 {results}
