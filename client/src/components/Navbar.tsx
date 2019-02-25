@@ -12,23 +12,25 @@ interface IProps {
 interface IState {
 	showSearchContainer:boolean;
 	searchResults:any;
-	query:any;
+		query:any;
 	queryType:string;
 }
 
 
 export default class Navbar extends Component <IProps, IState>{
 	service:any;
-
+	nameInput:any;
 	constructor(props:any) {
 		super(props);
 		this.state = {
 			showSearchContainer:false,
 			searchResults:null,
 			query:"",
-			queryType: "artist"
+			queryType: "artist",
 		}
+		
 		this.service = new AuthService();
+		this.nameInput = React.createRef();
 	}
 
 
@@ -85,12 +87,12 @@ export default class Navbar extends Component <IProps, IState>{
 	showSearchResultContainer = (e:any, toggle:boolean) => {
 		e.stopPropagation();
 		this.setState({showSearchContainer:toggle});
-
 		window.addEventListener('click', this.eventListener);
 	}
 
 	querySelect = (e:any, queryType:string) => {
 		this.setState({queryType: queryType, searchResults: ""});
+		this.nameInput.current.focus();
         let buttons = e.target.parentNode.children;
         for(let i = 0; i < buttons.length; i++){
             console.log(buttons[i].className)
@@ -98,9 +100,7 @@ export default class Navbar extends Component <IProps, IState>{
                 buttons[i].className = ""; 
             }
         }
-        e.target.className === styles.active ? e.target.className = "" : e.target.className = styles.active;
-     
-       
+        e.target.className === styles.active ? e.target.className = "" : e.target.className = styles.active;       
     }
 
 	render() {
@@ -114,7 +114,10 @@ export default class Navbar extends Component <IProps, IState>{
 					</div>
 					
 					<form onClick={(e:any) => this.showSearchResultContainer(e, true)} autoComplete="off"> 
-						<input type="text" placeholder="Search ..." name="query" onChange={(e:any) => {this.searchArwork(e)}}
+						<input 
+						ref={this.nameInput} 
+
+						type="text" placeholder="Search ..." name="query" onChange={(e:any) => {this.searchArwork(e)}}
 
 						/>
 					</form>
