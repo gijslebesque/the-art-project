@@ -101,10 +101,20 @@ class AuthService {
 			.catch(this.errHandler);
 		}
 
+		favourite = (token, data) => {
+			return this.service.put(`/favourite`, {data:data}, { headers: {"Authorization" : `Bearer ${token}`}}).then(res => res.data)
+			.catch(this.errHandler);
+		}
+
+		follow = (token, data) => {
+			return this.service.put(`/follow`, {data:data}, { headers: {"Authorization" : `Bearer ${token}`}}).then(res => res.data)
+			.catch(this.errHandler);
+		}
+
 		getUserInfo = token => {
 			return this.service.get('/getUserInfo', { headers: {"Authorization" : `Bearer ${token}`}})
-				.then(res => res.data)
-				.catch(this.errHandler);	
+			.then(res => res.data)
+			.catch(this.errHandler);	
 		}
 }
 

@@ -98,7 +98,7 @@ export default class BidConstructor extends Component <IProps, IState>{
     makeBid = (artwork:any) => {
         //show pop up and make bid
         console.log(artwork)
-		let token = JSON.parse(localStorage.getItem('jwtToken') || "{}")
+		let token = JSON.parse(localStorage.getItem('jwtToken') || "{}");
         if(helpers.isEmpty(token)){
             this.props.toggleLoginModal(true);
             return true;
@@ -119,8 +119,23 @@ export default class BidConstructor extends Component <IProps, IState>{
 
         });
     }
-    follow = () => {
+    follow = (author:any) => {
         //follow artist
+        console.log(author)
+        let token = JSON.parse(localStorage.getItem('jwtToken') || "{}");
+       
+        if(helpers.isEmpty(token)){
+            this.props.toggleLoginModal(true);
+            return true;
+        }
+        const data = {
+            authorId:author._id,
+        }
+        this.service.follow(token, data).then((res:any) => {
+            console.log(res)
+        }).catch((err:any) => {
+            console.log(err);
+        })
     }
 
     handleChange(e:any) {
@@ -128,10 +143,6 @@ export default class BidConstructor extends Component <IProps, IState>{
         let {value} = e.target;
         this.setState({
             bidAmount: value,
-        }, () => {
-
-            console.log(this.state.bidAmount)
-
         });
     }
     
@@ -171,7 +182,7 @@ export default class BidConstructor extends Component <IProps, IState>{
                         </div>
                         <div className={styles.column}>
                             <h3>{artwork.author.username}</h3>
-                            <span className={styles.followBtn} onClick={ () =>{ this.follow()}}><FontAwesomeIcon icon="plus-circle" /> Follow</span>
+                            <span className={styles.followBtn} onClick={ () =>{ this.follow(artwork.author)}}><FontAwesomeIcon icon="plus-circle" /> Follow</span>
                         
                             <div className={styles.body}>
                         
