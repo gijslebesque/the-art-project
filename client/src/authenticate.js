@@ -96,6 +96,11 @@ class AuthService {
 			.catch(this.errHandler);
 		}
 
+		makeBid = (token, data) => {
+			return this.service.put(`/makeBid`, {data:data}, { headers: {"Authorization" : `Bearer ${token}`}}).then(res => res.data)
+			.catch(this.errHandler);
+		}
+
 		getUserInfo = token => {
 			return this.service.get('/getUserInfo', { headers: {"Authorization" : `Bearer ${token}`}})
 				.then(res => res.data)

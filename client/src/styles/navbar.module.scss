@@ -9,6 +9,7 @@
     right:0;
     height:50px;
     align-items: center;
+    box-shadow:0 1px 6px 0 rgba(32,33,36,0.28);
     input{
         padding:0px;
     }
@@ -31,6 +32,7 @@
     background-color:white;
     position: fixed;
     left:50%;
+    top:50px;
     transform:translateX(-50%);
     width:80%;
     display: flex;
@@ -42,22 +44,28 @@
         display: flex;
         button{
             width:100%;
-          padding:20px;
-          background-color: white;
-          border:none;
-          cursor: pointer;
+            padding:20px;
+            background-color: white;
+            border:none;
+            cursor: pointer;
         }
 
-        button:hover {
+        button:hover ,.active {
             background-color: powderblue;
 
         }
-        .active{
-            background-color: powderblue;
-        }
+      
     }
     .searchResults{
-        padding:40px;
+
+        p{
+            margin: 20px;
+            padding: 10px 0px;
+            cursor: pointer;
+        }
+        p:nth-child(even), p:hover{
+            background-color:aliceblue;
+        }
     }
 }
 

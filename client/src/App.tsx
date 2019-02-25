@@ -199,7 +199,13 @@ class App extends Component <{}, IState> {
 
 					<Switch>
 						<Route exact path='/' component={Home}/>
-						<Route path='/artwork' component={BidConstructor}/>
+						
+						<Route 
+							path='/artwork'
+							render={(props) => <BidConstructor toggleLoginModal={this.toggleLoginModal} {...props}  />
+							}
+						/>
+
 						<Route path='/artist' component={ArtistProfile} />
 						<PrivateRoute authed={this.state.authed} username={this.state.username} exact path='/profile' component={Profile} />
 

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import AuthService from '../authenticate.js';
 import Loader from 'react-loader-spinner';
 import loaderStyles from '../styles/spinner.module.scss';
+import artworkStyles from '../styles/artworks.module.scss';
 import CardConstructor from './CardConstructor';
 
 interface IProps {
@@ -10,7 +11,7 @@ interface IProps {
 
 interface IState {
     artist:any;
-    loader:boolean;
+    loading:boolean;
 }
 
 export default class ArtistProfile extends Component <IProps, IState>{
@@ -19,7 +20,7 @@ export default class ArtistProfile extends Component <IProps, IState>{
         super(props);
         this.state = {
             artist:null,
-            loader:true
+            loading:true
         }
         this.service = new AuthService();
     }
@@ -30,10 +31,9 @@ export default class ArtistProfile extends Component <IProps, IState>{
         let artistId = params.get("id");
         console.log("hi")
         this.service.findArtist(artistId).then((res:any) => {
-            console.log("REASS", res)
-           this.setState({
-               artist:res,
-               loader:false
+            this.setState({
+                artist:res,
+                loading:false
            })
             // const intervalId = setInterval( () => {
             //     this.auctionTimer(res.auction.endDate);   
@@ -55,7 +55,6 @@ export default class ArtistProfile extends Component <IProps, IState>{
         let artworks = null;
         if(artist.artworks) {
                 artworks = artist.artworks.map((artwork:any, i:number) => {
-                    debugger
                     return(
                         <CardConstructor key={i} artwork={artwork}/>
                     );
@@ -64,10 +63,12 @@ export default class ArtistProfile extends Component <IProps, IState>{
         }
 
         return(
-            <div>
+            <>
               <h1>{artist.username}</h1>
-              {artworks}
-            </div>
+              <div className={artworkStyles.artworks}>
+                 {artworks}
+              </div>
+            </>
            
         )
     }
@@ -76,14 +77,13 @@ export default class ArtistProfile extends Component <IProps, IState>{
         return(
             <div className="artistProfile">
                   <div className={loaderStyles.spinnerCenter}>    
-                        <Loader 
+                      { this.state.loading && <Loader 
                             type="Triangle"
                             color="#b0e0e6"
                             height="50"	
                             width="50"
-                        />
+                        />}
                     </div>
-
                     {artist}
             </div>
         )

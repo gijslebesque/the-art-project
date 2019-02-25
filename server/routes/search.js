@@ -44,9 +44,6 @@ router.get('/findArtworkByName', (req, res, next) => {
 	});
 });
 
-
-//Make search case insentive
-
 router.get('/findArtistByName', (req, res, next) => {
 	let query = {username: {$regex : `.*${req.query.username}.*`, $options:"-i"}}
 	User.find(query).then(result => {
@@ -63,11 +60,27 @@ router.get("/findArtist" , (req, res, next) => {
 			res.status(500).json(err);
 			throw err;
 		}
-
 		res.status(200).json(result);
-		
 	})
 });
+
+router.put("/makeBid", passport.authenticate('jwt', {session: false}) , (req, res, next) => {
+	const artworkId = req.body.data.id;
+	const userId = req.user._id;
+	const bidAmount = req.body.data.bidAmount;
+	 Artwork.findByIdAndUpdate(artworkId, { $set: {"auction.bid": bidAmount, "auction.bidder": userId}}).then(result => {
+		debugger;
+
+		res.status(200).json(result);
+	 }).catch(err => {
+		debugger;
+
+		 console.log(err);
+		 res.status(500).json("Couldn't update code");
+	 })
+
+});
+
 
 
 module.exports = router;

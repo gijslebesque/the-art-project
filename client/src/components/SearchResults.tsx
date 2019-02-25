@@ -23,9 +23,6 @@ export default class SearchResults extends Component <IProps, IState>{
             loading:false
         }
     }
-
-
-
     render() {
         //Think of better way, two db queries too much
         let results

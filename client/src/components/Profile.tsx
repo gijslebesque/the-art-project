@@ -19,7 +19,7 @@ export default class Profile extends Component<any, any>  {
 
   
     componentDidMount(){
-    //    this.service()
+    //this.service()
 
         console.log("proppass", this.props)
     }

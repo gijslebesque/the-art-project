@@ -31,34 +31,21 @@ export default class CardConstructor extends Component <IProps, IState> {
             intervalId:0
         }
     }
-    
-    componentWillMount(){
-    
-    }
    
     showFullArtwork = (artwork:any) => {
-        //show pop up and make bid
-        console.log(artwork)
-
         history.push(`/artwork?id=${artwork._id}`);
     }
-    follow = () => {
-        //follow artist
-    }
-    
+
     render(){
         let artwork = this.props.artwork;
-        let startDate = artwork.createdAt.slice(0, artwork.createdAt.indexOf("T"));
-        let startDateFormat = new Date(startDate).toLocaleDateString();
-    
+      
         return(
             <div className={styles.singleCard} onClick={() =>{this.showFullArtwork(artwork)} }>  
                     <img src={artwork.artworkURL} />
                     <h3>{artwork.author.username}</h3>
-                  
                     <p>{artwork.artworkName}</p>
                     <p>{artwork.description}</p>
-                    <p>{artwork.auction.originalPrice}</p>   
+                    <p>$ {artwork.auction.originalPrice}</p>   
             </div>
         );
     }

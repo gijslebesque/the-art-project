@@ -4,7 +4,7 @@ import AuthService from '../authenticate.js';
 import Loader from 'react-loader-spinner';
 import loaderStyles from '../styles/spinner.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import helpers from '../helpers';
 
 interface IState {
     loading:boolean;
@@ -14,12 +14,13 @@ interface IState {
     minutes:number;
     seconds:number;
     intervalId:any;
+    bidAmount:number;
 }
 
 
 interface IProps {
-    artwork:any;
     location:any;
+    toggleLoginModal:any;
 }
 
 
@@ -34,13 +35,14 @@ export default class BidConstructor extends Component <IProps, IState>{
             hours: 0,
             minutes:0,
             seconds:0,
-            intervalId:0
+            intervalId:0,
+            bidAmount:0
         }
         this.service = new AuthService();
     }
 
     componentDidMount(){
-      
+        console.log(this.props.toggleLoginModal)
         let params = new URLSearchParams(this.props.location.search);
         let artworkId = params.get("id");
     
@@ -54,7 +56,8 @@ export default class BidConstructor extends Component <IProps, IState>{
             this.setState({
                 artwork:res,
                 loading:false,
-                intervalId:intervalId
+                intervalId:intervalId,
+                bidAmount:res.auction.originalPrice + 10
             });
 
         }).catch((err:any) => {
@@ -92,19 +95,54 @@ export default class BidConstructor extends Component <IProps, IState>{
         clearInterval(this.state.intervalId);
     }
    
-    onClick = (artwork:any) => {
+    makeBid = (artwork:any) => {
         //show pop up and make bid
         console.log(artwork)
+		let token = JSON.parse(localStorage.getItem('jwtToken') || "{}")
+        if(helpers.isEmpty(token)){
+            this.props.toggleLoginModal(true);
+            return true;
+        }
+        const data = {
+            id:artwork._id,
+            bidAmount: Number(this.state.bidAmount)
+        }
+        console.log(typeof data.bidAmount)
+
+        this.service.makeBid(token, data).then((res:any) => {
+            console.log("RESS", res);
+            this.setState({artwork:res, });
+        }).catch((err:any) => {
+            console.log("session expired")
+            debugger;
+            this.props.toggleLoginModal(true);
+
+        });
     }
     follow = () => {
         //follow artist
     }
+
+    handleChange(e:any) {
+
+        let {value} = e.target;
+        this.setState({
+            bidAmount: value,
+        }, () => {
+
+            console.log(this.state.bidAmount)
+
+        });
+    }
     
     render(){
         let artwork = this.state.artwork;
-        let startDateFormat
+        let startDateFormat;
+        let price;
+
         if(artwork){
             let startDate = artwork.createdAt.slice(0, artwork.createdAt.indexOf("T"));
+            artwork.auction.bid ? price = artwork.auction.bid : price = artwork.auction.original;
             startDateFormat = new Date(startDate).toLocaleDateString();
         }
         return(
@@ -147,21 +185,21 @@ export default class BidConstructor extends Component <IProps, IState>{
 
                             <div className={styles.bidRow}>
                                 <h3>Starting bid</h3>
-                                <h3>$ {artwork.auction.originalPrice}</h3>
+                                <h3>$ {price}</h3>
                             </div>
                         
                             <hr/>
 
                             <p>Place bid</p>
 
-                            <select name="bidding">
-                                <option value="1">$ {artwork.auction.originalPrice + 10}</option>
-                                <option value="2">$ {artwork.auction.originalPrice + 20}</option>
-                                <option value="3">$ {artwork.auction.originalPrice + 30}</option>
-                                <option value="4">$ {artwork.auction.originalPrice + 40}</option>
+                            <select name="bidding" onChange={(e) => this.handleChange(e) }>
+                                <option value={price + 10}>$ {price + 10}</option>
+                                <option value={price + 20}>$ {price + 20}</option>
+                                <option value={price + 30}>$ {price + 30}</option>
+                                <option value={price + 40}>$ {price + 40}</option>
                             </select>
 
-                            <button className={styles.ctaBtn} onClick={() =>{ {this.onClick(artwork)}}}>Bid</button>
+                            <button className={styles.ctaBtn} onClick={() =>{ {this.makeBid(artwork)}}}>Bid</button>
                             <div className={styles.timeLeft}>
                                 <h3>{this.state.days}d {this.state.hours}h {this.state.minutes}m {this.state.seconds}s</h3>
                                 <h3>Live {startDateFormat}</h3>
