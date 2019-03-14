@@ -1,17 +1,18 @@
 require('dotenv').config();
 
-const createError = require('http-errors');
-const express = require('express');
-const path = require('path');
-const cookieParser = require('cookie-parser');
-const logger = require('morgan');
-const mongoose = require('mongoose');
+import createError from 'http-errors';
+import expressGraphQL from "express-graphql";
+import express  from 'express';
+import path  from 'path';
+import cookieParser  from 'cookie-parser';
+import logger  from 'morgan';
+import mongoose from 'mongoose';
 
 const app = express();
 
-const LocalStrategy  = require('passport-local').Strategy;
-const session        = require('express-session');
-const passport       = require('passport');
+// import LocalStrategy, {Strategy} from 'passport-local';
+import session         from 'express-session';
+import passport        from 'passport';
 
 require('./config/passport.js');
 

@@ -10,10 +10,10 @@ cloudinary.config({
 
 let folderName;
 if(process.env.ENV === "production"){
-	foldername = "art-database-prod";
+	folderName = "art-database-prod";
 }
 else {
-	foldername = "art-database-test";
+	folderName = "art-database-test";
 }
 
 const storage = cloudinaryStorage({
