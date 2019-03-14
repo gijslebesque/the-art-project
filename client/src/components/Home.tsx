@@ -12,6 +12,7 @@ export default class Home extends Component {
     			</div> 
 				<h2>Recent artworks</h2>
 				<FindArtwork method="findRecentArtworks"/> 
+			
     		</div>
       	);
     }

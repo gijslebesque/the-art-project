@@ -8,16 +8,11 @@ const User = require('../models/User');
 router.put("/favourite", passport.authenticate('jwt', {session: false}) , (req, res, next) => {
 	const artworkId = req.body.data.id;
 	const userId = req.user._id;
-	User.findByIdAndUpdate(userId, { $push: {"favourite": artworkId}}).then(result => {
-		debugger;
-
+	User.findByIdAndUpdate(userId, { $push: {"favourite": artworkId}}).then(result => {	
 		res.status(200).json(result);
 	}).catch(err => {
-		debugger;
-
-		 console.log(err);
 		res.status(500).json(err);
-	})
+	});
 
 });
 
