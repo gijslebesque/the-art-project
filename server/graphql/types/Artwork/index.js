@@ -7,16 +7,16 @@ export default `
     }
 
   type Artwork {
-    id: String!
-    artworkName: String!
-    artworkURL: String!
-    artworkDescription: [Artwork!]!
-    favouritised: [User!]!
-    following: [User!]!
-    auction: [Auction]
+    _id: String
+    artworkName: String
+    artworkURL: String
+    artworkDescription: String
+    favouritised: [User]
+    following: [User]
+    auction: Auction
   }
   type Query {
-    artwork(id: String!): Artwork
+    artwork(_id: String!): Artwork
     artworks: [Artwork]
   }
   type Mutation {

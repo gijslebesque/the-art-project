@@ -4,7 +4,7 @@ export default `
     _id: String!
     username: String
     email: String
-    artworks: [Artwork!]
+    artworks: [Artwork]
     favourite: [User!]
     following: [User!]
     followers: [User!]

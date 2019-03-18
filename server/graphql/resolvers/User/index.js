@@ -4,7 +4,7 @@ export default {
   Query: {
     user: (root, args) => {
       return new Promise((resolve, reject) => {
-        User.findOne(args).exec((err, res) => {
+        User.findOne(args).populate({path:"artworks", populate: {path:"auction.bidder"}}).exec((err, res) => {
           err ? reject(err) : resolve(res);
         });
       });
