@@ -1,10 +1,9 @@
-const express    = require('express');
-const authRoutes = express.Router();
-const jwt        = require('../config/jwt');
-const passport   = require('passport');
-const bcrypt     = require('bcryptjs');
-
-const User       = require('../models/User');
+import { Router }  from 'express';
+import jwt        from '../config/jwt';
+import passport   from 'passport';
+import bcrypt     from 'bcryptjs';
+import User       from '../models/User';
+const authRoutes = Router();
 
 authRoutes.post('/register', (req, res, next) => {
     debugger;

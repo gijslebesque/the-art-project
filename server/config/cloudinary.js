@@ -1,6 +1,6 @@
-const cloudinary = require('cloudinary');
-const cloudinaryStorage = require('multer-storage-cloudinary');
-const multer = require('multer');
+import cloudinary from 'cloudinary';
+import cloudinaryStorage from 'multer-storage-cloudinary';
+import multer from 'multer';
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,

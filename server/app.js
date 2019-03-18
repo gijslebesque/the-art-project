@@ -7,6 +7,8 @@ import path  from 'path';
 import cookieParser  from 'cookie-parser';
 import logger  from 'morgan';
 import mongoose from 'mongoose';
+import schema from "./graphql/";
+
 
 const app = express();
 
@@ -26,6 +28,14 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }));
+
+app.use(
+    "/graphql",
+    expressGraphQL({
+      schema,
+      graphiql: true
+    })
+  );
 
 
 app.use(passport.initialize());
