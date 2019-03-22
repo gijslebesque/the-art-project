@@ -78,7 +78,7 @@ class FileUpload extends Component <IProps, IState> {
 			})
 		});
 	}
-
+	//Set minum date as expiration date to now. 
 	getDate = () => {
 
 		let dtToday:Date = new Date();
@@ -98,7 +98,6 @@ class FileUpload extends Component <IProps, IState> {
 	
     render(){
 	
-		console.log(this.state)
         return (
 			<Modal open={this.props.isOpen} onClose={ () =>{this.props.toggleUploadModal(false)}}>
 				<h3>{this.state.modalHeader}</h3>

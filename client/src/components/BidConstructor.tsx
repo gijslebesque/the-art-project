@@ -45,8 +45,23 @@ export default class BidConstructor extends Component <IProps, IState>{
         console.log(this.props.toggleLoginModal)
         let params = new URLSearchParams(this.props.location.search);
         let artworkId = params.get("id");
+        this.findArtwork(artworkId);
     
-        this.service.findSpecificArtwork(artworkId).then((res:any) => {
+      
+    }
+
+    componentDidUpdate(prevProps:any) {
+        if(prevProps.location.search != this.props.location.search){
+            let params = new URLSearchParams(this.props.location.search);
+            let artistId = params.get("id");
+            this.findArtwork(artistId)
+        }
+        
+    }
+
+
+    findArtwork = (id:any) => {
+        this.service.findSpecificArtwork(id).then((res:any) => {
             console.log(res)
            
             const intervalId = setInterval( () => {
@@ -63,7 +78,8 @@ export default class BidConstructor extends Component <IProps, IState>{
         }).catch((err:any) => {
             console.log("err", err)
         });
-    }
+
+    } 
 
     auctionTimer(endDate:string){
         // End date is data string from back end;

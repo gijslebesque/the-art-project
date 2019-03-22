@@ -1,22 +1,18 @@
 require('dotenv').config();
+require('./config/passport.js');
 
-import createError from 'http-errors';
-import expressGraphQL from "express-graphql";
-import express  from 'express';
-import path  from 'path';
-import cookieParser  from 'cookie-parser';
-import logger  from 'morgan';
-import mongoose from 'mongoose';
-import schema from "./graphql/";
-
+import createError      from 'http-errors';
+import expressGraphQL   from "express-graphql";
+import express          from 'express';
+import path             from 'path';
+import cookieParser     from 'cookie-parser';
+import logger           from 'morgan';
+import mongoose         from 'mongoose';
+import schema           from "./graphql/";
+import session          from 'express-session';
+import passport         from 'passport';
 
 const app = express();
-
-// import LocalStrategy, {Strategy} from 'passport-local';
-import session         from 'express-session';
-import passport        from 'passport';
-
-require('./config/passport.js');
 
 mongoose.connect('mongodb://localhost:27017/art-db', { useNewUrlParser: true }, (err) => {
     if(err) console.log(err)
@@ -35,7 +31,7 @@ app.use(
       schema,
       graphiql: true
     })
-  );
+);
 
 
 app.use(passport.initialize());

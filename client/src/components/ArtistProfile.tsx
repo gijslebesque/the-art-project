@@ -29,8 +29,21 @@ export default class ArtistProfile extends Component <IProps, IState>{
       
         let params = new URLSearchParams(this.props.location.search);
         let artistId = params.get("id");
-        console.log("hi")
-        this.service.findArtist(artistId).then((res:any) => {
+        this.findArtist(artistId);
+       
+    }
+
+    componentDidUpdate(prevProps:any) {
+        if(prevProps.location.search != this.props.location.search){
+            let params = new URLSearchParams(this.props.location.search);
+            let artistId = params.get("id");
+            this.findArtist(artistId)
+        }
+        
+    }
+
+    findArtist = (id:any) => {
+        this.service.findArtist(id).then((res:any) => {
             this.setState({
                 artist:res,
                 loading:false
@@ -49,6 +62,7 @@ export default class ArtistProfile extends Component <IProps, IState>{
             console.log("err", err)
         });
     }
+
     artist = () => {
         if(!this.state.artist) return null;
         let artist = this.state.artist;

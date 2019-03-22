@@ -1,5 +1,5 @@
 
-export default `
+export default`
   type User {
     _id: String!
     username: String

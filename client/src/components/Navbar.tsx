@@ -1,9 +1,8 @@
-import React, {Component, ReactDOM} from 'react';
+import React, {Component} from 'react';
 import styles from '../styles/navbar.module.scss';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import SearchResults from './SearchResults';
 import AuthService from '../authenticate';
-import { resolve6 } from 'dns';
 
 interface IProps {
 	toggleSideNav:any;
@@ -12,7 +11,7 @@ interface IProps {
 interface IState {
 	showSearchContainer:boolean;
 	searchResults:any;
-		query:any;
+	query:any;
 	queryType:string;
 }
 
