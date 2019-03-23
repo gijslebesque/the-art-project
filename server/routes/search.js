@@ -6,7 +6,7 @@ const User = require('../models/User');
 
 /* GET users listing. */
 router.get('/findRecentArtworks', function(req, res, next) {
-	Artwork.find({}, null, {skip:0, limit:10, sort: {date: -1}})
+	Artwork.find({}, null, {skip:0, limit:10, sort: {createdAt: -1}})
 	.populate('author', 'username favourite')
 	.exec((err, result) => {
 		if(err) throw err;

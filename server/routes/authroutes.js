@@ -1,8 +1,9 @@
-import { Router }  from 'express';
+import { Router } from 'express';
 import jwt        from '../config/jwt';
 import passport   from 'passport';
 import bcrypt     from 'bcryptjs';
 import User       from '../models/User';
+
 const authRoutes = Router();
 
 authRoutes.post('/register', (req, res, next) => {
@@ -40,13 +41,10 @@ authRoutes.post('/register', (req, res, next) => {
                 res.status(503).json({ message: 'Something went wrong saving user to database' });
             return;
             }
-            //To avoid sending senstive data. 
-            const userProject = {
-                _id:theUser._id,
-                username:theUser.username,
-                artworks:theUser.artworks,
-                favourite:theUser.artworks
-            }
+            //To avoid sending senstive data, deconstructing projection of user. 
+            debugger
+            let { password, ...userProject } = theUser._doc;
+            debugger
             //Still need error handeling front-end (consider different error message to catch)
             req.login(userProject, (err) => {
                 if (err) {

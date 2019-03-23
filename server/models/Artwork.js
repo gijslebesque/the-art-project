@@ -1,15 +1,34 @@
 import mongoose, { Schema } from 'mongoose';
 
 const ArtworkSchema = new Schema({
-    artworkName:String,
-    author: {type: Schema.Types.ObjectId, ref: 'user'} ,
-    artworkURL: String,
-    artworkDescription: String,
+    artworkName:{
+        type:String,
+        required: true,
+    },
+    author: {
+        type: Schema.Types.ObjectId, 
+        ref: 'user',
+        required:true
+    },
+    artworkURL: {
+        type:String,
+        required: true,
+    },
+    artworkDescription: {
+        type:String,
+        required: true,
+    },
     favouritised:Number,
     auction: {
         bidder: {type: Schema.Types.ObjectId, ref: 'user'},
-        originalPrice: Number,
-        endDate: Date,
+        originalPrice: {
+            type:Number,
+            required: true,
+        },
+        endDate: {
+            type:Date,
+            required: true,
+        },
         bid: Number,
     },
   

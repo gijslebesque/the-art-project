@@ -4,7 +4,7 @@ export default {
   Query: {
     artwork: (root, args) => {
       return new Promise((resolve, reject) => {
-        Artwork.findOne(args).exec((err, res) => {
+        Artwork.findOne(args).populate("author").populate("auction.bidder").exec((err, res) => {
           err ? reject(err) : resolve(res);
         });
       });
@@ -12,7 +12,7 @@ export default {
     artworks: () => {
       return new Promise((resolve, reject) => {
         Artwork.find({})
-          .populate()
+          .populate("author")
           .exec((err, res) => {
             err ? reject(err) : resolve(res);
           });

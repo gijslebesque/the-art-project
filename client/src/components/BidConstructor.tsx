@@ -52,6 +52,7 @@ export default class BidConstructor extends Component <IProps, IState>{
 
     componentDidUpdate(prevProps:any) {
         if(prevProps.location.search != this.props.location.search){
+            clearInterval(this.state.intervalId);
             let params = new URLSearchParams(this.props.location.search);
             let artistId = params.get("id");
             this.findArtwork(artistId)
@@ -169,7 +170,7 @@ export default class BidConstructor extends Component <IProps, IState>{
 
         if(artwork){
             let startDate = artwork.createdAt.slice(0, artwork.createdAt.indexOf("T"));
-            artwork.auction.bid ? price = artwork.auction.bid : price = artwork.auction.original;
+           price = artwork.auction.bid ? artwork.auction.bid : artwork.auction.originalPrice;
             startDateFormat = new Date(startDate).toLocaleDateString();
         }
         return(

@@ -55,6 +55,7 @@ export default gql `
 
   type Artwork {
     _id: String
+    author: User
     artworkName: String
     artworkURL: String
     artworkDescription: String

@@ -13,27 +13,29 @@ router.post('/photo-upload', passport.authenticate('jwt', {session: false}), par
 	let endDate = new Date(req.body.endDate);
 	
 	const newArtwork = new Artwork({
-		artworkName:artworkName,
+		artworkName,
   		author: req.user._id,
 		artworkURL: req.file.url,
-		artworkDescription: artworkDescription,
+		 artworkDescription,
 		auction: {
-			originalPrice: artworkPrice,
+			originalPrice: parseInt(artworkPrice),
 			endDate: endDate,
 		},
 	});
-	
-	Artwork.create(newArtwork, (err, savedArtwork) => {
-		if(err) throw err;
-		User.findOneAndUpdate({_id: req.user._id}, { $push:{artworks: savedArtwork._id} }, (err, updatedUser) =>{
-			if(err) throw err;
-			debugger;
+	debugger
+	Artwork.create( newArtwork )
+	.then( savedArtwork => {
+		debugger
+		User.findOneAndUpdate({_id: req.user._id}, { $push:{artworks: newArtwork._id} })
+		.then( updatedUser =>{
 			res.status(200).json({
 				success: true,
-				savedArtwork: savedArtwork
+				savedArtwork: newArtwork
 			});
-		});
-	});
+		})
+	}).catch(err => {
+			debugger
+		res.status(500).json(err)})
 })
 
 module.exports = router;

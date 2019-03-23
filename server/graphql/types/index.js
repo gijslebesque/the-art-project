@@ -1,15 +1,3 @@
-// import { mergeTypes } from "merge-graphql-schemas";
-
-// import User from "./User/";
-// import Artwork from './Artwork/';
-// const typeDefs = [User, Artwork];
-
-// export default mergeTypes(typeDefs, { all: true });
-
-// import {
-//     mergeSchemas, addMockFunctionsToSchema
-//   } from 'graphql-tools';
-
 import { gql } from 'apollo-server-express';
 
 import userSchema from "./User/";
@@ -30,11 +18,3 @@ const linkSchema = gql `
 //   }
 
 export default [linkSchema, userSchema, artworkSchema];
-
-
-// export const schema = mergeSchemas({
-//     schemas: [
-//       User,
-//       Artwork
-//     ],
-//   });

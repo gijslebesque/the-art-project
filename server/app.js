@@ -24,48 +24,36 @@ mongoose.connect('mongodb://localhost:27017/art-db', { useNewUrlParser: true }, 
 app.use(session({
     secret: process.env.SECRET,
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: false
 }));
-
-
-// const schema = gql`
-//   type Query {
-//     user: User
-//   }
-
-//   type User {
-//     username: String!
-//   }
-// `;
-
-// const resolvers = {
-//   Query: {
-//     user: () => {
-//       return {
-//         username: 'Robin Wieruch',
-//       };
-//     },
-//   },
-// };
-
-const server = new ApolloServer({
-    typeDefs:schema,
-    resolvers
-  });
-
-server.applyMiddleware({ app, path: '/graphql' });
-  
-
 
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/graphql', (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, (err, user, info) => {
+      if (user) {
+        req.user = user
+      }
+  
+      next()
+    })(req, res, next)
+  })
+  
+
+const server = new ApolloServer({
+    typeDefs:schema,
+    resolvers,
+    context: req => req.user
+  });
+
+server.applyMiddleware({ app, path: '/graphql' });
+  
 app.set('view engine', 'hbs')
 app.set('views', __dirname + '/views');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser('big old long secret'));
 
 if(process.env.ENV === "development"){
