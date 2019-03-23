@@ -2,15 +2,17 @@ require('dotenv').config();
 require('./config/passport.js');
 
 import createError      from 'http-errors';
-import expressGraphQL   from "express-graphql";
+// import expressGraphQL   from "express-graphql";
 import express          from 'express';
 import path             from 'path';
 import cookieParser     from 'cookie-parser';
 import logger           from 'morgan';
 import mongoose         from 'mongoose';
-import schema           from "./graphql/";
+import schema           from './graphql/types/';
+import resolvers        from './graphql/resolvers/'
 import session          from 'express-session';
 import passport         from 'passport';
+import { ApolloServer } from 'apollo-server-express';
 
 const app = express();
 
@@ -25,13 +27,34 @@ app.use(session({
     saveUninitialized: true
 }));
 
-app.use(
-    "/graphql",
-    expressGraphQL({
-      schema,
-      graphiql: true
-    })
-);
+
+// const schema = gql`
+//   type Query {
+//     user: User
+//   }
+
+//   type User {
+//     username: String!
+//   }
+// `;
+
+// const resolvers = {
+//   Query: {
+//     user: () => {
+//       return {
+//         username: 'Robin Wieruch',
+//       };
+//     },
+//   },
+// };
+
+const server = new ApolloServer({
+    typeDefs:schema,
+    resolvers
+  });
+
+server.applyMiddleware({ app, path: '/graphql' });
+  
 
 
 app.use(passport.initialize());

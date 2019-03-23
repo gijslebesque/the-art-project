@@ -4,7 +4,7 @@ export default {
   Query: {
     artwork: (root, args) => {
       return new Promise((resolve, reject) => {
-        Artworks.findOne(args).exec((err, res) => {
+        Artwork.findOne(args).exec((err, res) => {
           err ? reject(err) : resolve(res);
         });
       });
