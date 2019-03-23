@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "nodemon --exec babel-node ./bin/www",
-    "debug": "nodemon --exec babel-node --inspect ./bin/www"
+    "debug": "nodemon --exec babel-node --inspect ./bin/www",
+    "build": "babel src --out-dir dist",
+    "serve": "node dist/server.js"
   },
   "dependencies": {
     "apollo-server": "^2.4.8",
@@ -33,10 +35,10 @@
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.0.0",
     "@babel/core": "^7.4.0",
+    "@babel/node": "^7.0.0",
     "@babel/plugin-proposal-object-rest-spread": "^7.4.0",
-    "@babel/preset-env": "^7.4.2",
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0"
+    "@babel/preset-env": "^7.0.0"
   }
 }
