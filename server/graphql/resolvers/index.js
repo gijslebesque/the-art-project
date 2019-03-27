@@ -1,8 +1,11 @@
-import { mergeResolvers } from "merge-graphql-schemas";
-
 import User from "./User/";
-import Artwork from "./Artwork/"
+import Artwork from "./Artwork/";
 
-const resolvers = [User, Artwork];
+const resolvers = {
+	Query: {
+		...Artwork,
+		...User
+	}
+};
 
-export default mergeResolvers(resolvers);
+export default resolvers;
