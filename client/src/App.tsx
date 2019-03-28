@@ -13,6 +13,8 @@ import PrivateRoute from "./components/PrivateRoute";
 import BidConstructor from "./components/BidConstructor";
 import ArtistProfile from "./components/ArtistProfile";
 
+import axios from "axios";
+
 import history from "./history";
 
 import helpers from "./helpers";
@@ -56,6 +58,16 @@ class App extends Component<{}, IState> {
 	}
 
 	componentDidMount() {
+		axios("http://localhost:3001/graphql", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				Accept: "application/json"
+			},
+			data: { query: "{ users { username } }" }
+		})
+			.then(r => r)
+			.then(data => console.log("data returned:", data.data));
 		let token = JSON.parse(localStorage.getItem("jwtToken") || "{}");
 
 		//	let user = JSON.parse(localStorage.getItem('user') || "{}" );
@@ -91,9 +103,7 @@ class App extends Component<{}, IState> {
 
 	handleLoginSubmit = (e: any, input: any) => {
 		e.preventDefault();
-		console.log("hi");
 		const { username, password } = input;
-
 		this.service
 			.login(username, password)
 			.then((res: any) => {
@@ -112,8 +122,6 @@ class App extends Component<{}, IState> {
 				);
 			})
 			.catch((err: any) => {
-				debugger;
-				console.log("ERROR");
 				this.setState({
 					loading: false,
 					errorMessageLogin: err
@@ -124,7 +132,6 @@ class App extends Component<{}, IState> {
 	handleRegisterSubmit = (e: any, input: any) => {
 		e.preventDefault();
 		const { username, email, password } = input;
-		console.log(username);
 		this.setState({ loading: true });
 		this.service
 			.register(username, email, password)

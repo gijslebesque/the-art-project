@@ -8,19 +8,6 @@ import * as serviceWorker from "./serviceWorker";
 import { Router } from "react-router-dom";
 import WebFont from "webfontloader";
 import history from "./history";
-import { ApolloProvider } from "react-apollo";
-import { ApolloClient } from "apollo-client";
-import { InMemoryCache } from "apollo-cache-inmemory";
-import { HttpLink } from "apollo-link-http";
-
-const cache = new InMemoryCache();
-const link = new HttpLink({
-	uri: process.env.URI
-});
-const client = new ApolloClient({
-	cache,
-	link
-});
 
 import "./styles/App.scss";
 
@@ -31,11 +18,9 @@ WebFont.load({
 });
 
 ReactDOM.render(
-	<ApolloProvider client={client}>
-		<Router history={history}>
-			<App />
-		</Router>
-	</ApolloProvider>,
+	<Router history={history}>
+		<App />
+	</Router>,
 	document.getElementById("root")
 );
 
