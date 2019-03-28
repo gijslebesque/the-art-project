@@ -39,22 +39,15 @@ app.use("/graphql", (req, res, next) => {
 	passport.authenticate("jwt", { session: false }, (err, user, info) => {
 		if (user) {
 			req.user = user;
-		} else {
-			req.user = { name: "test" };
 		}
-
 		next();
 	})(req, res, next);
 });
 
 const server = new ApolloServer({
-	context: ({ req }) => {
-		debugger;
-		return req.user;
-	},
+	context: ({ req }) => req.user,
 	typeDefs: schema,
 	resolvers,
-
 	engine: {
 		apiKey: process.env.ENGINE_API_KEY
 	}
