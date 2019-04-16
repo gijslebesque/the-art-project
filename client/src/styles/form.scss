@@ -1,21 +1,18 @@
-
-form{
-    width:100%;
-    margin:20px auto;
-    input{
-        width:100%;
-        margin:0 auto;
-        border:none;
-        display: block;
-        padding:20px 20px 10px 0px;
-        border-bottom:1px solid #778899;
-       
-    }
+form {
+	width: 100%;
+	margin: 20px auto;
+	input {
+		width: 100%;
+		margin: 0 auto;
+		border: none;
+		display: block;
+		padding: 20px 20px 10px 0px;
+		border-bottom: 1px solid #778899;
+	}
 }
 
-@media(min-width:700px){
-    
-   form{
-        width:50%;
-    }
+@media (min-width: 700px) {
+	form {
+		width: 50%;
+	}
 }

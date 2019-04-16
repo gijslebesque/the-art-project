@@ -5,6 +5,7 @@ import createError from "http-errors";
 import express from "express";
 import path from "path";
 import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
 import logger from "morgan";
 import mongoose from "mongoose";
 import schema from "./graphql/types/";
@@ -15,6 +16,7 @@ import { ApolloServer } from "apollo-server-express";
 
 const app = express();
 
+//Include mongostore for prod environment.
 mongoose.connect(
 	"mongodb://localhost:27017/art-db",
 	{ useNewUrlParser: true },
@@ -34,33 +36,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.use("/graphql", (req, res, next) => {
-	passport.authenticate("jwt", { session: false }, (err, user, info) => {
-		if (user) {
-			req.user = user;
-		}
-		next();
-	})(req, res, next);
-});
-
-const server = new ApolloServer({
-	context: ({ req }) => req.user,
-	typeDefs: schema,
-	resolvers,
-	engine: {
-		apiKey: process.env.ENGINE_API_KEY
-	}
-});
-
-server.applyMiddleware({ app, path: "/graphql" });
-
-app.set("view engine", "hbs");
-app.set("views", __dirname + "/views");
-
-app.use(logger("dev"));
-app.use(express.json());
-app.use(cookieParser("big old long secret"));
+app.use(bodyParser.json());
 
 if (process.env.ENV === "development") {
 	app.set("views", path.join(__dirname, "views"));
@@ -89,7 +65,74 @@ if (process.env.ENV === "development") {
 	});
 }
 
+app.use("/graphql", (req, res, next) => {
+	debugger;
+	passport.authenticate("jwt", { session: false }, (err, user, info) => {
+		if (user) {
+			req.user = user;
+		}
+		next();
+	})(req, res, next);
+});
+
+const server = new ApolloServer({
+	context: ({ req }) => req.user,
+	cors: true,
+	typeDefs: schema,
+	resolvers,
+	engine: {
+		apiKey: process.env.ENGINE_API_KEY
+	}
+});
+
+server.applyMiddleware({
+	app,
+	path: "/graphql",
+	cors: {
+		credentials: true,
+		origin: [
+			"http://localhost:3000",
+			"http://localhost:3000/",
+			"http://192.168.2.87:3000",
+			"http://192.168.2.87:3000/",
+			"192.168.2.87:3000",
+			"192.168.2.87:3000/",
+			"localhost:3000/",
+			"http://localhost:3001",
+			"http://10.85.5.196:3000/",
+			"10.85.5.196:3000/",
+			"http://10.85.5.196:3000"
+		]
+	}
+});
+
+app.use(logger("dev"));
+app.use(express.json());
+app.use(cookieParser("big old long secret"));
+
 if (process.env.ENV === "production") {
+	//Look at this when deploying and refreshing app front-end.
+
+	// app.get("/*", (req, res, next) => {
+	//     var options = {
+	//         root: __dirname + '/public/build',
+	//         dotfiles: 'deny',
+	//         headers: {
+	//             'x-timestamp': Date.now(),
+	//             'x-sent': true
+	//         }
+	//       };
+
+	//     //   var fileName = req.params.name;
+	//       res.sendFile("index.html", options, function (err) {
+	//         if (err) {
+	//           next(err);
+	//         } else {
+	//           console.log('send:', err);
+	//         }
+	//       });
+	// })
+
 	app.use(express.static(path.join(__dirname, "client")));
 	app.get("/", function(req, res) {
 		res.sendFile(path.join(__dirname, "/client", "index.html"));

@@ -7,13 +7,12 @@
 //   }
 // `);
 
-
 // export default `
 //     type Auction {
 //         bidder: User,
 //         originalPrice: String,
 //         endDate: String,
-//         bid: String,   
+//         bid: String,
 //     }
 
 //   type Artwork {
@@ -37,30 +36,35 @@
 // `;
 
 // import { makeExecutableSchema } from 'graphql-tools';
-import { gql } from 'apollo-server-express';
+import { gql } from "apollo-server-express";
 
+export default gql`
+	extend type Query {
+		artwork(_id: String!): Artwork
+		artworks: [Artwork]
+		artworkByName(artworkName: String!): [Artwork]
+	}
 
-export default gql `
-  extend type Query {
-    artwork(_id: String!): Artwork
-    artworks: [Artwork]
-  }
+	# extend type Query {
+	# 	artworkByName(artworkName: String!): Artwork
+	# 	artworks: [Artwork]
+	# }
 
-  type Auction {
-      bidder: User,
-      originalPrice: Int,
-      endDate: String,
-      bid: Int,   
-  }
+	type Auction {
+		bidder: User
+		originalPrice: Int
+		endDate: String
+		bid: Int
+	}
 
-  type Artwork {
-    _id: String
-    author: User
-    artworkName: String
-    artworkURL: String
-    artworkDescription: String
-    favouritised: [User]
-    following: [User]
-    auction: Auction
-  }
+	type Artwork {
+		_id: String
+		author: User
+		artworkName: String
+		artworkURL: String
+		artworkDescription: String
+		favouritised: [User]
+		following: [User]
+		auction: Auction
+	}
 `;

@@ -58,32 +58,33 @@ class App extends Component<{}, IState> {
 	}
 
 	componentDidMount() {
-		axios("http://localhost:3001/graphql", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-				Accept: "application/json"
-			},
-			data: { query: "{ users { username } }" }
-		})
-			.then(r => r)
-			.then(data => console.log("data returned:", data.data));
+		// 		axios({  url: 'localhost:3001/graphql',
+		// 		method: 'post',
+		// 		data: {
+		// 		  query: `{
+		// 			users{
+		// 			 	username
+		// 			  }}
+		// 			`}
+		// 		}).then(res => {console.log("YE RES", res)})
+
+		// }
 		let token = JSON.parse(localStorage.getItem("jwtToken") || "{}");
 
 		//	let user = JSON.parse(localStorage.getItem('user') || "{}" );
-
+		//If token exists, see if still valid
 		if (!helpers.isEmpty(token)) {
 			this.service
 				.getUserInfo(token)
 				.then((res: any) => {
+					//Token still valid, login user.
 					this.setState({
 						authed: true,
 						username: res.username
 					});
 				})
 				.catch((err: any) => {
-					//If err JWT is expired
-					//Tell user to login again
+					//JWT is expired
 					console.log(err);
 				});
 		}
