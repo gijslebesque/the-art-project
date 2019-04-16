@@ -53,16 +53,17 @@ class SearchService {
 			.catch(this.errHandler);
 	};
 
-	findArtworkByName = artworkName => {
-		const query = artworkName ? artworkName : "";
-		return this.service
-			.post("", {
+	findArtworkByName = async artworkName => {
+		try {
+			const query = artworkName ? artworkName : "";
+			const result = await this.service.post("", {
 				query: GET_ARTWORKS(query)
-			})
-			.then(res => {
-				return res.data.data.artworkByName;
-			})
-			.catch(this.errHandler);
+			});
+			const { artworkByName } = result.data.data;
+			return artworkByName;
+		} catch {
+			return this.errHandler;
+		}
 	};
 
 	findArtistByName = artistName => {

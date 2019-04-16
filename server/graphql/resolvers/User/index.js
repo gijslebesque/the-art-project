@@ -19,6 +19,20 @@ export default {
 					err ? reject(err) : resolve(res);
 				});
 		});
+	},
+
+	userByName: (root, args, context) => {
+		let query = {
+			username: { $regex: `.*${args.username}.*`, $options: "-i" }
+		};
+
+		return new Promise((resolve, reject) => {
+			User.find(query)
+				.populate()
+				.exec((err, res) => {
+					err ? reject(err) : resolve(res);
+				});
+		});
 	}
 
 	// Mutation: {

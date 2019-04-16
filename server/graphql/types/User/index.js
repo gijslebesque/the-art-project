@@ -1,5 +1,3 @@
-
-
 // export default`
 //   type User {
 //     _id: String!
@@ -21,22 +19,22 @@
 //   }
 // `;
 
-import { gql } from 'apollo-server-express';
+import { gql } from "apollo-server-express";
 
+export default gql`
+	extend type Query {
+		user(_id: String): User
+		users: [User]
+		userByName(username: String): [User]
+	}
 
-export default gql `
-  extend type Query {
-    user(_id:String): User
-    users:[User]
-  }
-
-  type User {
-    _id: String!
-    username: String
-    email: String
-    artworks: [Artwork]
-    favourite: [ID]
-    following: [ID]
-    followers: [ID]
-  }
+	type User {
+		_id: String!
+		username: String
+		email: String
+		artworks: [Artwork]
+		favourite: [ID]
+		following: [ID]
+		followers: [ID]
+	}
 `;
