@@ -11,25 +11,14 @@ export default {
 				});
 		});
 	},
-	artworks: () => {
+	artworks: (root, args) => {
+		let query = {
+			artworkName: { $regex: `.*${args.artworkName}.*`, $options: "-i" }
+		};
 		return new Promise((resolve, reject) => {
-			Artwork.find()
-				.populate("author")
-				.exec((err, res) => {
-					err ? reject(err) : resolve(res);
-				});
-		});
-	},
-
-	artworkByName: (root, args) => {
-		return new Promise((resolve, reject) => {
-			let query = {
-				artworkName: { $regex: `.*${args.artworkName}.*`, $options: "-i" }
-			};
 			Artwork.find(query)
 				.populate("author")
 				.exec((err, res) => {
-					debugger;
 					err ? reject(err) : resolve(res);
 				});
 		});

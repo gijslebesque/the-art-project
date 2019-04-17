@@ -5,12 +5,19 @@ require("dotenv").config();
 //const localIpWork = 'http://10.85.5.196:3001/api';
 const localHost = "http://localhost:3001/graphql";
 
-const GET_ARTWORKS = name => ` { 
-	artworkByName(artworkName:"${name}") { 
+//Graphql queries
+const GET_ARTWORKSBYNAME = name => ` { 
+	artworks(artworkName:"${name}") { 
 		artworkName
 		author {
 			username
 		}
+	}
+}`;
+
+const GET_USERBYNAME = name => ` { 
+	users(username:"${name}") { 
+			username
 		}
 	}`;
 
@@ -20,9 +27,8 @@ class SearchService {
 			baseURL: process.env.ENV === "production" ? "/graphql" : localHost,
 			withCredentials: true
 		});
-
-		// debugger;
 	}
+
 	errHandler = err => {
 		if (err.response && err.response.data) {
 			throw err.response.data.message;
@@ -57,20 +63,28 @@ class SearchService {
 		try {
 			const query = artworkName ? artworkName : "";
 			const result = await this.service.post("", {
-				query: GET_ARTWORKS(query)
+				query: GET_ARTWORKSBYNAME(query)
 			});
-			const { artworkByName } = result.data.data;
-			return artworkByName;
+			const { artworks } = result.data.data;
+			debugger;
+
+			return artworks;
 		} catch {
 			return this.errHandler;
 		}
 	};
 
-	findArtistByName = artistName => {
-		return this.service
-			.get(`/findArtistByName?username=${artistName}`)
-			.then(res => res.data)
-			.catch(this.errHandler);
+	findUserByName = async username => {
+		try {
+			const query = username ? username : "";
+			const result = await this.service.post("", {
+				query: GET_USERBYNAME(query)
+			});
+			const { users } = result.data.data;
+			return users;
+		} catch {
+			return this.errHandler;
+		}
 	};
 
 	findArtist = id => {

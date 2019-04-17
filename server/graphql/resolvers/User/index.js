@@ -10,18 +10,8 @@ export default {
 				});
 		});
 	},
-	users: (root, args, context) => {
-		debugger;
-		return new Promise((resolve, reject) => {
-			User.find({})
-				.populate()
-				.exec((err, res) => {
-					err ? reject(err) : resolve(res);
-				});
-		});
-	},
 
-	userByName: (root, args, context) => {
+	users: (root, args, context) => {
 		let query = {
 			username: { $regex: `.*${args.username}.*`, $options: "-i" }
 		};

@@ -40,15 +40,9 @@ import { gql } from "apollo-server-express";
 
 export default gql`
 	extend type Query {
-		artwork(_id: String!): Artwork
-		artworks: [Artwork]
-		artworkByName(artworkName: String!): [Artwork]
+		artwork(_id: String, artworkName: String): Artwork
+		artworks(artworkName: String): [Artwork]
 	}
-
-	# extend type Query {
-	# 	artworkByName(artworkName: String!): Artwork
-	# 	artworks: [Artwork]
-	# }
 
 	type Auction {
 		bidder: User

@@ -18,17 +18,6 @@ interface IState {
 	queryType: string;
 }
 
-const artworkQuery = {
-	query: `{
-	artworks {
-	artworkName
-	author {
-		username
-		}
-	  }
-	}`
-};
-
 export default class Navbar extends Component<IProps, IState> {
 	service: any;
 	nameInput: any;
@@ -94,26 +83,14 @@ export default class Navbar extends Component<IProps, IState> {
 					this.setState({ searchResults: res });
 				})
 				.catch((err: any) => console.log("Hi", err));
-
-			// this.service
-			// 	.findArtworkByName(e.target.value)
-			// 	.then((res: any) => {
-			// 		console.log("rws", res);
-			// 		this.setState({ searchResults: res });
-			// 	})
-			// 	.catch((err: any) => {
-			// 		//show err
-			// 	});
 		} else {
-			this.service
-				.findArtistByName(e.target.value)
+			this.search
+				.findUserByName(e.target.value)
 				.then((res: any) => {
-					console.log("hi  ", res);
+					debugger;
 					this.setState({ searchResults: res });
 				})
-				.catch((err: any) => {
-					//show err
-				});
+				.catch((err: any) => console.log("Hi", err));
 		}
 	};
 

@@ -23,9 +23,8 @@ import { gql } from "apollo-server-express";
 
 export default gql`
 	extend type Query {
-		user(_id: String): User
-		users: [User]
-		userByName(username: String): [User]
+		user(_id: String, username: String): User
+		users(username: String): [User]
 	}
 
 	type User {
