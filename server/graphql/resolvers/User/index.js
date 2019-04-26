@@ -1,14 +1,15 @@
 import User from "../../../models/User";
 
 export default {
-	user: (root, args) => {
-		return new Promise((resolve, reject) => {
-			User.findOne(args)
+	user: async (root, args) => {
+		try {
+			const result = await User.findOne(args)
 				.populate({ path: "artworks", populate: { path: "auction.bidder" } })
-				.exec((err, res) => {
-					err ? reject(err) : resolve(res);
-				});
-		});
+				.exec();
+			return result;
+		} catch (err) {
+			return err;
+		}
 	},
 
 	users: async (root, args, context) => {
