@@ -4,6 +4,27 @@ import Loader from "react-loader-spinner";
 import loaderStyles from "../styles/spinner.module.scss";
 import artworkStyles from "../styles/artworks.module.scss";
 import CardConstructor from "./CardConstructor";
+import Grapqhl from "../graphqlQueries";
+
+const GET_COMPLETEUSER = (id: String) => `{
+    user(_id:"${id}"){
+		username
+        artworks {
+            _id
+            artworkURL
+            artworkName
+            artworkDescription
+            auction {
+                originalPrice
+                bid
+                endDate
+                bidder {
+                    username
+                }
+            }
+        }
+    }
+}`;
 
 interface IProps {
 	location: any;
@@ -16,6 +37,7 @@ interface IState {
 
 export default class ArtistProfile extends Component<IProps, IState> {
 	service: any;
+	search: any;
 	constructor(props: any) {
 		super(props);
 		this.state = {
@@ -23,6 +45,7 @@ export default class ArtistProfile extends Component<IProps, IState> {
 			loading: true
 		};
 		this.service = new AuthService();
+		this.search = new Grapqhl();
 	}
 
 	componentDidMount() {
@@ -40,22 +63,14 @@ export default class ArtistProfile extends Component<IProps, IState> {
 	}
 
 	findArtist = (id: any) => {
-		this.service
-			.findArtist(id)
+		this.search
+			.query(GET_COMPLETEUSER(id))
 			.then((res: any) => {
+				const { user } = res;
 				this.setState({
-					artist: res,
+					artist: user,
 					loading: false
 				});
-				// const intervalId = setInterval( () => {
-				//     this.auctionTimer(res.auction.endDate);
-				// }, 1000 );
-
-				// this.setState({
-				//     artwork:res,
-				//     loading:false,
-				//     intervalId:intervalId
-				// });
 			})
 			.catch((err: any) => {
 				console.log("err", err);
@@ -68,7 +83,9 @@ export default class ArtistProfile extends Component<IProps, IState> {
 		let artworks = null;
 		if (artist.artworks) {
 			artworks = artist.artworks.map((artwork: any, i: number) => {
-				return <CardConstructor key={i} artwork={artwork} />;
+				return (
+					<CardConstructor key={i} artwork={artwork} author={artist.username} />
+				);
 			});
 		}
 

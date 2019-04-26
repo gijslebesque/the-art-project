@@ -60,5 +60,6 @@ export default gql`
 		favouritised: [User]
 		following: [User]
 		auction: Auction
+		createdAt: String
 	}
 `;

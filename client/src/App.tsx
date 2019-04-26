@@ -13,8 +13,6 @@ import PrivateRoute from "./components/PrivateRoute";
 import BidConstructor from "./components/BidConstructor";
 import ArtistProfile from "./components/ArtistProfile";
 
-import axios from "axios";
-
 import history from "./history";
 
 import helpers from "./helpers";

@@ -7,6 +7,33 @@ import loaderStyles from "../styles/spinner.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import helpers from "../helpers";
 
+const GET_ARTWORK = (id: String) => ` { 
+	artwork(_id:"${id}") { 
+		_id
+		artworkURL
+		artworkName
+        artworkDescription
+        createdAt
+        author {
+            username
+        }
+		favouritised {
+    		username
+    	}
+		following {
+			username
+		}
+		auction {
+			originalPrice
+			endDate
+			bid
+			bidder {
+				_id
+			}
+		}  
+	}
+}`;
+
 interface IState {
 	loading: boolean;
 	artwork: any;
@@ -53,30 +80,29 @@ export default class BidConstructor extends Component<IProps, IState> {
 		if (prevProps.location.search != this.props.location.search) {
 			clearInterval(this.state.intervalId);
 			let params = new URLSearchParams(this.props.location.search);
-			let artistId = params.get("id");
-			this.findArtwork(artistId);
+			let artworkId = params.get("id");
+			this.findArtwork(artworkId);
 		}
 	}
 
 	findArtwork = (id: any) => {
 		this.search
-			.findSpecificArtwork(id)
+			.query(GET_ARTWORK(id))
 			.then((res: any) => {
-				console.log(res);
+				const { artwork } = res;
 				debugger;
 				const intervalId = setInterval(() => {
-					this.auctionTimer(res.auction.endDate);
+					this.auctionTimer(artwork.auction.endDate);
 				}, 1000);
 
 				this.setState({
-					artwork: res,
+					artwork: artwork,
 					loading: false,
 					intervalId: intervalId,
-					bidAmount: res.auction.originalPrice + 10
+					bidAmount: artwork.auction.originalPrice + 10
 				});
 			})
 			.catch((err: any) => {
-				debugger;
 				console.log("err", err);
 			});
 	};
@@ -84,8 +110,11 @@ export default class BidConstructor extends Component<IProps, IState> {
 	auctionTimer(endDate: string) {
 		// End date is data string from back end;
 		// Slice to get date without time.
-		let sliced = endDate.slice(0, endDate.indexOf("T"));
-		let deadline = new Date(sliced).getTime();
+
+		//let sliced = endDate.slice(0, endDate.indexOf("T"));
+		// let deadline = new Date(endDate).getTime();
+		debugger;
+		let deadline = Number(endDate);
 		let timeNow = new Date().getTime();
 		let timeLeft = deadline - timeNow;
 
@@ -170,14 +199,13 @@ export default class BidConstructor extends Component<IProps, IState> {
 		let price;
 
 		if (artwork) {
-			let startDate = artwork.createdAt.slice(
-				0,
-				artwork.createdAt.indexOf("T")
-			);
 			price = artwork.auction.bid
 				? artwork.auction.bid
 				: artwork.auction.originalPrice;
-			startDateFormat = new Date(startDate).toLocaleDateString();
+			startDateFormat = new Date(
+				Number(artwork.createdAt)
+			).toLocaleDateString();
+			debugger;
 		}
 		return (
 			<div className={styles.artworks}>

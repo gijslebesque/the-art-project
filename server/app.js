@@ -81,8 +81,13 @@ const server = new ApolloServer({
 	resolvers,
 	engine: {
 		apiKey: process.env.ENGINE_API_KEY
-	},
-	formatError: error => error.status(500)
+	}
+	// formatError: err => {
+	// 	debugger;
+	// 	console.log("!EROOR!", error);
+
+	// 	return err;
+	// }
 });
 
 server.applyMiddleware({

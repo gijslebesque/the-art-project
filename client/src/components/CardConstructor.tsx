@@ -12,6 +12,7 @@ interface IState {
 
 interface IProps {
 	artwork: any;
+	author?: string;
 }
 
 export default class CardConstructor extends Component<IProps, IState> {
@@ -32,7 +33,7 @@ export default class CardConstructor extends Component<IProps, IState> {
 
 	render() {
 		let artwork = this.props.artwork;
-
+		let author = artwork.author ? artwork.author.username : this.props.author;
 		return (
 			<div
 				className={styles.singleCard}
@@ -41,7 +42,7 @@ export default class CardConstructor extends Component<IProps, IState> {
 				}}
 			>
 				<img src={artwork.artworkURL} />
-				<h3>{artwork.author.username}</h3>
+				<h3>{author}</h3>
 				<p>{artwork.artworkName}</p>
 				<p>{artwork.description}</p>
 				<p>$ {artwork.auction.originalPrice}</p>

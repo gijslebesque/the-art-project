@@ -12,6 +12,7 @@ export default {
 	},
 
 	users: async (root, args, context) => {
+		debugger;
 		try {
 			let query = {
 				username: { $regex: `.*${args.username}.*`, $options: "-i" }

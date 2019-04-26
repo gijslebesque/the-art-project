@@ -13,6 +13,16 @@ const SEARCH_USERS_NAME = (name: String) => ` {
 		}
 	}`;
 
+const SEARCH_ARTWORK_NAME = (name: String) => ` { 
+		artworks(artworkName:"${name}") { 
+			_id
+			artworkName
+			author {
+				username
+			}
+		}
+	}`;
+
 interface IProps {
 	toggleSideNav: any;
 }
@@ -70,28 +80,22 @@ export default class Navbar extends Component<IProps, IState> {
 
 		if (this.state.queryType === "artwork") {
 			this.search
-				.findArtworkByName(e.target.value)
+				.query(SEARCH_ARTWORK_NAME(e.target.value))
 				.then((res: any) => {
-					this.setState({ searchResults: res });
-				})
-				.catch((err: any) => console.log("Hi", err));
-		} else {
-			this.search
-				.graphqlQuery(SEARCH_USERS_NAME(e.target.value))
-				.then((res: any) => {
-					debugger;
-					this.setState({ searchResults: res });
+					this.setState({ searchResults: res.artworks });
 				})
 				.catch((err: any) => {
 					throw err;
 				});
-
-			// this.search
-			// 	.findUserByName(e.target.value)
-			// 	.then((res: any) => {
-			// 		this.setState({ searchResults: res });
-			// 	})
-			// 	.catch((err: any) => console.log("Hi", err));
+		} else {
+			this.search
+				.query(SEARCH_USERS_NAME(e.target.value))
+				.then((res: any) => {
+					this.setState({ searchResults: res.users });
+				})
+				.catch((err: any) => {
+					throw err;
+				});
 		}
 	};
 
