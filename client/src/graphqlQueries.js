@@ -6,8 +6,9 @@ require("dotenv").config();
 const localHost = "http://localhost:3001/graphql";
 
 //Graphql queries
-const GET_ARTWORKSBYNAME = name => ` { 
+const SEARCH_ARTWORKS_NAME = name => ` { 
 	artworks(artworkName:"${name}") { 
+		_id
 		artworkName
 		author {
 			username
@@ -15,8 +16,38 @@ const GET_ARTWORKSBYNAME = name => ` {
 	}
 }`;
 
-const GET_USERBYNAME = name => ` { 
-	users(username:"${name}") { 
+const GET_ARTWORK_ID = id => ` { 
+	artworks(_id:"${id}") { 
+		_id
+		artworkURL
+		artworkName
+		artworkDescription
+		favouritised {
+    		username
+    	}
+		following {
+			username
+		}
+		auction {
+			originalPrice
+			endDate
+			bid
+			bidder {
+				_id
+			}
+		}  
+	}
+}`;
+
+const SEARCH_USERS_NAME = name => ` { 
+	users(username:"${name}") {
+			_id 
+			username
+		}
+	}`;
+
+const GET_COMPLETEUSER = id => `{
+		user(id:"${id}") {
 			username
 		}
 	}`;
@@ -52,23 +83,36 @@ class SearchService {
 			.catch(this.errHandler);
 	};
 
-	findSpecificArtwork = id => {
-		return this.service
-			.get(`/findSpecificArtwork?id=${id}`)
-			.then(res => res.data)
-			.catch(this.errHandler);
+	findSpecificArtwork = async id => {
+		try {
+			const result = await this.service.post("", {
+				query: GET_ARTWORK_ID(id)
+			});
+			const { artwork } = result.data.data;
+			return artwork;
+		} catch {
+			return this.errHandler;
+		}
 	};
 
 	findArtworkByName = async artworkName => {
 		try {
 			const query = artworkName ? artworkName : "";
 			const result = await this.service.post("", {
-				query: GET_ARTWORKSBYNAME(query)
+				query: SEARCH_ARTWORKS_NAME(query)
 			});
 			const { artworks } = result.data.data;
-			debugger;
-
 			return artworks;
+		} catch {
+			return this.errHandler;
+		}
+	};
+
+	graphqlQuery = async query => {
+		let result;
+		debugger;
+		try {
+			return (result = await this.service.post("", query));
 		} catch {
 			return this.errHandler;
 		}
@@ -78,7 +122,7 @@ class SearchService {
 		try {
 			const query = username ? username : "";
 			const result = await this.service.post("", {
-				query: GET_USERBYNAME(query)
+				query: SEARCH_USERS_NAME(query)
 			});
 			const { users } = result.data.data;
 			return users;

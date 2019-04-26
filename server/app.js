@@ -66,7 +66,6 @@ if (process.env.ENV === "development") {
 }
 
 app.use("/graphql", (req, res, next) => {
-	debugger;
 	passport.authenticate("jwt", { session: false }, (err, user, info) => {
 		if (user) {
 			req.user = user;
@@ -82,7 +81,8 @@ const server = new ApolloServer({
 	resolvers,
 	engine: {
 		apiKey: process.env.ENGINE_API_KEY
-	}
+	},
+	formatError: error => error.status(500)
 });
 
 server.applyMiddleware({

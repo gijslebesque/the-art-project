@@ -11,18 +11,28 @@ export default {
 		});
 	},
 
-	users: (root, args, context) => {
-		let query = {
-			username: { $regex: `.*${args.username}.*`, $options: "-i" }
-		};
+	users: async (root, args, context) => {
+		try {
+			let query = {
+				username: { $regex: `.*${args.username}.*`, $options: "-i" }
+			};
+			const result = await User.find(query)
+				.populate("artworks")
+				.exec();
+			console.log(result);
+			return result;
+		} catch (err) {
+			return err;
+		}
 
-		return new Promise((resolve, reject) => {
-			User.find(query)
-				.populate()
-				.exec((err, res) => {
-					err ? reject(err) : resolve(res);
-				});
-		});
+		// console.log("HEllo");
+		// return new Promise((resolve, reject) => {
+		// 	User.find(query)
+		// 		.populate("artworks")
+		// 		.exec((err, res) => {
+		// 			err ? reject(err) : resolve(res);
+		// 		});
+		// });
 	}
 
 	// Mutation: {

@@ -3,9 +3,15 @@ import styles from "../styles/navbar.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import SearchResults from "./SearchResults";
 import AuthService from "../authenticate";
-import axios from "axios";
 
 import Search from "../graphqlQueries";
+
+const SEARCH_USERS_NAME = (name: String) => ` { 
+	users(username:"${name}") {
+			_id 
+			username
+		}
+	}`;
 
 interface IProps {
 	toggleSideNav: any;
@@ -34,19 +40,6 @@ export default class Navbar extends Component<IProps, IState> {
 		this.service = new AuthService();
 		this.search = new Search();
 		this.nameInput = React.createRef();
-	}
-
-	componentDidMount() {
-		// axios("http://localhost:3001/graphql", {
-		// 	method: "POST",
-		// 	headers: {
-		// 		"Content-Type": "application/json",
-		// 		Accept: "application/json"
-		// 	},
-		// 	data: artworkQuery
-		// })
-		// 	.then(data => console.log("data returned:", data.data.data))
-		// 	.catch(err => console.log(err));
 	}
 
 	findParent = (node: any) => {
@@ -79,18 +72,26 @@ export default class Navbar extends Component<IProps, IState> {
 			this.search
 				.findArtworkByName(e.target.value)
 				.then((res: any) => {
-					debugger;
 					this.setState({ searchResults: res });
 				})
 				.catch((err: any) => console.log("Hi", err));
 		} else {
 			this.search
-				.findUserByName(e.target.value)
+				.graphqlQuery(SEARCH_USERS_NAME(e.target.value))
 				.then((res: any) => {
 					debugger;
 					this.setState({ searchResults: res });
 				})
-				.catch((err: any) => console.log("Hi", err));
+				.catch((err: any) => {
+					throw err;
+				});
+
+			// this.search
+			// 	.findUserByName(e.target.value)
+			// 	.then((res: any) => {
+			// 		this.setState({ searchResults: res });
+			// 	})
+			// 	.catch((err: any) => console.log("Hi", err));
 		}
 	};
 
