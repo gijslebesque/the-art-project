@@ -1,42 +1,40 @@
 body {
-	font-family: 'Titillium Web', sans-serif;
-
-	margin-top:80px;
+	font-family: "Titillium Web", sans-serif;
+	margin-top: 80px;
 }
 main {
-	padding:20px;
+	padding: 20px;
 }
 
-//general 
+//general
 *:focus {
-    outline: none;
+	outline: none;
 }
-h1{
+h1 {
 	letter-spacing: 20px;
 	font-weight: 100;
 }
 
 h3 {
-
-	margin-top:0;
+	margin-top: 0;
 }
 
 hr {
-	margin:40px;
-	background-color:#778899;
+	margin: 40px;
+	background-color: #778899;
 }
 
-.btnPrimary{
-	margin:20px auto 0px auto;
-	background-color:white;
-	color:black;
+.btnPrimary {
+	margin: 20px auto 0px auto;
+	background-color: white;
+	color: black;
 	border: 2px solid powderblue;
-	padding:10px 40px;
+	padding: 10px 40px;
 	display: block;
 }
-.btnPrimary:hover{
-	background-color:powderblue;
-	color:white;
+.btnPrimary:hover {
+	background-color: powderblue;
+	color: white;
 }
 //for effect https://blueharvest.io/
 /*btn-primary:after{

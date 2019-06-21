@@ -1,84 +1,82 @@
-.nav{
-    z-index: 2;
-    display: flex;  
-    background: white;
-    padding:20px;
-    position:fixed;
-    top:0;
-    left:0;
-    right:0;
-    height:50px;
-    align-items: center;
-    box-shadow:0 1px 6px 0 rgba(32,33,36,0.28);
-    input{
-        padding:0px;
-    }
+.nav {
+	z-index: 2;
+	display: flex;
+	background: white;
+	padding: 20px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	height: 50px;
+	align-items: center;
+	box-shadow: 0 1px 6px 0 rgba(32, 33, 36, 0.28);
+	input {
+		padding: 0px;
+	}
 }
 
-.hamburger span{
+.hamburger span {
 	display: block;
-	margin:5px 0px;
+	margin: 5px 0px;
 	width: 48px;
-	background-color:black;
-    height:1px;
-    margin-right:40px;
+	background-color: black;
+	height: 1px;
+	margin-right: 40px;
 }
 
 .logo {
-    margin-left:40px;
+	margin-left: 40px;
 }
 
-.searchResultsContainer{
-    background-color:white;
-    position: fixed;
-    left:50%;
-    top:50px;
-    transform:translateX(-50%);
-    width:80%;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    justify-content: center;
-    .btnRow{
-        text-align: center;
-        display: flex;
-        button{
-            width:100%;
-            padding:20px;
-            background-color: white;
-            border:none;
-            cursor: pointer;
-        }
+.searchResultsContainer {
+	background-color: white;
+	position: fixed;
+	left: 50%;
+	top: 90px;
+	z-index: 2;
+	transform: translateX(-50%);
+	width: 80%;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	justify-content: center;
+	.btnRow {
+		text-align: center;
+		display: flex;
+		button {
+			width: 100%;
+			padding: 20px;
+			background-color: white;
+			border: none;
+			cursor: pointer;
+		}
 
-        button:hover ,.active {
-            background-color: powderblue;
-
-        }
-      
-    }
-    .searchResults{
-
-        p{
-            margin: 20px;
-            padding: 10px 0px;
-            cursor: pointer;
-        }
-        p:nth-child(even), p:hover{
-            background-color:aliceblue;
-        }
-    }
+		button:hover,
+		.active {
+			background-color: powderblue;
+		}
+	}
+	.searchResults {
+		p {
+			margin: 20px;
+			padding: 10px 0px;
+			cursor: pointer;
+		}
+		p:nth-child(even),
+		p:hover {
+			background-color: aliceblue;
+		}
+	}
 }
-
 
 @media screen and (min-width: 40em) {
-    .searchResultsContainer{
-        width:50%;
-    }   
+	.searchResultsContainer {
+		width: 50%;
+	}
 }
-
 
 // @media screen and (min-width: 60em) {
 //     .searchResultsContainer{
 //         width:1%;
-//     }    
+//     }
 // }

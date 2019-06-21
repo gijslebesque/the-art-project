@@ -4,24 +4,26 @@
   "private": true,
   "scripts": {
     "start": "nodemon --exec babel-node ./bin/www",
-    "debug": "nodemon --exec babel-node --inspect ./bin/www"
+    "debug": "nodemon --exec babel-node --inspect ./bin/www",
+    "build": "babel src --out-dir dist",
+    "serve": "node dist/bin/www"
   },
   "dependencies": {
+    "apollo-server": "^2.4.8",
+    "apollo-server-express": "^2.4.8",
     "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
     "cloudinary": "^1.13.2",
     "cookie-parser": "~1.4.3",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^6.2.0",
     "express": "~4.16.0",
-    "express-graphql": "^0.7.1",
     "express-session": "^1.15.6",
     "graphql": "^14.1.1",
     "graphql-tools": "^4.0.4",
-    "hbs": "^4.0.3",
     "http-errors": "~1.6.2",
     "jsonwebtoken": "^8.4.0",
-    "merge-graphql-schemas": "^1.5.8",
     "mongoose": "^5.4.2",
     "morgan": "~1.9.0",
     "multer": "^1.4.1",
@@ -31,7 +33,10 @@
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0"
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.4.0",
+    "@babel/node": "^7.0.0",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.0",
+    "@babel/preset-env": "^7.0.0"
   }
 }

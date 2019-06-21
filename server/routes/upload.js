@@ -1,44 +1,48 @@
-const express 	= require('express');
-const router	= express.Router();
-const passport 	= require('passport');
-const User 		= require('../models/User');
-const Artwork 	= require('../models/Artwork');
-const parser 	= require('../config/cloudinary');
+const express = require("express");
+const router = express.Router();
+const passport = require("passport");
+const User = require("../models/User");
+const Artwork = require("../models/Artwork");
+const parser = require("../config/cloudinary");
 
+router.post(
+	"/photo-upload",
+	passport.authenticate("jwt", { session: false }),
+	parser.single("picture"),
+	(req, res, next) => {
+		const { artworkName, artworkDescription, artworkPrice } = req.body;
 
-router.post('/photo-upload', passport.authenticate('jwt', {session: false}), parser.single('picture'), (req, res, next) => {
-	
-	const {artworkName, artworkDescription, artworkPrice} = req.body;
+		const endDate = new Date(req.body.endDate);
 
-	let endDate = new Date(req.body.endDate);
-	
-	const newArtwork = new Artwork({
-		artworkName:artworkName,
-  		author: req.user._id,
-		artworkURL: req.file.url,
-		artworkDescription: artworkDescription,
-		auction: {
-			originalPrice: artworkPrice,
-			endDate: endDate,
-		},
-	});
-	
-	Artwork.create(newArtwork, (err, savedArtwork) => {
-		if(err) throw err;
-		User.findOneAndUpdate({_id: req.user._id}, { $push:{artworks: savedArtwork._id} }, (err, updatedUser) =>{
-			if(err) throw err;
-			debugger;
-			res.status(200).json({
-				success: true,
-				savedArtwork: savedArtwork
-			});
+		const newArtwork = new Artwork({
+			artworkName,
+			author: req.user._id,
+			artworkURL: req.file.url,
+			artworkDescription,
+			auction: {
+				originalPrice: parseInt(artworkPrice),
+				endDate: endDate
+			}
 		});
-	});
-})
+		Artwork.create(newArtwork)
+			.then(savedArtwork => {
+				User.findOneAndUpdate(
+					{ _id: req.user._id },
+					{ $push: { artworks: newArtwork._id } }
+				).then(updatedUser => {
+					res.status(200).json({
+						success: true,
+						savedArtwork: newArtwork
+					});
+				});
+			})
+			.catch(err => {
+				res.status(500).json(err);
+			});
+	}
+);
 
 module.exports = router;
-
-
 
 /*
 

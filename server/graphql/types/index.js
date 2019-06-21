@@ -1,7 +1,19 @@
-import { mergeTypes } from "merge-graphql-schemas";
+import { gql } from "apollo-server-express";
 
-import User from "./User/";
-import Artwork from './Artwork/';
-const typeDefs = [User, Artwork];
+import userSchema from "./User/";
+import artworkSchema from "./Artwork/";
 
-export default mergeTypes(typeDefs, { all: true });
+const linkSchema = gql`
+	type Query {
+		_: Boolean
+	}
+	type Mutation {
+		_: Boolean
+	}
+`;
+
+//   type Subscription {
+//     _: Boolean
+//   }
+
+export default [linkSchema, userSchema, artworkSchema];
