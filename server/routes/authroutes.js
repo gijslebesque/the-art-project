@@ -52,10 +52,10 @@ authRoutes.post("/register", (req, res, next) => {
 				}
 				//To avoid sending senstive data, deconstructing projection of user.
 
-				let { password, ...userProject } = theUser._doc;
+				let { password, ...userProjection } = theUser._doc;
 
 				//Still need error handeling front-end (consider different error message to catch)
-				req.login(userProject, err => {
+				req.login(userProjection, err => {
 					if (err) {
 						res.status(503).json({
 							message: "Something went wrong with automatic login after signup"

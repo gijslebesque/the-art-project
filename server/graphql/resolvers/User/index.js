@@ -3,6 +3,8 @@ import User from "../../../models/User";
 export default {
 	user: async (root, args) => {
 		try {
+			console.log("hello");
+			debugger;
 			const result = await User.findOne(args)
 				.populate({ path: "artworks", populate: { path: "auction.bidder" } })
 				.exec();

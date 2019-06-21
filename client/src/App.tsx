@@ -83,7 +83,7 @@ class App extends Component<{}, IState> {
 				})
 				.catch((err: any) => {
 					//JWT is expired
-					console.log(err);
+					localStorage.removeItem("jwtToken");
 				});
 		}
 	}

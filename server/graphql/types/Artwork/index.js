@@ -44,6 +44,10 @@ export default gql`
 		artworks(artworkName: String): [Artwork]
 	}
 
+	extend type Mutation {
+		makeBid(_id: String!, bid: Int!): Artwork
+	}
+
 	type Auction {
 		bidder: User
 		originalPrice: Int

@@ -1,17 +1,16 @@
-import { gql } from 'apollo-server-express';
+import { gql } from "apollo-server-express";
 
 import userSchema from "./User/";
-import artworkSchema from './Artwork/';
+import artworkSchema from "./Artwork/";
 
-const linkSchema = gql `
-  type Query {
-    _: Boolean
-  }
+const linkSchema = gql`
+	type Query {
+		_: Boolean
+	}
+	type Mutation {
+		_: Boolean
+	}
 `;
-
-// type Mutation {
-//     _: Boolean
-//   }
 
 //   type Subscription {
 //     _: Boolean

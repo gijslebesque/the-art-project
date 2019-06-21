@@ -31,6 +31,21 @@ class SearchService {
 			return this.errHandler(err);
 		}
 	};
+	mutation = async (mutation, jsonWebToken) => {
+		debugger;
+		try {
+			const result = await this.service.post("", {
+				mutation: mutation,
+				headers: {
+					Authorization: `Bearer ${jsonWebToken}`
+				}
+			});
+			return result.data.data;
+		} catch (err) {
+			debugger;
+			return this.errHandler(err);
+		}
+	};
 }
 
 export default SearchService;

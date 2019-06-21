@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import styles from "../styles/artworks.module.scss";
 import AuthService from "../authenticate.js";
-import Search from "../graphqlQueries";
+import GraphQL from "../graphqlQueries";
 import Loader from "react-loader-spinner";
 import loaderStyles from "../styles/spinner.module.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import helpers from "../helpers";
 
-const GET_ARTWORK = (id: String) => ` { 
-	artwork(_id:"${id}") { 
+const GET_ARTWORK = (_id: string) => ` { 
+	artwork(_id:"${_id}") { 
 		_id
 		artworkURL
 		artworkName
@@ -34,6 +34,14 @@ const GET_ARTWORK = (id: String) => ` {
 	}
 }`;
 
+const MUTATION_BID = (_id: String, bid: Number) => `{
+	makeBid(_id:"${_id}", bid:"${bid}") {
+		Auction{
+			bid
+		}
+	}
+}`;
+
 interface IState {
 	loading: boolean;
 	artwork: any;
@@ -52,7 +60,7 @@ interface IProps {
 
 export default class BidConstructor extends Component<IProps, IState> {
 	service: any;
-	search: any;
+	graphQL: any;
 	constructor(props: any) {
 		super(props);
 		this.state = {
@@ -66,7 +74,7 @@ export default class BidConstructor extends Component<IProps, IState> {
 			bidAmount: 0
 		};
 		this.service = new AuthService();
-		this.search = new Search();
+		this.graphQL = new GraphQL();
 	}
 
 	componentDidMount() {
@@ -86,11 +94,11 @@ export default class BidConstructor extends Component<IProps, IState> {
 	}
 
 	findArtwork = (id: any) => {
-		this.search
+		this.graphQL
 			.query(GET_ARTWORK(id))
 			.then((res: any) => {
 				const { artwork } = res;
-				debugger;
+
 				const intervalId = setInterval(() => {
 					this.auctionTimer(artwork.auction.endDate);
 				}, 1000);
@@ -108,15 +116,9 @@ export default class BidConstructor extends Component<IProps, IState> {
 	};
 
 	auctionTimer(endDate: string) {
-		// End date is data string from back end;
-		// Slice to get date without time.
-
-		//let sliced = endDate.slice(0, endDate.indexOf("T"));
-		// let deadline = new Date(endDate).getTime();
-		debugger;
-		let deadline = Number(endDate);
-		let timeNow = new Date().getTime();
-		let timeLeft = deadline - timeNow;
+		let deadline: number = Number(endDate);
+		let timeNow: number = new Date().getTime();
+		let timeLeft: number = deadline - timeNow;
 
 		let days: any = Math.floor(timeLeft / (1000 * 3600 * 24));
 		let hours: any = Math.floor((timeLeft / (1000 * 60 * 60)) % 24);
@@ -141,28 +143,39 @@ export default class BidConstructor extends Component<IProps, IState> {
 
 	makeBid = (artwork: any) => {
 		//show pop up and make bid
-		console.log(artwork);
+
 		let token = JSON.parse(localStorage.getItem("jwtToken") || "{}");
 		if (helpers.isEmpty(token)) {
 			this.props.toggleLoginModal(true);
 			return true;
 		}
-		const data = {
-			id: artwork._id,
-			bidAmount: Number(this.state.bidAmount)
-		};
-		console.log(typeof data.bidAmount);
+		debugger;
+		// const data = {
+		// 	id: artwork._id,
+		// 	bidAmount: Number(this.state.bidAmount),
 
-		this.service
-			.makeBid(token, data)
+		// };
+		const { _id } = artwork;
+		const bidAmount = Number(this.state.bidAmount);
+
+		this.graphQL
+			.mutation(MUTATION_BID(_id, bidAmount), token)
 			.then((res: any) => {
-				console.log("RESS", res);
-				this.setState({ artwork: res });
+				console.log("hi", res);
 			})
 			.catch((err: any) => {
-				console.log("session expired");
-				this.props.toggleLoginModal(true);
+				console.log(err);
 			});
+		// this.service
+		// 	.makeBid(token, data)
+		// 	.then((res: any) => {
+		// 		console.log("RESS", res);
+		// 		this.setState({ artwork: res });
+		// 	})
+		// 	.catch((err: any) => {
+		// 		console.log("session expired");
+		// 		this.props.toggleLoginModal(true);
+		// 	});
 	};
 	follow = (author: any) => {
 		//follow artist
@@ -205,7 +218,6 @@ export default class BidConstructor extends Component<IProps, IState> {
 			startDateFormat = new Date(
 				Number(artwork.createdAt)
 			).toLocaleDateString();
-			debugger;
 		}
 		return (
 			<div className={styles.artworks}>

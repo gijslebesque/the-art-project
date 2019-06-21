@@ -66,6 +66,7 @@ if (process.env.ENV === "development") {
 }
 
 app.use("/graphql", (req, res, next) => {
+	debugger;
 	passport.authenticate("jwt", { session: false }, (err, user, info) => {
 		if (user) {
 			req.user = user;
