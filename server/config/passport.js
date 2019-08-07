@@ -7,51 +7,51 @@ const JWTStrategy = passportJWT.Strategy;
 const ExtractJWT = passportJWT.ExtractJwt;
 
 passport.serializeUser((loggedInUser, cb) => {
-	cb(null, loggedInUser._id);
+  cb(null, loggedInUser._id);
 });
 
 passport.deserializeUser((userIdFromSession, cb) => {
-	User.findById(userIdFromSession, (err, userDocument) => {
-		if (err) {
-			cb(err);
-			return;
-		}
-		cb(null, userDocument);
-	});
+  User.findById(userIdFromSession, (err, userDocument) => {
+    if (err) {
+      cb(err);
+      return;
+    }
+    cb(null, userDocument);
+  });
 });
 
 passport.use(
-	new LocalStrategy((username, password, next) => {
-		//Update to find by email
-		User.findOne({ username }, (err, foundUser) => {
-			if (err) {
-				next(err);
-				return;
-			}
+  new LocalStrategy((username, password, next) => {
+    //Update to find by email
+    User.findOne({ username }, (err, foundUser) => {
+      if (err) {
+        next(err);
+        return;
+      }
 
-			if (!foundUser) {
-				next(null, false, { message: "Incorrect username" });
-				return;
-			}
+      if (!foundUser) {
+        next(null, false, { message: "Incorrect username" });
+        return;
+      }
 
-			if (!bcrypt.compareSync(password, foundUser.password)) {
-				next(null, false, { message: "Incorrect password" });
-				return;
-			}
+      if (!bcrypt.compareSync(password, foundUser.password)) {
+        next(null, false, { message: "Incorrect password" });
+        return;
+      }
 
-			next(null, foundUser);
-		});
-	})
+      next(null, foundUser);
+    });
+  })
 );
 
 passport.use(
-	new JWTStrategy(
-		{
-			jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-			secretOrKey: process.env.SECRET
-		},
-		(jwtPayload, cb) => {
-			cb(null, jwtPayload);
-		}
-	)
+  new JWTStrategy(
+    {
+      jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+      secretOrKey: process.env.SECRET
+    },
+    (jwtPayload, cb) => {
+      cb(null, jwtPayload);
+    }
+  )
 );
